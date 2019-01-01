@@ -1,0 +1,39 @@
+\documentclass[oneside,a4paper]{article}
+
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{amssymb}
+
+\newcommand{\bff}{\mathbf{f}}
+\newcommand{\bfk}{\mathbf{k}}
+\newcommand{\bfx}{\mathbf{x}}
+\DeclareMathOperator{\cov}{cov}
+
+\begin{document}
+The Weiner process is a Gaussian process with mean zero and a non-stationary covariance function $k_w(x, x') = \min(x, x')$, which is defined for $x \geq 0$. Notice that for $x_* = 0$, $\bar{f_*} = 0$ by our prior and $\mathbb{V}[f_*] = k_w(0, 0) = 0$, so the Weiner process always has $f(0) = 0$.
+
+The Brownian bridge (or \emph{tied-down Weiner process}) is a Weiner process that passes through $f(1) = 0$. We obtain its equations by conditioning the Weiner process on this.
+
+We have \[
+	\bar{f_*} = k_w(x_*, x)((k_w(x, x))^{-1}y = 0
+\] by equation (2.25) in the book, since $x = 1$ and $y = 0$.
+
+We also have \begin{align*}
+	\cov(\bff_*) &= k_w(\bfx_*^\top, \bfx_*^\top) - k_w(\bfx_*^\top, x)(k_w(x, x))^{-1}k_w(x, \bfx_*^\top) \\
+	&= k_w(\bfx_*^\top, \bfx_*^\top) - k_w(\bfx_*^\top, 1)k_w(1, \bfx_*^\top)
+\end{align*} by equation (2.24). Note that $\bfx_*$ is a vector of $n_*$ $1$-dimensional test points and $\bfk$ is a vector of $n_*$ evaluations of the test points against the one training point.
+
+We can use this covariance to define a kernel \begin{align*}
+	k_b(x, x') &= \cov\left(f(x), f(x')\right) \\
+	&= k_w(x, x') - k_w(x, 1)k_w(1, x') \\
+	&= \min(x, x') - \min(x, 1)\min(x', 1) \text.
+\end{align*}
+
+For $0 \leq x, x' \leq 1$, \[
+	k_b(x, x') = \min(x, x') - xx' \text.
+\]
+
+The Brownian bridge is thus a Gaussian process with mean $0$ and covariance $k_b(x, x') = \min(x, x') - xx'$.
+
+A computer program that draws samples from this process at a finite grid of points in $[0, 1]$ is included in the repository.
+\end{document}
