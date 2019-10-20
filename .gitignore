@@ -105,3 +105,10 @@ venv.bak/
 
 # Mac crap
 .DS_Store
+
+# Tex
+*.aux
+*.fdb_latexmk
+*.fls
+*.synctex.gz
+*.xdv
