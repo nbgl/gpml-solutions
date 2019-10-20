@@ -1,0 +1,140 @@
+\documentclass[oneside]{article}
+
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{enumitem}
+\usepackage{mathtools}
+
+\allowdisplaybreaks
+
+% Notation shortcuts
+\newcommand\abs[1]{\left|#1\right|}
+\newcommand\defeq{\overset{\mathrm{def}}{=}}
+
+\newcommand\bbC{\mathbb{C}}
+\newcommand\bbR{\mathbb{R}}
+
+\begin{document}
+  \begin{enumerate}[label=\textbf{(\alph*)}]
+    \item Assume $\{w_n\}_{n=1}^\infty$ converges. Let $w$ and $w'$ be its
+      limits. We show that they are equal.
+
+      Observe that for all $n$, \begin{align*}
+        \abs{(w_n - w) - (w_n - w')}
+        &\leq \abs{w_n - w} + \abs{-(w_n - w')} \\
+        &= \abs{w_n - w} + \abs{w_n - w'}\text,
+      \end{align*} where the first line is by the triangle inequality.
+
+      Since \[
+        \lim_{n\to\infty}\abs{w_n - w} = 0
+        \text{ and }\lim_{n\to\infty}\abs{w_n - w'} = 0
+      \] by assumption,\[
+        \lim_{n\to\infty}\abs{(w_n - w) - (w_n - w')} = 0
+      \] by the squeeze theorem (here, the fact that the modulus is non-negative
+      places a lower bound on the limit).
+
+      Observe that $(w_n - w) - (w_n - w') = w' - w$, so this sequence is
+      constant. Since its limit is $0$, we have that $w' - w = 0$. \qed
+
+    \item Both directions use the observation that for all complex numbers
+      $z = x + iy$ with $x, y \in \bbR$,
+      \begin{align} \label{eq:b-lemma}
+        \abs{z} &= \sqrt{x^2 + y^2} \nonumber\\
+        &\geq \sqrt{x^2} \\
+        &= \abs{x} \text{.} \nonumber
+      \end{align} A similar argument shows that $\abs{z} \geq \abs{y}$.
+
+      \begin{itemize}[leftmargin=34pt]
+      \item[($\implies$)] Let $\{w_n\}_{n=1}^\infty \subset \bbC$ be a
+        convergent. We show that it is Cauchy.
+
+      Decompose $w = t + is$, $w_n = t_n + is_n$ for $t, s, t_n, s_n \in \bbR$.
+      Dealing with the real and imaginary parts of $w_n - w$ separately we have
+      \[
+        \lim_{n\to\infty} \abs{t_n - t} \to 0
+        \text{ and } \lim_{n\to\infty} \abs{s_n - s} \to 0
+      \] by \eqref{eq:b-lemma} and the squeeze theorem.
+
+      Then $\{t_n\}_{n=1}^\infty$ and $\{s_n\}_{n=1}^\infty$ converge, so they
+      are Cauchy.
+
+      Pick an arbitrary $\epsilon > 0$. Find $N$ such that
+      $\abs{t_n - t_m} < \epsilon/2$ and $\abs{s_n - s_m} < \epsilon/2$
+      whenever $n, m > N$. Then \begin{align*}
+        \abs{w_n - w_n} &= \abs{(t_n - t_m) + i(s_n - s_m)} \\
+        &\leq \abs{t_n - t_m} + \abs{s_n - s_m} \\
+        &< \epsilon
+      \end{align*} by the triangle inequality whenever $n, m > N$.
+
+      \item[($\impliedby$)] Let $\{w_n\}_{n=1} \subset \bbC$ be Cauchy. We show
+        that it is convergent.
+
+        Pick an arbitrary $\epsilon > 0$. Then there exists a positive integer
+        $N$ such that $\abs{w_n - w_m} < \epsilon$ for all $n, m > N$. Decompose
+        $w_n = t_n + is_n$ for $t_n, s_n \in \bbR$, and decompose $w_m$
+        similarly. Then $\abs{t_n - t_m} \leq \abs{w_n - w_m} < \epsilon$
+        $\abs{s_n - s_m} \leq \abs{w_n - w_m} < \epsilon$ by \eqref{eq:b-lemma}.
+        Thus $\{t_n\}_{n=0}^\infty$ and $\{s_n\}_{n=0}^\infty$ are Cauchy. It
+        follows that they converge.
+
+        Let $t$ and $s$ be the limits of $\{t_n\}_{n=0}^\infty$ and
+        $\{s_n\}_{n=0}^\infty$, respectively. Define $w = t + is$.
+
+        We have $\abs{w_n - w} \leq \abs{t_n - t} + \abs{s_n - s}$ by the
+        triangle inequality. We also have $\lim_{n\to\infty}\abs{t_n - t} = 0$
+        and $\lim_{n\to\infty}\abs{s_n - s} = 0$, which implies
+        $\lim_{n\to\infty}(\abs{t_n - t} + \abs{s_n - s}) = 0$. Then by the
+        squeeze theorem
+        \[
+          \lim_{n\to\infty}\abs{w_n - w} = 0
+        \] and $\{w_n\}_{n=1} \subset \bbC$ converges.\qed
+    \end{itemize}
+
+    \item Let $\{a_n\}_{n=1}^\infty$ be a sequence of non-negative reals such
+      that $\sum_{n=1}^\infty a_n$ converges. Let
+      $\{z_n\}_{n=1}^\infty \subset \bbC$ be a sequence satisfying
+      $\abs{z_n} < a_n$ for all $n$. We show that $\sum_{n=1}^\infty z_n$
+      converges.
+
+      Define $S_N = \sum_{n=1}^N z_n$. Our goal is to show that
+      $\{S_N\}_{n=1}^\infty$ converges. By (b) it suffices to show that it is
+      Cauchy.
+
+      Let $A_N = \sum_{n=1}^N a_n$. By assumption, the sequence formed by these
+      partial sums converges, so it is Cauchy.
+
+      Pick an arbitrary $\epsilon > 0$.
+
+      Then there exists a positive integer $M$ such that for all $N, N' > M$,\[
+        \abs{A_N - A_{N'}} < \epsilon\text{.}
+      \]
+
+      W.l.o.g, assume $N > N'$. Observe that \begin{align*}
+        &\abs{A_N - A_{N'}} < \epsilon \\
+        &\iff \abs{\sum_{n=1}^N a_n - \sum_{n=1}^{N'} a_n} < \epsilon \\
+        &\iff \abs{\sum_{n=N'+1}^N a_n} < \epsilon \\
+        &\iff \sum_{n=N'+1}^N a_n < \epsilon
+          & \text{($a_n \geq 0 \;\forall n$)}\\
+        &\iff \sum_{n=N'+1}^N \abs{z_n} < \epsilon \\
+        &\implies \abs{\sum_{n=N'+1}^N z_n} < \epsilon
+          & \text{(triangle ineq.)}\\
+        &\iff \abs{\sum_{n=1}^N z_n - \sum_{n=1}^{N'} z_n} < \epsilon \\
+        &\iff \abs{S_N - S_{N'}} < \epsilon\text{.}
+      \end{align*}
+
+      So $\{S_N\}_{n=1}^\infty$ is Cauchy, implying that $\sum_{n=1}^\infty z_n$
+      converges.
+      \qed
+
+
+
+
+      % That is, for all
+      % $\epsilon > 0$ there exists $M$ such that for all $N, N' > M$, \[
+      %   \abs{S_N - S_{N'}} < \epsilon.
+      % \]
+
+  \end{enumerate}
+\end{document}
