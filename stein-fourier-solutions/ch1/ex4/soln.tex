@@ -1,0 +1,78 @@
+\documentclass[oneside]{article}
+
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{enumitem}
+\usepackage{mathtools}
+
+\allowdisplaybreaks
+
+% Notation shortcuts
+\newcommand\abs[1]{\left|#1\right|}
+\newcommand\defeq{\overset{\mathrm{def}}{=}}
+
+\newcommand\bbC{\mathbb{C}}
+\newcommand\bbR{\mathbb{R}}
+
+\begin{document}
+  \begin{enumerate}[label=\textbf{(\alph*)}]
+    \item Define \[
+      e^z = \sum_{n=0}^\infty \frac{z^n}{n!}\text{.}
+    \]
+    We first show that this series converges for every $z \in \bbC$.
+
+    Define \[
+      a_n = \frac{\abs{z^n}}{n!} \text.
+    \] Then\[
+      \frac{a_{n+1}}{a_n}
+      = \frac{\abs{z^{n+1}}n!}{\abs{z^n}(n+1)!}
+      = \frac{\abs{z}^{n+1}n!}{\abs{z}^n(n+1)!}
+      = \frac{\abs{z}}{n+1} \text{.}
+    \] Applying the ratio test,\[
+      \lim_{n\to\infty} \frac{\abs{z}}{n+1} = 0\text,
+    \] so the series $\sum_{n=0}^\infty a_n$ converges.
+
+    Recalling that $\abs{z^n / n!} = \abs{z^n}/n! = a_n$, we have that \[
+      e^z = \sum_{n=0}^{z^n}
+    \] converges by 3(c).
+
+    We now show that the convergence is uniform on every bounded subset of
+    $\bbC$. Pick an arbitrary bounded $S \subset \bbC$ and an arbitrary
+    $\epsilon > 0$. We will show that there exists an integer $M$ such that
+    for all $N > M$ and $s \in S$, \begin{equation} \label{eq:uniform-conv-def}
+      \abs{\sum_{n=0}^N\frac{z^n}{n!} - e^x} < \epsilon \text{.}
+    \end{equation}
+
+    Note that \eqref{eq:uniform-conv-def} is equivalent to \begin{equation}
+      \label{eq:uniform-conv-def-cancelled}
+      \abs{\sum_{n=N+1}^\infty\frac{z^n}{n!}} < \epsilon
+    \end{equation} after cancelling the first $N$ terms of the series.
+
+    Choose $c$ such that $c > \abs{s}$ for all $s \in S$. We know from above
+    that \[
+      e^c = \sum_{n=0}^\infty \frac{c^n}{n!}
+    \] converges. Then there exists an integer $M$ such that for all $N > M$,\[
+      \abs{\sum_{n=0}^N \frac{c^n}{n!} - e^c} < \epsilon \text{,}
+    \] or after cancelling the first $N$ terms of the series,\[
+      \sum_{n=N+1}^\infty \frac{c^n}{n!} < \epsilon \text{.}
+    \]
+
+    Observe that for all $n$, \[
+      \frac{c^n}{n!} > \frac{\abs{z}^n}{n!} = \abs{\frac{z^n}{n!}}\text{,}
+    \] so \[
+      \sum_{n=N+1}^\infty \abs{\frac{z^n}{n!}} < \epsilon \text{.}
+    \]
+
+    For every partial sum from $N+1$ to some $N'$ we have\[
+      \abs{\sum_{n=N+1}^{N'} \frac{z^n}{n!}}
+      \leq \sum_{n=N+1}^{N'} \abs{\frac{z^n}{n!}}
+    \] by the triangle inequality. Taking the limit, \begin{align*}
+      \abs{\sum_{n=N+1}^\infty \frac{z^n}{n!}}
+      &\leq \sum_{n=N+1}^\infty \abs{\frac{z^n}{n!}} \\
+      &< \epsilon\text{,}
+    \end{align*} which matches \eqref{eq:uniform-conv-def-cancelled}, concluding
+    the proof.\qed
+  \end{enumerate}
+\end{document}
