@@ -99,7 +99,7 @@
       converges.
 
       Define $S_N = \sum_{n=1}^N z_n$. Our goal is to show that
-      $\{S_N\}_{n=1}^\infty$ converges. By (b) it suffices to show that it is
+      $\{S_N\}_{N=1}^\infty$ converges. By (b) it suffices to show that it is
       Cauchy.
 
       Let $A_N = \sum_{n=1}^N a_n$. By assumption, the sequence formed by these
@@ -117,7 +117,7 @@
         &\iff \abs{\sum_{n=N'+1}^N a_n} < \epsilon \\
         &\iff \sum_{n=N'+1}^N a_n < \epsilon
           & \text{($a_n \geq 0 \;\forall n$)}\\
-        &\iff \sum_{n=N'+1}^N \abs{z_n} < \epsilon \\
+        &\implies \sum_{n=N'+1}^N \abs{z_n} < \epsilon \\
         &\implies \abs{\sum_{n=N'+1}^N z_n} < \epsilon
           & \text{(triangle ineq.)}\\
         &\iff \abs{\sum_{n=1}^N z_n - \sum_{n=1}^{N'} z_n} < \epsilon \\
