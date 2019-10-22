@@ -1,0 +1,115 @@
+\documentclass[oneside]{article}
+
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{enumitem}
+\usepackage{mathtools}
+
+\allowdisplaybreaks
+
+% Notation shortcuts
+\newcommand\abs[1]{\left|#1\right|}
+\newcommand\defeq{\overset{\mathrm{def}}{=}}
+
+\DeclareMathOperator{\sgn}{sgn}
+
+\newcommand\bbC{\mathbb{C}}
+\newcommand\bbR{\mathbb{R}}
+\newcommand\bbZ{\mathbb{Z}}
+
+\begin{document}
+  We first verify that $f(x) = e^{inx}$ is periodic with period $2\pi$. We have
+  \begin{align*}
+    f(x + 2\pi k) &= e^{in(x + 2\pi k)} \\
+    &= e^{inx+2\pi i k n} \\
+    &= e^{inx}e^{2\pi i k n} &\text{(by b(b))} \\
+    &= e^{inx} &\text{($e^{2\pi i k n} = 1$ by 4(e) since $kn\in\bbZ$)} \\
+    &= f(x)\text{.}
+  \end{align*}
+
+  We now show that \begin{equation}
+    \label{eq:main-identity}
+    \frac{1}{2\pi}\int_{-\pi}^\pi e^{inx} dx = \begin{cases}
+      1 & \text{if }n = 0 \text{,} \\
+      0 & \text{if }n \neq 0 \text{.}
+    \end{cases}
+  \end{equation} By cases,
+  \begin{itemize}[leftmargin=37pt]
+    \item[($n=0$)]
+      \begin{align*}
+        \int_{-\pi}^\pi e^{inx} dx
+        &=\int_{-\pi}^\pi e^{0} dx \\
+        &= \int_{-\pi}^\pi 1 dx \\
+        &= 2\pi\text{.}
+      \end{align*} We divide both sides by $1/2\pi$ to obtain our result.
+    \item[($n\neq0$)] \begin{align*}
+      \int_{-\pi}^\pi e^{inx} dx
+      &= \int_{-\pi}^\pi e^{inx} dx &\text{(here we use $n\neq0$)} \\
+      &= \frac{1}{in}\left[ e^{inx} \right]_{-\pi}^\pi \\
+      &= \frac{1}{in}\left( e^{in\pi} - e^{-in\pi} \right) \\
+      &= \frac{1}{in}\left( f(\pi) - f(-\pi) \right) \\
+      &= 0\text. &\text{($f(\pi)=f(-\pi)$ from $f$'s periodicity)}
+    \end{align*}
+  \end{itemize}
+
+  Finally, we show that \begin{align*}
+    \frac{1}{\pi}\int_{-\pi}^{\pi} \cos nx \cos mx\;dx &= \begin{cases}
+      0 & \text{if }n \neq m \text{,} \\
+      1 & \text{if }n = m \text{,}
+    \end{cases} \\
+    \frac{1}{\pi}\int_{-\pi}^{\pi} \sin nx \sin mx\;dx &= \begin{cases}
+      0 & \text{if }n \neq m \text{,} \\
+      1 & \text{if }n = m \text{,}
+    \end{cases} \\
+    \int_{-\pi}^{\pi} \sin nx \cos mx\;dx &= 0\text{.}
+  \end{align*}
+
+  To show this, first observe that \begin{align*}
+    &e^{i(n-m)x} + e^{i(n+m)x} \\
+    &= \cos(n-m)x + i\sin(n-m)x + \cos(n+m)x + i\sin(n+m)x \\
+    &= \cos nx \cos mx + \sin nx \sin mx \qquad\text{(by identities from 4(i))} \\
+    &\qquad+i\sin nx \cos mx - i\cos nx \sin mx \\
+    &\qquad+\cos nx \cos mx - \sin nx \sin mx \\
+    &\qquad+i\sin nx \cos mx + i\cos nx \sin mx  \\
+    &= 2\cos nx \cos mx + 2i\sin nx \cos mx \text{.}
+  \end{align*} An analogous computation shows that \[
+    e^{i(n-m)x} - e^{i(n+m)x} = 2\sin nx \sin mx - 2i\cos nx \sin mx \text{.}
+  \]
+
+  We have \begin{align*}
+    \int_{-\pi}^{\pi}{e^{i(n+m)x}}dx = 0
+  \end{align*} by \eqref{eq:main-identity} since $n + m \geq 2$.
+
+  Hence \begin{align*}
+    & 2\int_{-\pi}^\pi\cos nx \cos mx\;dx + 2i\int_{-\pi}^\pi\sin nx \cos mx\;dx \\
+    &= \int_{-\pi}^\pi e^{i(n-m)x} dx + \int_{-\pi}^\pi e^{i(n+m)x} dx \\
+    &= \int_{-\pi}^\pi e^{i(n-m)x} dx \\
+    &= \begin{cases}
+      0 & \text{if }n \neq m \text{,} \\
+      2\pi & \text{if }n = m \text{,}
+    \end{cases}
+  \end{align*} by \eqref{eq:main-identity} and \begin{align*}
+    & 2\int_{-\pi}^\pi\sin nx \sin mx\;dx - 2i\int_{-\pi}^\pi\cos nx \sin mx\;dx \\
+    &= \int_{-\pi}^\pi e^{i(n-m)x} dx - \int_{-\pi}^\pi e^{i(n+m)x} dx \\
+    &= \int_{-\pi}^\pi e^{i(n-m)x} \\
+    &= \begin{cases}
+      0 & \text{if }n \neq m \text{,} \\
+      2\pi & \text{if }n = m \text{.}
+    \end{cases}
+  \end{align*}
+
+  Equating the real and imaginary parts of LHS and RHS, we obtain\begin{align*}
+    \frac{1}{\pi}\int_{-\pi}^{\pi} \cos nx \cos mx\;dx &= \begin{cases}
+      0 & \text{if }n \neq m \text{,} \\
+      1 & \text{if }n = m \text{,}
+    \end{cases} \\
+    \frac{1}{\pi}\int_{-\pi}^{\pi} \sin nx \sin mx\;dx &= \begin{cases}
+      0 & \text{if }n \neq m \text{,} \\
+      1 & \text{if }n = m \text{,}
+    \end{cases} \\
+    \int_{-\pi}^{\pi} \sin nx \cos mx\;dx &= 0\text{.}
+  \end{align*}\qed
+
+\end{document}
