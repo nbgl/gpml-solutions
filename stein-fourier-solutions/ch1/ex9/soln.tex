@@ -1,0 +1,100 @@
+\documentclass[oneside]{article}
+
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{enumitem}
+\usepackage{mathtools}
+
+\allowdisplaybreaks
+
+% Notation shortcuts
+\newcommand\abs[1]{\left|#1\right|}
+\newcommand\defeq{\overset{\mathrm{def}}{=}}
+
+\DeclareMathOperator{\sgn}{sgn}
+
+\newcommand\bbC{\mathbb{C}}
+\newcommand\bbR{\mathbb{R}}
+\newcommand\bbZ{\mathbb{Z}}
+
+\begin{document}
+  We are given that \[
+    f(x) = \begin{cases}
+      \frac{xh}{p} & \text{for }0 \leq x \leq p \\
+      \frac{h(\pi-x)}{\pi - p} & \text{for }p \leq x \leq \pi
+    \end{cases}
+  \]
+
+  From the formula for the Fourier sine coefficients, we have\begin{align*}
+    A_m &= \frac{2}{\pi} \int_0^\pi f(x)\sin mx\;dx \\
+    &= \frac{2}{\pi} \int_0^p \frac{xh}{p}\sin mx\;dx
+      + \frac{2}{\pi} \int_p^\pi \frac{h(\pi-x)}{\pi-p}\sin mx\;dx \text{,}
+  \end{align*} where we use the fact that $f(x)$ is piecewise. By algebra,
+  \begin{equation}
+    \label{eq:am-before-integration}
+    A_m = \frac{2h}{\pi p} \int_0^p x\sin mx\;dx
+      + \frac{2h}{(\pi - p)} \int_p^\pi \sin mx\;dx
+      - \frac{2h}{\pi(\pi - p)} \int_p^\pi x\sin mx\;dx
+  \end{equation}
+
+  Integrating,\begin{align*}
+    \int_p^\pi \sin mx\;dx
+    &= -\frac{1}{m}\left[\cos mx\right]_p^\pi \\
+    &= \frac{1}{m}\cos mp - \frac{1}{m}\cos \pi m \text{.}
+  \end{align*}
+
+  Letting $a, b \in \bbR$ and integrating by parts, \begin{align*}
+    \int_a^b x\sin mx\; dx
+    &= \left[x\int\sin mx\;dx\right]_a^b
+      - \int_a^b \frac{dx}{dx} \int \sin mx\;dx\;dx \\
+    &= -\frac{1}{m}\left[x\cos mx\right]_a^b
+      + \frac{1}{m} \int_a^b \cos mx\;dx \\
+    &= -\frac{1}{m}\left[x\cos mx\right]_a^b
+      + \frac{1}{m^2}\left[x\sin mx\right]_a^b \\
+    &= \frac{1}{m}\left(a\cos ma - b\cos mb\right)
+      + \frac{1}{m^2}\left(\sin mb - \sin ma\right) \text{.}
+  \end{align*} Substituting for $a$ and $b$, \begin{align*}
+    \int_0^p x\sin mx\; dx
+    &= -\frac{p}{m} \cos mp + \frac{1}{m^2} \sin mp \\
+    \int_p^\pi x\sin mx\; dx
+    &= \frac{p}{m}\cos mp - \frac{\pi}{m}\cos m\pi - \frac{1}{m^2}\sin mp
+    \text{.}
+  \end{align*}
+
+  Substituting into \eqref{eq:am-before-integration},\begin{align*}
+    \frac{m}{2h}A_m &= -\frac{1}{\pi}\cos mp + \frac{1}{\pi mp} \sin mp \\
+    &\qquad+\frac{1}{(\pi - p)}\cos mp - \frac{1}{(\pi - p)}\cos \pi m \\
+    &\qquad-\frac{p}{\pi(\pi - p)}\cos mp
+      + \frac{1}{(\pi - p)}\cos m\pi
+      + \frac{1}{\pi m(\pi - p)}\sin mp \\
+    &= -\frac{1}{\pi}\cos mp +\frac{1}{(\pi - p)}\cos mp
+      -\frac{p}{\pi(\pi - p)}\cos mp \\
+    &\qquad
+      + \frac{1}{\pi mp} \sin mp + \frac{1}{\pi m(\pi - p)}\sin mp \\
+    &= \left(\frac{1}{\pi-p} - \frac{1}{\pi} - \frac{p}{\pi(\pi-p)}\right)
+        \cos mp
+       + \left( \frac{1}{\pi mp} + \frac{1}{\pi m(\pi-p)} \right) \sin mp
+       \text{.}
+  \end{align*}
+
+  Observe that \[
+    \frac{1}{\pi-p} - \frac{1}{\pi} - \frac{p}{\pi(\pi-p)}
+    = \frac{\pi-\pi+p-p}{\pi(\pi-p)} = 0
+  \] and
+  \[
+    \frac{1}{\pi mp} + \frac{1}{\pi m(\pi-p)}
+    = \frac{\pi - p + p}{\pi mp(\pi-p)}
+    =\frac{1}{mp(\pi-p)} \text{,}
+  \] so \[
+    A_m = \frac{2h}{m^2}\frac{\sin mp}{p(\pi-p)}
+  \] as desired.
+
+  For $0 < h$, $0 < p < \pi$, we have $A_m = 0$ iff $\sin mp = 0$. When
+  $p = \pi/2$, $\sin m\pi/2 = 0$ for $m = 2,4,\dots$, so the second, fourth, and
+  so on, harmonics are missing. Similarly, when $p = \pi/3$, $\sin m\pi/3 = 0$
+  for $m = 3,6,\dots$, so the third, sixth, and so on, harmonics are missing.
+
+
+\end{document}
