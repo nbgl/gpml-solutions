@@ -1,0 +1,110 @@
+\documentclass[oneside]{article}
+
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{enumitem}
+\usepackage{mathtools}
+
+\allowdisplaybreaks
+
+% Notation shortcuts
+\newcommand\abs[1]{\left|#1\right|}
+\newcommand\defeq{\overset{\mathrm{def}}{=}}
+\newcommand*\Laplace{\mathop{}\!\mathbin\bigtriangleup}
+
+\DeclareMathOperator{\sgn}{sgn}
+\DeclareMathOperator{\atantwo}{atan2}
+
+\newcommand\bbC{\mathbb{C}}
+\newcommand\bbR{\mathbb{R}}
+\newcommand\bbZ{\mathbb{Z}}
+
+\newtheorem*{lem}{Lemma}
+
+\begin{document}
+\begin{proof}
+
+Let $u_k$ be such that $u_k(x, 0) = A_k\sin kx$, $u_k(x, 1) = B_k\sin kx$,
+$u_k(0, y) = 0$, $u_k(1, y) = 0$, and $\Laplace u = 0$.
+
+We want to solve for $u_k$. Using separation of variables, we write
+$u_k(x, y) = F(x)G(y)$. The Laplacian becomes \begin{align*}
+  \Laplace u_k
+  &= \frac{\partial^2F(x)G(y)}{\partial x^2}
+     + \frac{\partial^2F(x)G(y)}{\partial y^2} \\
+  &= F''(x)G(y) + F(x)G''(y) = 0 \text{.}
+\end{align*} Thus, we look for solutions of the form\[
+  \frac{F''(x)}{F(x)} = - \frac{G''(y)}{G(y)} \text{.}
+\] Since those sides depend on different variables, they must be equal to some
+constant, which we will call $\lambda$. Then \[
+  F''(x) - \lambda F(x) = 0 \text{ and } G''(y) + \lambda G(y) = 0 \text{.}
+\]
+
+By our definition, $u_k(x, 0) = F(x)G(0) = A_k\sin kx$ and
+$u(x, 1) = F(x)G(1) = B_k\sin kx$. Then $F(x) = a\sin kx$ for some $a$ and
+$\lambda = -k^2$. By the lemma, $G(y) = \alpha\cosh ky - \beta\sinh ky$ for
+some $\alpha, \beta \in \bbR$.
+
+When $y = 0$, we have $\alpha F(x) = A_k\sin kx$, so\[
+  \alpha F(x)\cosh ky = A_k\sin kx \cosh ky \text{.}
+\] Similarly, when $y=1$,
+$\alpha F(x) \cosh k - \beta F(x) \sinh k = B_k \sin kx$, implying that\[
+  \beta F(x) \sinh ky = \frac{A_k \cosh k - B_k}{\sinh k}\sin kx\sinh ky \text{.}
+\] Simplifying,\begin{align*}
+  F(x)G(y) &= \left(A_k \cosh ky
+                    - \frac{A_k \cosh k - B_k}{\sinh k}\sinh ky\right)\sin kx \\
+  &= \left(A_k\frac{\sinh k \cosh ky - \sinh ky\cosh k}{\sinh k} + B_k\frac{\sinh ky}{\sinh k}\right)\sin kx \\
+  &= \left(A_k\frac{\sinh k(1-y)}{\sinh k} + B_k\frac{\sinh ky}{\sinh k}\right)
+    \sin kx \text{,}
+\end{align*} where in the last line we use \begin{align*}
+  &4\sinh k \cosh ky - 4\sinh ky \cosh k \\
+  &= \left(e^k-e^{-k}\right)\left(e^{ky}+e^{-ky}\right)
+    - \left(e^{ky}-e^{-ky}\right)\left(e^k+e^{-k}\right) \\
+  &= 2 e^{k - ky} - 2e^{ky - y} = 4 \sinh k(1-y) \text{.}
+\end{align*}
+
+Define \[
+  u = \sum_{k=1}^\infty u_k
+    = \sum_{k=1}^\infty \left(A_k\frac{\sinh k(1-y)}{\sinh k}
+           + B_k\frac{\sinh ky}{\sinh k}\right)\sin kx \text{.}
+\] Define also\[
+  f_0(x) = \sum_{k=1}^\infty A_k\sin kx\text{ and }
+  f_1(x) = \sum_{k=1}^\infty B_k\sin kx\text{.}
+\] Then $u(x, 0) = \sum_{k=1}^\infty u_k (x, 0) = f_0(x)$, and similarly
+$u(x, 1) = f_1(x)$, $u(0, y) = 0$, and $u(1, y) = 0$. Finally, by the linearity
+of the Laplacian, $\Laplace u = 0$.
+
+
+\end{proof}
+
+\begin{lem} Let $f$ be a twice continuously differentiable function on $\bbR$
+such that $f''(t) - c^2f(t) = 0$. Then all solutions for $f$ have the form\[
+  f(t) = a\cosh ct - b\sinh ct \text{.}
+\]
+\end{lem}
+
+\begin{proof}
+Let $g(t) = f(t)\cosh ct - c^{-1} f'(t) \sinh ct$ and
+$h(t) = f(t)\sinh ct - c^{-1} f'(t) \cosh ct$. Observe that these once
+differentiable. Differentiating,
+  \begin{align*}
+    g'(t)
+    &= f'(t)\cosh ct + cf(t)\sinh ct - c^{-1} f''(t) \sinh ct - f'(t) \cosh ct \\
+    &= cf(t)\sinh ct - c^{-1} f''(t) \sinh ct \\
+    &= cf(t)\sin ct - c f(t) \sin ct = 0\text{,} \\
+    h'(t)
+    &= f'(t)\sinh ct + cf(t)\cosh ct - c^{-1} f''(t) \cosh ct - f'(t) \sinh ct \\
+    &= cf(t)\cosh ct - c^{-1} f''(t) \cosh ct \\
+    &= cf(t)\cosh ct - cf(t) \cosh ct = 0\text{.}
+  \end{align*} Thus $g$ and $h$ are constant. Let $a$ and $b$ be constants such
+  that $g(t) = a$ and $h(t) = b$. Then \begin{align*}
+    f(t)\cosh^2 ct - c^{-1} f'(t) \sinh ct\cosh ct &= a\cosh ct \text{,} \\
+    f(t)\sinh^2 ct - c^{-1} f'(t) \sinh ct\cosh ct &= b\sinh ct \text{.}
+  \end{align*}Subtracting,\begin{align*}
+    &f(t)\cosh^2 ct - f(t)\sinh^2 ct = a\cosh ct - b\sinh ct \text{,}
+  \end{align*} which simplifies to $f(t) = a\cosh ct - b\sinh ct$.
+\end{proof}
+
+\end{document}
