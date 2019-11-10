@@ -1,0 +1,67 @@
+\documentclass[oneside]{article}
+
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{enumitem}
+\usepackage{mathtools}
+
+\allowdisplaybreaks
+
+% Notation shortcuts
+\newcommand\abs[1]{\left|#1\right|}
+\newcommand\defeq{\overset{\mathrm{def}}{=}}
+\newcommand*\Laplace{\mathop{}\!\mathbin\bigtriangleup}
+
+\DeclareMathOperator{\sgn}{sgn}
+\DeclareMathOperator{\atantwo}{atan2}
+
+\newcommand\bbC{\mathbb{C}}
+\newcommand\bbR{\mathbb{R}}
+\newcommand\bbZ{\mathbb{Z}}
+
+\newtheorem*{lem}{Lemma}
+
+\begin{document}
+Define $\tau = 2\pi$.
+
+Changing variables $u = x - \tau$, we have\begin{equation}
+  \label{eq:first}
+  \int_{a+\tau}^{b+\tau}f(x)dx
+  = \int_{a}^{b}f(u + \tau)du \\
+  = \int_{a}^{b}f(u)du\text,
+\end{equation} where in the last equality we use the fact that $f$ is
+$\tau$-periodic.
+
+Setting $a = a' - \tau, b = b' - \tau$ in \eqref{eq:first}, we obtain\[
+  \int_{a'}^{b'}f(x)dx = \int_{a' - \tau}^{b - \tau}f(x)dx \text{.}
+\]
+
+Hence, \[
+  \int_{a}^{b}f(x)dx
+  = \int_{a + \tau}^{b + \tau}f(x)dx
+  = \int_{a - \tau}^{b - \tau}f(x)dx \text{.}
+\]
+
+Similarly, we have \begin{align}
+  \int_{a}^{\tau + a} f(x) dx
+  &= \int_{a}^{\tau} f(x) dx + \int_{\tau}^{\tau + a} f(x) dx
+  & \text{(F.T.C.)} \nonumber \\
+  &= \int_{a}^{\tau} f(x) dx + \int_{\tau}^{\tau + a} f(x - \tau) dx
+  & \text{(periodicity)} \nonumber \\
+  &= \int_{a}^{\tau} f(x) dx + \int_{0}^{a} f(u) du
+  & \text{($u = x - \tau$)} \nonumber \\
+  &= \int_{0}^{\tau} f(x) dx \text{.} \label{eq:second}
+\end{align}
+
+Also, \[
+  \int_{0}^{\tau}f(x + a)dx = \int_{a}^{\tau + a}f(u)du = \int_0^\tau f(x)dx
+\] where the second inequality is by \eqref{eq:second}.
+
+Offsetting $a$ by $\tau/2$, we also obtain\[
+  \int_{-\tau/2}^{\tau/2}f(x+a)dx = \int_{-\tau/2}^{\tau/2}f(x)dx
+  = \int_{-\tau/2+a}^{\tau/2+a}f(x)dx
+\] as desired.
+
+\end{document}
