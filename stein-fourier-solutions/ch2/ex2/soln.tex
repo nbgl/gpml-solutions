@@ -1,0 +1,129 @@
+\documentclass[oneside]{article}
+
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{enumitem}
+\usepackage{mathtools}
+
+\allowdisplaybreaks
+
+% Notation shortcuts
+\newcommand\abs[1]{\left|#1\right|}
+\newcommand\defeq{\overset{\mathrm{def}}{=}}
+\newcommand*\Laplace{\mathop{}\!\mathbin\bigtriangleup}
+
+\DeclareMathOperator{\sgn}{sgn}
+\DeclareMathOperator{\atantwo}{atan2}
+
+\newcommand\bbC{\mathbb{C}}
+\newcommand\bbR{\mathbb{R}}
+\newcommand\bbZ{\mathbb{Z}}
+
+\newtheorem*{lem}{Lemma}
+
+\begin{document}
+Define $\tau = 2\pi$.
+\begin{enumerate}[label=(\alph*)]
+  \item We know that \[
+      f(\theta) \sim \sum_{n=-\infty}^\infty \hat f(n) e^{in\theta}
+    \] Pick $N > 0$ and take the partial sum \[
+      S_N(f)(\theta) = \sum_{n=-N}^N\hat f(n)e^{in\theta} \text{.}
+    \] Then\begin{align*}
+      S_N(f)(\theta)
+      &= \hat f(0) + \sum_{0 < \abs{n} \leq N}\hat f(n)e^{in\theta} \\
+      &= \hat f(0)
+       + \sum_{0 < n \leq N}\hat f(n)e^{in\theta} + \hat f(-n)e^{-in\theta} \\
+      &= \hat f(0)
+       + \sum_{0 < n \leq N}\hat f(n)[\cos n\theta + i \sin n\theta]
+       + \hat f(-n)[\cos -n\theta + i \sin -n\theta] \\
+      &= \hat f(0)
+       + \sum_{0 < n \leq N}\hat f(n)[\cos n\theta + i \sin n\theta]
+       + \hat f(-n)[\cos n\theta - i \sin n\theta] \\
+      &= \hat f(0)
+       + \sum_{0 < n \leq N} [\hat f(n) + \hat f(-n)]\cos n\theta
+         + i[\hat f(n) - \hat f(-n)] \sin n\theta \text{.}
+    \end{align*}
+
+    Limiting $N \to \infty$, we obtain\[
+      f(\theta) \sim \hat f(0)
+       + \sum_{n > 0} [\hat f(n) + \hat f(-n)]\cos n\theta
+         + i[\hat f(n) - \hat f(-n)] \sin n\theta\text{.}
+    \]\qed
+
+  \item Assume that $f$ is even. Then\begin{align*}
+      &\tau\hat f(n) - \tau\hat f(-n) \\
+      &= \int_{-\tau/2}^{\tau/2} f(\theta)e^{-in\theta}d\theta
+      - \int_{-\tau/2}^{\tau/2} f(\theta)e^{in\theta}d\theta \\
+      &= \int_{-\tau/2}^{\tau/2} f(\theta)e^{-in\theta}d\theta
+      - \int_{-\tau/2}^{\tau/2} f(-\theta)e^{-in\theta}d\theta
+      & \text{(subst. $\theta \coloneqq -\theta$)}\\
+      &= \int_{-\tau/2}^{\tau/2} \left[f(\theta) - f(-\theta)\right]e^{-in\theta}d\theta \\
+      &= 0\text. &\text{($f(\theta) = f(-\theta)$)}
+    \end{align*}
+
+    Hence $\hat f(n) = \hat f(-n)$ and by (a), \[
+      f(\theta) \sim \hat f(0)
+       + 2\sum_{n > 0} \hat f(n) \cos n\theta\text{.}
+    \] \qed
+
+  \item Assume that $f$ is odd. Then\begin{align*}
+      &\tau\hat f(n) + \tau\hat f(-n) \\
+      &= \int_{-\tau/2}^{\tau/2} f(\theta)e^{-in\theta}d\theta
+      + \int_{-\tau/2}^{\tau/2} f(\theta)e^{in\theta}d\theta \\
+      &= \int_{-\tau/2}^{\tau/2} f(\theta)e^{-in\theta}d\theta
+      + \int_{-\tau/2}^{\tau/2} f(-\theta)e^{-in\theta}d\theta
+      & \text{(subst. $\theta \coloneqq -\theta$)}\\
+      &= \int_{-\tau/2}^{\tau/2} \left[f(\theta) + f(-\theta)\right]e^{-in\theta}d\theta \\
+      &= 0\text. &\text{($f(\theta) = -f(-\theta)$)}
+    \end{align*}
+
+    Hence $\hat f(n) = -\hat f(-n)$ and by (a), \[
+      f(\theta) \sim \hat f(0)
+       + 2i\sum_{n > 0} \hat f(n)\sin n\theta\text{.}
+    \] \qed
+
+  \item Suppose that for all $\theta \in \bbR$,
+  $f(\theta + \tau/2) = f(\theta)$. Let $n$ be odd. Then \begin{align*}
+    \hat f(n)
+    &= \int_{-\tau/2}^{\tau/2} f(\theta)e^{-in\theta}d\theta \\
+    &= \int_{-\tau/2}^0 f(\theta)e^{-in\theta}d\theta
+    + \int_0^{\tau/2} f(\theta)e^{-in\theta}d\theta \\
+    &= \int_0^{\tau/2} f(\theta - \tau/2)e^{-in\theta - in\tau/2}d\theta
+    + \int_0^{\tau/2} f(\theta)e^{-in\theta}d\theta
+    & \text{(subst. $\theta \coloneqq \theta + \tau/2$)} \\
+    &= \int_0^{\tau/2} f(\theta)e^{-in\theta}e^{-in\tau/2}d\theta
+    + \int_0^{\tau/2} f(\theta)e^{-in\theta}d\theta \\
+    &= -\int_0^{\tau/2} f(\theta)e^{-in\theta}d\theta
+    + \int_0^{\tau/2} f(\theta)e^{-in\theta}d\theta
+    &\text{($e^{in\tau/2} = -1$ for odd $n$)} \\
+    &= 0 \text{.}
+  \end{align*} \qed
+
+  \item \begin{itemize}[leftmargin=34pt]
+    \item[($\implies$)] Let $f$ be real-valued. Then
+    for all $\theta$, $\overline{f(\theta)} = f(\theta)$ and \begin{align*}
+      \overline{\hat{f}(n)}
+      &= \overline{\int_{-\tau/2}^{\tau/2} f(\theta)e^{-in\theta}d\theta} \\
+      &= \int_{-\tau/2}^{\tau/2} \overline{f(\theta)e^{-in\theta}}d\theta \\
+      &= \int_{-\tau/2}^{\tau/2} \overline{f(\theta)}e^{in\theta}d\theta \\
+      &= \int_{-\tau/2}^{\tau/2} f(\theta)e^{in\theta}d\theta \\
+      &= \hat{f}(-n)\text{.}
+    \end{align*}
+
+    \item[($\impliedby$)] Let $f$ be such that
+    $\overline{\hat{f}(n)} = \hat{f}(-n)$ for all $n$. Then \begin{align*}
+      \overline{f(\theta)}
+      &\sim \overline{\sum_{-\infty}^\infty \hat f(n)e^{in\theta}} \\
+      &= \sum_{-\infty}^\infty \overline{\hat f(n)e^{in\theta}} \\
+      &= \sum_{-\infty}^\infty \hat f(-n)e^{-in\theta} \\
+      &= \sum_{-\infty}^\infty \hat f(n)e^{in\theta} \\
+      &\sim f(\theta) \text{.}
+    \end{align*} Hence,\[
+      \overline f = f
+    \] almost everywhere.\qed
+  \end{itemize}
+\end{enumerate}
+
+\end{document}
