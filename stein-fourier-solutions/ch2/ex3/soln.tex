@@ -1,0 +1,50 @@
+\documentclass[oneside]{article}
+
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{enumitem}
+\usepackage{mathtools}
+
+\allowdisplaybreaks
+
+% Notation shortcuts
+\newcommand\abs[1]{\left|#1\right|}
+\newcommand\defeq{\overset{\mathrm{def}}{=}}
+\newcommand*\Laplace{\mathop{}\!\mathbin\bigtriangleup}
+
+\DeclareMathOperator{\sgn}{sgn}
+\DeclareMathOperator{\atantwo}{atan2}
+
+\newcommand\bbC{\mathbb{C}}
+\newcommand\bbR{\mathbb{R}}
+\newcommand\bbZ{\mathbb{Z}}
+
+\newtheorem*{lem}{Lemma}
+
+\begin{document}
+Let \[
+  A_m = \frac{2h}{m^2}\frac{\sin mp}{p(\pi - p)}
+  \qquad\text{and}\qquad
+  f(x) = \begin{cases}
+    \frac{xh}{p} &\text{for } 0 \leq x \leq p\text{,} \\
+    \frac{h(\pi-x)}{\pi-p} &\text{for } p \leq x \leq \pi \text{.}
+  \end{cases}
+\]
+
+Let $C = 2h/p(\pi-p) \geq 0$. Then \[
+  \abs{A_m} = C\frac{\abs{\sin mp}}{m^2} \leq \frac{C}{m^2} \text{,}
+\] so \[
+  \abs{A_m \sin mp} = \abs{A_m}\abs{\sin mx} \leq \frac{C}{m^2} \text{.}
+\] Since $\sum_{m=1}^\infty 1/m^2$ converges, \[
+  \sum_{m=1}^\infty A_m \sin mp
+\] converges absolutely.
+
+We also know that $f$ is continuous and by chapter 1, exercise 9, we have that
+$\sum_{m=1}^\infty A_m \sin mp$ is the Fourier series of $f$. Then by corollary
+2.3,\[
+  f(x) = \sum_{m=1}^\infty A_m \sin mp
+\] for all $x \in [0, \pi]$.\qed
+
+\end{document}
