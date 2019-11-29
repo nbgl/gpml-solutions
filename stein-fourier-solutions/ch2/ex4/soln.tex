@@ -1,0 +1,77 @@
+\documentclass[oneside]{article}
+
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{enumitem}
+\usepackage{mathtools}
+\usepackage{pgfplots}
+
+\allowdisplaybreaks
+
+% Notation shortcuts
+\newcommand\abs[1]{\left|#1\right|}
+\newcommand\defeq{\overset{\mathrm{def}}{=}}
+\newcommand*\Laplace{\mathop{}\!\mathbin\bigtriangleup}
+
+\DeclareMathOperator{\sgn}{sgn}
+\DeclareMathOperator{\atantwo}{atan2}
+
+\newcommand\bbC{\mathbb{C}}
+\newcommand\bbR{\mathbb{R}}
+\newcommand\bbZ{\mathbb{Z}}
+
+\newtheorem*{lem}{Lemma}
+
+\begin{document}
+  \begin{enumerate}[label=(\alph*)]
+    \item\hspace{0pt}
+
+    \begin{tikzpicture}[
+      declare function={
+        func(\x)= (\x<=-pi) * (x + 2 * pi) * (-pi - x)   +
+         and(\x>-pi, \x<=0) * (x + pi) * x     +
+         and(\x>0,  \x<=pi) * x * (pi - x) +
+                    (\x>pi) * (x - pi) * (x - 2 * pi);
+      }
+    ]
+    \begin{axis}[
+     width=.88\textwidth,
+     height=.88\textwidth,
+      axis x line=middle, axis y line=middle,
+      ymin=-3, ymax=3, ytick={-3,...,3}, ylabel=$f(\theta)$,
+      xmin=-2*pi, xmax=2*pi, xtick={
+        -6.28318, -4.7123889, -3.14159, -1.5708,
+        1.5708, 3.14159, 4.7123889, 6.28318
+    },
+    xticklabels={
+        $-2\pi$, $-\frac{3\pi}{2}$, $-\pi$, $-\frac{\pi}{2}$,
+        $\frac{\pi}{2}$, $\pi$, $\frac{3\pi}{2}$, $2\pi$
+    },
+    xlabel=$\theta$,
+    ]
+    \addplot[black, domain=-2*pi:2*pi, smooth]{func(x)};
+    \end{axis}
+    \end{tikzpicture}
+
+    \item Since $f$ is odd, its Fourier series is sine with coefficients
+    \begin{align*}
+      A_k &= \frac{2}{\pi}\int_0^\pi f(\theta) \sin k\theta d\theta \\
+      &= \frac{2}{\pi}\int_0^\pi \theta (\pi - \theta) \sin k\theta d\theta \\
+      &= \frac{2 - \pi k \sin \pi k - 2 \cos \pi k}{k^3} \\
+      &= \frac{2 - 2(-1)^k}{k^3}
+    \end{align*}
+
+    For $k$ even, $A_k = 0$. For $k$ odd, $A_k = 4/k^3$. Thus,\[
+      f(x) \sim \frac{2}{\pi}\sum_{k=1}^\infty A_k\sin k\theta
+      = \frac{8}{\pi}\sum_{k\text{ odd}\geq 1} \frac{\sin k\theta}{k^3} \text{.}
+    \]
+
+    Since $\sum \abs{k^{-3}}$ converges absolutely, we have equality by
+    corollary 2.3:\[
+      f(x) = \frac{8}{\pi}\sum_{k\text{ odd}\geq 1} \frac{\sin k\theta}{k^3}
+      \text{.}
+    \]\qed
+  \end{enumerate}
+\end{document}
