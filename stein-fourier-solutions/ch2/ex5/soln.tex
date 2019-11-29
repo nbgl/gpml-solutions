@@ -1,0 +1,72 @@
+\documentclass[oneside]{article}
+
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{enumitem}
+\usepackage{mathtools}
+
+\allowdisplaybreaks
+
+% Notation shortcuts
+\newcommand\abs[1]{\left|#1\right|}
+\newcommand\defeq{\overset{\mathrm{def}}{=}}
+\newcommand*\Laplace{\mathop{}\!\mathbin\bigtriangleup}
+
+\DeclareMathOperator{\sgn}{sgn}
+\DeclareMathOperator{\atantwo}{atan2}
+
+\newcommand\bbC{\mathbb{C}}
+\newcommand\bbR{\mathbb{R}}
+\newcommand\bbZ{\mathbb{Z}}
+
+\newtheorem*{lem}{Lemma}
+
+\begin{document}
+Let $f : [-\pi, \pi] \to \bbR$ such that \[
+  f(\theta) = \begin{cases}
+    0 & \text{if }\abs{\theta} > \delta \text{,} \\
+    1 - \abs{\theta}/\delta & \text{if }\abs{\theta} \leq \delta \text{.}
+  \end{cases}
+\]
+
+$f$ is even, so its Fourier series is cosine with coefficients\[
+  A_n = \frac{1}{2\pi}\int_{-\pi}^\pi f(\theta)\cos n\theta d\theta \text{.}
+\]
+
+For $n = 0$, we have \begin{align*}
+  A_0
+  &= \frac{1}{2\pi}\int_{-\pi}^\pi f(\theta) d\theta \\
+  &= \frac{1}{2\pi}\int_{-\delta}^\delta
+  \left(1 - \frac{\abs{\theta}}{\delta}\right) d\theta \\
+  &= \frac{1}{\pi}\int_0^\delta
+  \left(1 - \frac{\theta}{\delta}\right) d\theta \\
+  &= \frac{\delta}{2\pi} \text{.}
+\end{align*} For $n = 1, 2, \dots$, we have\begin{align*}
+  A_{n} = A_{-n} &= \frac{1}{\pi}\int_0^\delta
+  \left(1 - \frac{\theta}{\delta}\right) \cos n\theta d\theta \\
+  &= \frac{1}{\pi}\int_0^\delta \cos n\theta d\theta
+   - \frac{1}{\pi\delta}\int_0^\delta \theta \cos n\theta d\theta \\
+  &= \frac{\sin n\delta}{\pi n}
+   - \frac{n\delta\sin n\delta + \cos n\delta - 1}{n^2\pi\delta} \\
+  &= \frac{1 - \cos n\delta}{n^2\pi\delta}
+\end{align*}
+
+Hence, \[
+  f(\theta)
+  \sim \frac{\delta}{2\pi}
+  + 2\sum_{n=1}^\infty \frac{1 - \cos n\delta}{n^2\pi\delta}\cos n\theta
+  \text{.}
+\] We conclude by proving equality. It is easy to see that $f$ is a continuous
+function on the circle. We can bound \[
+  \abs{\frac{1 - \cos n\delta}{n^2 \pi \delta}} \leq \frac{2}{n^2\pi\delta}
+  \text{,}
+\] so $\sum_{n=1}^\infty A_n$ is absolutely convergent. Hence, by corollary 2.3,
+\[
+  f(\theta)
+  = \frac{\delta}{2\pi}
+  + 2\sum_{n=1}^\infty \frac{1 - \cos n\delta}{n^2\pi\delta}\cos n\theta
+  \text{.}
+\]\qed
+\end{document}
