@@ -1,0 +1,59 @@
+\documentclass[oneside]{article}
+
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{enumitem}
+\usepackage{mathtools}
+
+\allowdisplaybreaks
+
+% Notation shortcuts
+\newcommand\abs[1]{\left|#1\right|}
+\newcommand\defeq{\overset{\mathrm{def}}{=}}
+\newcommand*\Laplace{\mathop{}\!\mathbin\bigtriangleup}
+
+\DeclareMathOperator{\sgn}{sgn}
+\DeclareMathOperator{\atantwo}{atan2}
+
+\newcommand\bbC{\mathbb{C}}
+\newcommand\bbR{\mathbb{R}}
+\newcommand\bbZ{\mathbb{Z}}
+
+\newtheorem*{lem}{Lemma}
+
+\begin{document}
+  The Fourier coefficients of $f$ are\[
+    \hat f(n) = \frac{1}{2\pi}\int_{-\pi}^\pi f(x) e^{-inx} dx\text{.}
+  \] Observing that $f$ is odd, this becomes\[
+    \hat f(n) = \frac{1}{2\pi i}\int_{-\pi}^\pi f(x) \sin nx\,dx
+    = \frac{1}{\pi i}\int_0^\pi f(x) \sin nx\,dx \text{.}
+  \] For $n=0$, we get $\hat f(n) = 0$. Computing the integral for $n \neq 0$,
+  \begin{align*}
+    \hat f(n)
+    &= \frac{1}{\pi i}\int_0^\pi\left(\frac\pi2-\frac x2\right)\sin nx\,dx \\
+    &= \frac{1}{\pi i}\frac{\pi n + \sin \pi n}{2n^2} \\
+    &= \frac{1}{2ni}\text{.} &\text{($\sin\pi n = 0$)}
+  \end{align*} Thus\[
+    f(x) \sim \frac{1}{2i}\sum_{n\neq0} \frac{e^{inx}}{n}
+    = \frac{1}{2i} \sum_{n=1}^\infty \frac1n\left(e^{inx} - e^{-inx}\right)
+    \text{.}
+  \]
+
+  We now show that this series converges for all $x$. For $x=0$, the Fourier
+  series converges to $0 = f(0)$ because $\hat f(n)$ is odd. For $x\neq 0$, we
+  argue by Dirichlet's test. Let $a_n = 1/n$. We can see that $a_n$ converges to
+  $0$ monotonically as $n\to\infty$. Let $b_n(x) = e^{inx} - e^{-inx}$ and
+  $B_N(x) = \sum_{n=1}^N b_n(x)$. $B_N(x)$ is the $N$\textsuperscript{th}
+  Dirichlet kernel and\[
+    B_N(x) = D_N(x) = \frac{\sin((N+\frac12)x)}{\sin(x/2)}\text{.}
+  \] by section 1.1, example 4. The denominator $\sin(x/2)$ is constant and the
+  numerator is bounded by $\abs{\sin((N+1/2)x)} \leq 1$, so $B_N(x)$ is bounded
+  for a given $x$. Hence, by Dirichlet's test,\[
+    \sum_{n=1}^\infty a_nb_n
+    = \frac{1}{2i} \sum_{n=1}^\infty \frac1n\left(e^{inx} - e^{-inx}\right)
+    = \frac{1}{2i}\sum_{n\neq0} \frac{e^{inx}}{n}
+  \] converges.
+
+\end{document}
