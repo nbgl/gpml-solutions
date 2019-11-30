@@ -1,0 +1,70 @@
+\documentclass[oneside]{article}
+
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{enumitem}
+\usepackage{mathtools}
+
+\allowdisplaybreaks
+
+% Notation shortcuts
+\newcommand\abs[1]{\left|#1\right|}
+\newcommand\defeq{\overset{\mathrm{def}}{=}}
+\newcommand*\Laplace{\mathop{}\!\mathbin\bigtriangleup}
+
+\DeclareMathOperator{\sgn}{sgn}
+\DeclareMathOperator{\atantwo}{atan2}
+
+\newcommand\bbC{\mathbb{C}}
+\newcommand\bbR{\mathbb{R}}
+\newcommand\bbZ{\mathbb{Z}}
+
+\newtheorem*{lem}{Lemma}
+
+\begin{document}
+  \begin{enumerate}[label=(\alph*)]
+    \item
+      Observe that \begin{align*}
+        \sum_{n=M}^{N-1} (a_{n+1} - a_n)B_n
+        &= \sum_{n=M}^{N-1} a_{n+1}B_n - \sum_{n=M}^{N-1} a_nB_n \\
+        &= \sum_{n=M+1}^{N} a_{n}B_{n-1} - \sum_{n=M}^{N-1} a_nB_n \\
+        &= a_NB_{N-1} - a_MB_M + \sum_{n=M+1}^{N-1} a_{n}(B_{n-1} - B_n) \\
+        &= a_NB_{N-1} - a_MB_M - \sum_{n=M+1}^{N-1} a_nb_n \text{.}
+      \end{align*}
+
+      Then \begin{align*}
+        &a_NB_N - a_MB_{M-1} - \sum_{n=M}^{N-1}(a_{n+1}-a_n)B_n \\
+        &= a_NB_N - a_MB_{M-1} - a_NB_{N-1} + a_MB_M
+        + \sum_{n=M+1}^{N-1} a_nb_n \\
+        &= a_Nb_N + a_Mb_M + \sum_{n=M+1}^{N-1} a_nb_n \\
+        &= \sum_{n=M}^{N} a_nb_n \text{.}
+      \end{align*}\qed
+
+    \item
+      We know that \[
+        \sum_{n=1}^N a_nb_n = a_NB_N - \sum_{n=1}^{N-1}(a_{n+1}-a_n)B_n
+      \] for all $N = 1, 2, \dots$.
+
+      We are given that $B_N$ is bounded. Let $C > 0$ be such that
+      $\abs{B_n} < C$ for all $n = 0, 1, 2, \dots$. Pick an arbitrary
+      $\epsilon > 0$. Let $M$ be such that $a_M < \epsilon/2C$. Then for all
+      $N > N' > M$, \begin{align*}
+        &\abs{\sum_{n=1}^{N} a_nb_n - \sum_{n=1}^{N'} a_nb_n} \\
+        &= \abs{a_{N}B_{N} - a_{N'}B_{N'} - \sum_{n=1}^{N-1}(a_{n+1}-a_n)B_n
+        + \sum_{n=1}^{N'-1}(a_{n+1}-a_n)B_n} \\
+        &= \abs{a_{N}B_{N} - a_{N'}B_{N'} - \sum_{n=N'}^{N-1}(a_{n+1}-a_n)B_n} \\
+        &\leq \abs{a_{N}B_{N}} + \abs{a_{N'}B_{N'}}
+        + \sum_{n=N'}^{N-1}\abs{(a_{n+1}-a_n)B_n} \\
+        &\leq \abs{a_{N}}C + \abs{a_{N'}}C
+        + \sum_{n=N'}^{N-1}\abs{a_{n+1}-a_n}C \\
+        &= a_{N}C + a_{N'}C + \sum_{n=N'}^{N-1}(a_n - a_{n+1})C
+        \qquad\text{($a_n \geq a_{n+1} \geq 0 \;\forall n$)}\\
+        &= 2a_{N'}C \\
+        &\leq 2a_MC \\
+        &< \epsilon\text{.}
+      \end{align*} \qed
+
+  \end{enumerate}
+\end{document}
