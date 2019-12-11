@@ -1,0 +1,91 @@
+\documentclass{article}
+
+\usepackage{amsmath}
+\usepackage{amsthm}
+
+\DeclareMathOperator{\var}{var}
+
+\newcommand{\bfk}{\mathbf{k}}
+\newcommand{\bfx}{\mathbf{x}}
+
+\begin{document}
+  Let $X$ be a matrix of $n-1$ observations. Let $\bfx_\circ$ be an additional
+  observation. Let $\bfx_*$ be an arbitrary test point.
+
+  Define \begin{align*}
+    K &= k(X, X) \text{,} \\
+    \bfk_\circ &= k(X, \bfx_\circ) \text{,} \\
+    k_{\circ\circ} &= k(\bfx_\circ, \bfx_\circ) \text{,} \\
+    \bfk_* &= k(X, \bfx_*) \text{,} \\
+    k_{\circ*} &= k(\bfx_\circ, \bfx_*) \text{,} \\
+    k_{**} &= k(\bfx_*, \bfx_*) \text{.}
+  \end{align*}
+
+  Then setting $M = K + \sigma^2_n I$ and
+  $c = k_{\circ\circ} + \sigma^2_n - \bfk_\circ^\top M^{-1}\bfk_\circ$,
+  \begin{align*}
+    &\var_{n-1}(f(\bfx_*)) \\
+    %
+    &= k_{**} - \bfk_*^\top
+    \left(K + \sigma^2_n I \right)^{-1} \bfk_* \text{,} \\
+    %
+    &= k_{**} - \bfk_*^\top M^{-1} \bfk_* \text{,} \\
+    %
+    \\
+    %
+    &\var_n(f(\bfx_*)) \\
+    %
+    &= k_{**} - \begin{bmatrix} \bfk_*^\top & k_{\circ*} \end{bmatrix}
+    \left(\begin{bmatrix}
+    K & \bfk_\circ \\ \bfk_\circ^\top & k_{\circ\circ}
+    \end{bmatrix} + \sigma^2_n I \right)^{-1}
+    \begin{bmatrix} \bfk_* \\ k_{\circ*} \end{bmatrix} \\
+    %
+    &= k_{**} - \begin{bmatrix} \bfk_*^\top & k_{\circ*} \end{bmatrix}
+    \begin{bmatrix}
+    K + \sigma^2_n I & \bfk_\circ \\
+    \bfk_\circ^\top & k_{\circ\circ} + \sigma^2_n
+    \end{bmatrix}^{-1}
+    \begin{bmatrix} \bfk_* \\ k_{\circ*} \end{bmatrix} \\
+    %
+    &= k_{**} - \begin{bmatrix} \bfk_*^\top & k_{\circ*} \end{bmatrix}
+    \begin{bmatrix}
+    M^{-1}+ c^{-1}M^{-1}\bfk_\circ\bfk_\circ^\top M^{-1} &
+    -c^{-1}M^{-1} \bfk_\circ \\
+    -c^{-1}\bfk_\circ^\top M^{-1} &
+    c^{-1}
+    \end{bmatrix}
+    \begin{bmatrix} \bfk_* \\ k_{\circ*} \end{bmatrix} \text{,}
+  \end{align*} where we perform inversion using an identity from section A.3.
+  Then \begin{align*}
+    &\var_{n-1}(f(\bfx_*)) - \var_n(f(\bfx_*)) \\
+    &= c^{-1}\bfk_*^\top M^{-1}\bfk_\circ\bfk_\circ^\top M^{-1} \bfk_*
+    - c^{-1} \bfk_*^\top M^{-1} \bfk_\circ
+    - c^{-1} \bfk_\circ^\top M^{-1} \bfk_*
+    + c^{-1} \\
+    &= \frac{\left(\bfk_\circ^\top M^{-1}\bfk_*\right)^2
+             - 2\bfk_\circ^\top M^{-1}\bfk_*
+             + 1}{c} \\
+    &= \frac{\left(1 - \bfk_\circ^\top M^{-1}\bfk_*\right)^2}{c} \\
+    &= \frac{\left(1 - \bfk_\circ^\top \left(K + \sigma^2_n I\right)^{-1}
+    \bfk_*\right)^2}{
+    k_{\circ\circ} + \sigma^2_n
+    - \bfk_\circ^\top \left(K + \sigma^2_n I\right)^{-1}\bfk_\circ} \text{.}
+  \end{align*} The numerator is the square of a real number, so it is
+  non-negative. The denominator is the Schur complement of \[
+    k\left(\begin{bmatrix}X&\bfx_\circ\end{bmatrix},
+    \begin{bmatrix}X&\bfx_\circ\end{bmatrix}\right) + \sigma_n^2 I
+    = \begin{bmatrix}
+    K + \sigma^2_n I & \bfk_\circ \\
+    \bfk_\circ^\top & k_{\circ\circ} + \sigma^2_n
+    \end{bmatrix} \text{.}
+  \] By assumption $k$ is positive-definite and $\sigma_n^2 > 0$, so this matrix
+  is also positive definite as the sum of positive-definite matrices. Then its
+  Schur complement is positive by Boyd and Vandenberghe, section A.5.5.
+
+  Hence, $\var_{n-1}(f(\bfx_*)) - \var_n(f(\bfx_*)) \geq 0$ and \[
+      \var_{n-1}(f(\bfx_*)) \geq \var_n(f(\bfx_*)) \text{.}
+  \]\qed
+
+
+\end{document}
