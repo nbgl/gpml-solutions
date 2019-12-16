@@ -1,0 +1,177 @@
+\documentclass[oneside]{article}
+
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{enumitem}
+\usepackage{mathtools}
+
+\allowdisplaybreaks
+
+% Notation shortcuts
+\newcommand\abs[1]{\left|#1\right|}
+\newcommand\defeq{\overset{\mathrm{def}}{=}}
+\newcommand*\Laplace{\mathop{}\!\mathbin\bigtriangleup}
+
+\DeclarePairedDelimiter\ceil{\lceil}{\rceil}
+\DeclarePairedDelimiter\floor{\lfloor}{\rfloor}
+
+\DeclareMathOperator{\sgn}{sgn}
+\DeclareMathOperator{\atantwo}{atan2}
+
+\newcommand\bbC{\mathbb{C}}
+\newcommand\bbR{\mathbb{R}}
+\newcommand\bbZ{\mathbb{Z}}
+
+\newtheorem*{lem}{Lemma}
+\newtheorem*{cor}{Corollary}
+
+\begin{document}
+  \begin{enumerate}[label=(\alph*)]
+    \item We have \[
+      \hat f(n)
+      = \frac{1}{2\pi}\int_{-\pi}^\pi \chi_{[a,b]}(x)e^{-inx}\,dx
+      = \frac{1}{2\pi}\int_a^b e^{-inx}\,dx \text{.}
+    \] For $n=0$, \[
+      \hat f(0) = \frac{1}{2\pi}\int_a^b dx = \frac{b-a}{2\pi}\text{.}
+    \] For $n\neq0$,\begin{align*}
+      \hat f(n)
+      &= \frac{1}{2\pi}\int_a^b e^{-inx}\,dx \\
+      &= \left.\frac{ie^{-inx}}{2\pi n}\right|_a^b \\
+      &= \frac{e^{-ina}-e^{-inb}}{2\pi in} \text{.}
+    \end{align*}
+
+    Thus,\[
+      f(x)
+      \sim \frac{b-a}{2\pi}
+      + \sum_{n\neq0}\frac{e^{-ina}-e^{-inb}}{2\pi in}e^{inx}\text{.}
+    \]
+
+    \item \begin{lem}Define $S = \bigcup_{n=-\infty}^\infty [n + 1/4, n + 3/4]$. In
+    other words, $[n + 1/4, n + 3/4]$ is the closed middle half of the interval
+    between $n$ and $n+1$, and $S$ is the union of these over all integer $n$.
+    Let $c \in (0, 1)$. There exists integer $N \geq 1$ such that for every
+    integer $M$, at least one of $\{cM, \dots, c(M+N-1)\}$ lies in $S$.
+    \end{lem}
+    \begin{proof}
+      Fix some $c$ and $M$. By cases.
+      \begin{itemize}[leftmargin=45pt]
+        \item[($c \leq 1/2$)] Let $N = \ceil{1/c} + 1$. Observe that it is
+        independent of $M$. We show that at least one of
+        $\{cM, \dots, c(M+N-1)\}$ lies in $S$.
+
+        If $cM \in S$, then we are done. Assume then that $cM \notin S$.
+
+        Let $k = \ceil{cM - 1/4}$. Let $r = \ceil{(k + 1/4 - cM)/c}$. We
+        claim that $k + 1/4 \leq c(M+r) \leq k + 3/4$ and $0 \leq r < N$.
+
+        Trivially, $(k + 1/4)/c \leq \ceil*{(k + 1/4)/c}$. Observe
+        also that \begin{align*}
+          \ceil*{\frac{k + 1/4}{c}}
+          &< \frac{k + 1/4}{c} + 1 \\
+          &= \frac{k + 1/4 + c}{c} \\
+          &\leq \frac{k + 1/4 + 1/2}{c} & \text{($0 < c \leq 1/2$)} \\
+          &= \frac{k + 3/4}{c} \text{.}
+        \end{align*} Then
+        \begin{align*}
+          &\frac{k + 1/4}{c}
+          \leq \ceil*{\frac{k + 1/4}{c}}
+          \leq \frac{k + 3/4}{c} \\
+          &\implies k + \frac14
+          \leq c\ceil*{\frac{k + 1/4}{c}}
+          \leq k + \frac34 \\
+          &\implies k + \frac14
+          \leq c\left(M+\ceil*{\frac{k + 1/4 - cM}{c}}\right)
+          \leq k + \frac34 \\
+          &\implies k + \frac14 \leq c(M+r) \leq k + \frac34 \text{.}
+        \end{align*}
+        Finally, \begin{align*}
+          &cM - \frac14 \leq \ceil*{cM - \frac14} \\
+          &\implies 0 \leq \ceil*{cM - \frac14} + \frac14 - cM \\
+          &\implies 0 \leq \frac{\ceil{cM - 1/4} + 1/4 - cM}{c}
+          & \text{($0 < c$)} \\
+          &\implies 0 \leq \ceil*{\frac{\ceil{cM - 1/4} + 1/4 - cM}{c}} = r
+        \end{align*} and \begin{align*}
+          &\ceil{cM - 1/4} + 1/4 - cM < 1 \\
+          &\implies \frac{\ceil{cM - 1/4} + 1/4 - cM}{c} < \frac1{c}
+            &\text{($0 < c$)} \\
+          &\implies r = \ceil*{\frac{\ceil{cM - 1/4} + 1/4 - cM}{c}}
+          < \ceil*{\frac1c} + 1 = N \text{,}
+        \end{align*} so $0 \leq r < N$ as desired.
+
+        \item[($c \geq 1/2$)] Define $c' = 1 - c$ and observe that
+        $0 < c' < 1/2$.
+
+        By the previous case, there exists integer $N \geq 1$ such that for all
+        integer $M$ one of $\{c'M, \dots, c'(M+N-1)\}$ lies in $S$. For a fixed
+        $M$, let $M \leq j < M+N$ integer be such that $c'j \in S$.
+
+        We have that $c'j \in [n + 1/4, n + 3/4] \subset S$ for some $n$, so
+        $j-c'j \in [j-n - 1 + 1/4, j-n-1 + 3/4] \subset S$.
+      \end{itemize}
+    \end{proof}
+
+    Assume that $a\neq-\pi$, $b\neq\pi$ and $a \neq b$. We show that the
+    Fourier series does not converge absolutely for any $x$.
+
+    Observe that\begin{align*}
+      \abs{e^{-ina}-e^{-inb}}
+      &= \abs{(\cos na -\cos nb) - i(\sin na - \sin nb)} \\
+      &= \abs{-2\sin\frac{na+nb}2\sin\frac{na-nb}2
+      - 2i\sin\frac{na-nb}2\cos\frac{na+nb}2} \\
+      &= 2 \abs{\sin\frac{na-nb}2}
+      \abs{\sin\frac{na+nb}2 + i\cos\frac{na+nb}2} \\
+      &= 2 \abs{\sin\frac{na-nb}2}\\
+      &= 2 \abs{\sin n\theta_0} \text{,}
+    \end{align*} where $\theta_0 = (b-a)/2$. Then\begin{align*}
+      \sum_{n\neq0}\abs{\frac{e^{-ina}-e^{-inb}}{2\pi in}e^{inx}}
+      &= \sum_{n\neq0}\abs{\frac{e^{-ina}-e^{-inb}}{2\pi in}} \\
+      &= \frac{1}{\pi}\sum_{n\neq0}\frac{\abs{\sin n\theta_0}}{\abs{n}} \\
+      &= \frac{2}{\pi}\sum_{n=1}^\infty\frac{\abs{\sin n\theta_0}}{n}
+      \text{.}
+    \end{align*}
+
+    Since $-\pi < a < b < \pi$, we have that $0 < \theta_0 < \pi$. By the lemma
+    there exists integer $N \geq 1$ such that for all integer $M$ we can find
+    $N \leq k < N+M$ integer with $k\theta_0/\pi \in [j + 1/4, j + 3/4]$ for
+    some integer $j$. Then $k\theta_0 \in [j\pi + \pi/4, j\pi + 3\pi/4]$ and
+    $\abs{\sin k \theta_0} > 1/2$.
+
+    Since all terms of our series are non-negative, we can rearrange
+    \[
+      \sum_{n=1}^\infty\frac{\abs{\sin n\theta_0}}{n}
+      = \sum_{n=1}^\infty \sum_{m=Nn}^{Nn+N-1}
+      \frac{\abs{\sin n\theta_0}}{n}
+      \text{.}
+    \] Since one of $\abs{\sin m \theta_0} > 1/2$ for at least one of
+    $m = Nm, \dots, Nm+N-1$, we have that
+    $\sum_{m=Nn}^{Nn+N-1} \abs{\sin n\theta_0}/n \geq 1/2(Nn + N -1) \geq 1/2Nn$.
+    Hence \[
+      \sum_{n=1}^\infty\frac{\abs{\sin n\theta_0}}{n} \geq
+      \frac{1}{2N}\sum_{n=1}^\infty \frac{1}{n} \text{,}
+    \] which diverges. Hence,\[
+      \sum_{n\neq0}\abs{\frac{e^{-ina}-e^{-inb}}{2\pi in}e^{inx}}
+      = \frac{2}{\pi}\sum_{n=1}^\infty\frac{\abs{\sin n\theta_0}}{n}
+    \] diverges also. \qed
+
+  \item From 8. we know that the series \[
+    \sum_{n\neq0}\frac{e^{inx}}{n}
+  \] converges. Since $x$ is an arbitrary real, the series \[
+    \sum_{n\neq0}\frac{e^{in(x-a)}}{n}\qquad\text{and}\qquad
+    \sum_{n\neq0}\frac{e^{in(x-b)}}{n}
+  \] converge also. Then \[
+    \sum_{n\neq0}\frac{e^{in(x-a)}}{n} - \sum_{n\neq0}\frac{e^{in(x-b)}}{n}
+    = \sum_{n\neq0}\frac{e^{-ina}-e^{-inb}}{n}e^{inx}
+  \] converges also and the Fourier series \[
+    f(x) \sim \frac{b-a}{2\pi}
+    + \sum_{n\neq0}\frac{e^{-ina}-e^{-inb}}{2\pi i n}e^{inx}
+  \] converges. \qed
+
+  When $a = -\pi$ and $b = \pi$, we get\begin{align*}
+    f(x) &\sim 1 + \sum_{n\neq0}\frac{e^{in\pi}-e^{-in\pi}}{2\pi i n}e^{inx} \\
+    &= 1 + \sum_{n\neq0}\frac{(-1)^n-(-1)^n}{2\pi i n}e^{inx} \\
+    &= 1\text{.}
+  \end{align*}
+  \end{enumerate}
+\end{document}
