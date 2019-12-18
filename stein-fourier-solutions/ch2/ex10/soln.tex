@@ -32,7 +32,7 @@
     Let $f$ be $2\pi$-periodic and differentiable. Then\[
       \int_{-\pi}^\pi f(x)e^{-inx}dx
       = \frac{1}{in}\int_{-\pi}^\pi f'(x)e^{-inx}dx
-    \] for all integer $n$.
+    \] for all integer $n\neq0$.
   \end{lem}
 
   \begin{proof}
@@ -48,11 +48,11 @@
 
   Applying the lemma $k$ times, we get \[
     \int_{-\pi}^\pi f(x)e^{-inx}dx
-      = \frac{1}{(in)^k}\int_{-\pi}^\pi f^{(k)}(x)e^{-inx}dx \text{.}
-  \] Since $f \in C^k$, $f^{(k)}$ is continuous and hence bounded on
-  $[-\pi, \pi]$. Let $0 \leq B$ be such that \[
+      = \frac{1}{(in)^k}\int_{-\pi}^\pi f^{(k)}(x)e^{-inx}dx
+  \] for $n\neq0$. Since $f \in C^k$, $f^{(k)}$ is continuous and hence bounded
+  on $[-\pi, \pi]$. Let $0 \leq B$ be such that \[
     \abs{f^{(k)}} \leq B\quad\text{for }x \in [-\pi, \pi] \text{.}
-  \] Note that $B$ is independent of $n$.
+  \] Note that $B$ is independent of $n$ as long as $n\neq0$.
 
   Then \begin{align*}
     \abs{\int_{-\pi}^\pi f(x)e^{-inx}dx}
