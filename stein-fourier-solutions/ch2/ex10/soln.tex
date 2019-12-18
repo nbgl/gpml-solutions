@@ -1,0 +1,70 @@
+\documentclass[oneside]{article}
+
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{enumitem}
+\usepackage{mathtools}
+
+\allowdisplaybreaks
+
+% Notation shortcuts
+\newcommand\abs[1]{\left|#1\right|}
+\newcommand\defeq{\overset{\mathrm{def}}{=}}
+\newcommand*\Laplace{\mathop{}\!\mathbin\bigtriangleup}
+
+\DeclarePairedDelimiter\ceil{\lceil}{\rceil}
+\DeclarePairedDelimiter\floor{\lfloor}{\rfloor}
+
+\DeclareMathOperator{\sgn}{sgn}
+\DeclareMathOperator{\atantwo}{atan2}
+
+\newcommand\bbC{\mathbb{C}}
+\newcommand\bbR{\mathbb{R}}
+\newcommand\bbZ{\mathbb{Z}}
+
+\newtheorem*{lem}{Lemma}
+\newtheorem*{cor}{Corollary}
+
+\begin{document}
+  \begin{lem}
+    Let $f$ be $2\pi$-periodic and differentiable. Then\[
+      \int_{-\pi}^\pi f(x)e^{-inx}dx
+      = \frac{1}{in}\int_{-\pi}^\pi f'(x)e^{-inx}dx
+    \] for all integer $n$.
+  \end{lem}
+
+  \begin{proof}
+    By parts,
+    \[
+      \int_{-\pi}^\pi f(x)e^{-inx}dx
+      = -\frac{1}{in}\left[f(x)e^{-inx}\right]_{-\pi}^\pi
+      + \frac{1}{in}\int_{-\pi}^\pi f'(x)e^{-inx}dx \text{.}
+    \] We observe that \[
+      \left[f(x)e^{-inx}\right]_{-\pi}^\pi = 0
+    \] since $f(x)e^{-inx}$ is $2\pi$-periodic.
+  \end{proof}
+
+  Applying the lemma $k$ times, we get \[
+    \int_{-\pi}^\pi f(x)e^{-inx}dx
+      = \frac{1}{(in)^k}\int_{-\pi}^\pi f^{(k)}(x)e^{-inx}dx \text{.}
+  \] Since $f \in C^k$, $f^{(k)}$ is continuous and hence bounded on
+  $[-\pi, \pi]$. Let $0 \leq B$ be such that \[
+    \abs{f^{(k)}} \leq B\quad\text{for }x \in [-\pi, \pi] \text{.}
+  \] Note that $B$ is independent of $n$.
+
+  Then \begin{align*}
+    \abs{\int_{-\pi}^\pi f(x)e^{-inx}dx}
+      &= \abs{n}^{-k}\abs{\int_{-\pi}^\pi f^{(k)}(x)e^{-inx}dx} \\
+      &\leq \abs{n}^{-k}\int_{-\pi}^\pi \abs{f^{(k)}(x)e^{-inx}}dx \\
+      &\leq \abs{n}^{-k}\int_{-\pi}^\pi \abs{f^{(k)}(x)}dx \\
+      &\leq \abs{n}^{-k}\int_{-\pi}^\pi B\,dx \\
+      &= 2\pi \abs{n}^{-k} B \\
+  \end{align*}
+
+  Hence, \[
+    \abs{\hat f(n)} = \frac{1}{2\pi}\abs{\int_{-\pi}^\pi f(x)e^{-inx}dx}
+    \leq \abs{n}^{-k}B
+  \] and $\hat f(n) = O(1/\abs{n}^k)$.\qed
+\end{document}
