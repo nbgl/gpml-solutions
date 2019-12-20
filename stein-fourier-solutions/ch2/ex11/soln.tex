@@ -1,0 +1,41 @@
+\documentclass[oneside]{article}
+
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{enumitem}
+\usepackage{mathtools}
+
+\allowdisplaybreaks
+
+% Notation shortcuts
+\newcommand\abs[1]{\left|#1\right|}
+\newcommand\defeq{\overset{\mathrm{def}}{=}}
+\newcommand*\Laplace{\mathop{}\!\mathbin\bigtriangleup}
+
+\DeclarePairedDelimiter\ceil{\lceil}{\rceil}
+\DeclarePairedDelimiter\floor{\lfloor}{\rfloor}
+
+\DeclareMathOperator{\sgn}{sgn}
+\DeclareMathOperator{\atantwo}{atan2}
+
+\newcommand\bbC{\mathbb{C}}
+\newcommand\bbR{\mathbb{R}}
+\newcommand\bbZ{\mathbb{Z}}
+
+\newtheorem*{lem}{Lemma}
+\newtheorem*{cor}{Corollary}
+
+\begin{document}
+  We have\begin{align*}
+    \abs{\hat{f}_k(n) - \hat{f}_k(n)}
+    &= \abs{\int_0^1f_k(x)e^{-2\pi inx}\,dx - \int_0^1f(x)e^{-2\pi inx}\,dx} \\
+    &= \abs{\int_0^1\left(f_k(x) - f(x)\right)e^{-2\pi inx}\,dx} \\
+    &\leq \int_0^1\abs{\left(f_k(x) - f(x)\right)e^{-2\pi inx}}\,dx \\
+    &= \int_0^1\abs{f_k(x) - f(x)}\,dx \text{.}
+  \end{align*}
+
+  The last integral is independent of $n$. It tends to $0$ as $k \to \infty$ by
+  assumption.\qed
+\end{document}
