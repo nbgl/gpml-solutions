@@ -1,0 +1,52 @@
+\documentclass[oneside]{article}
+
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{enumitem}
+\usepackage{mathtools}
+
+\allowdisplaybreaks
+
+% Notation shortcuts
+\newcommand\abs[1]{\left|#1\right|}
+\newcommand\defeq{\overset{\mathrm{def}}{=}}
+\newcommand*\Laplace{\mathop{}\!\mathbin\bigtriangleup}
+
+\DeclarePairedDelimiter\ceil{\lceil}{\rceil}
+\DeclarePairedDelimiter\floor{\lfloor}{\rfloor}
+
+\DeclareMathOperator{\sgn}{sgn}
+\DeclareMathOperator{\atantwo}{atan2}
+
+\newcommand\bbC{\mathbb{C}}
+\newcommand\bbR{\mathbb{R}}
+\newcommand\bbZ{\mathbb{Z}}
+
+\newtheorem*{lem}{Lemma}
+\newtheorem*{cor}{Corollary}
+
+\begin{document}
+  Define \[
+      s_k = \sum_{j=0}^k c_j \quad\text{and}\quad
+      \sigma_n = \frac1{n+1}\sum_{k=0}^n s_k \text{.}
+  \] We are given that $s_k \to s$ as $k \to \infty$.
+
+  Pick an arbitrary $\epsilon > 0$.
+
+  Since $s_k \to s$, there exists $B$ such that $\abs{s_k - s} < B$ for all $k$.
+  There also exists $N \geq 0$ such that for all $k \geq N$,
+  $\abs{s_k - s} \leq \varepsilon/2$.
+
+  Set $M = \max\{0, 2NB/\varepsilon - N - 1\}$. Then for for all $n \geq M$,
+  \begin{align*}
+    &2N\frac{B}{\varepsilon} - N - 1 \leq M \leq n \\
+    &\iff BN + (n + 1 - N)\frac{\varepsilon}{2} \leq (n + 1)\varepsilon \\
+    &\implies \sum_{k=0}^{N-1} \abs{s_k -s} + \sum_{k=N}^{n} \abs{s_k -s}
+    \leq (n + 1)\varepsilon \\
+    &\implies \abs{\sum_{k=0}^{n} s_k -(n+1)s} \leq (n + 1)\varepsilon \\
+    &\iff \abs{\frac{1}{n+1}\sum_{k=0}^{n} s_k -s}
+    = \abs{\sigma_n - s} \leq \varepsilon \text{.}
+  \end{align*}\qed
+\end{document}
