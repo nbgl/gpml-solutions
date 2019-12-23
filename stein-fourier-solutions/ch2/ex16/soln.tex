@@ -1,0 +1,79 @@
+\documentclass[oneside]{article}
+
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{enumitem}
+\usepackage{mathtools}
+
+\allowdisplaybreaks
+
+% Notation shortcuts
+\newcommand\abs[1]{\left|#1\right|}
+\newcommand\defeq{\overset{\mathrm{def}}{=}}
+\newcommand*\Laplace{\mathop{}\!\mathbin\bigtriangleup}
+
+\DeclarePairedDelimiter\ceil{\lceil}{\rceil}
+\DeclarePairedDelimiter\floor{\lfloor}{\rfloor}
+
+\DeclareMathOperator{\sgn}{sgn}
+\DeclareMathOperator{\atantwo}{atan2}
+
+\newcommand\bbC{\mathbb{C}}
+\newcommand\bbR{\mathbb{R}}
+\newcommand\bbZ{\mathbb{Z}}
+
+\newtheorem*{lem}{Lemma}
+\newtheorem*{cor}{Corollary}
+
+\begin{document}
+  Let $f$ be a continuous function on the interval $[a,b] \subset \bbR$.
+
+  Pick an arbitrary $\varepsilon > 0$.
+
+  Define $g : [-\pi, \pi] \to \bbR$ by\[
+      g(x) = f\left(a + \frac{b-a}{\pi}\abs{x}\right) \text{.}
+  \] Observe that this maps $g(0) = f(a)$, $g(\pi) = g(-\pi) = b$. $g$ is then
+  a continuous function on the circle.
+
+  By corollary 5.4 of asdf, there exists a trigonometric polynomial $Q$ such
+  that \[
+      \abs{g(x) - Q(x)} < \frac{\epsilon}{2}
+      \quad\text{for all $-\pi \leq x \leq \pi$.}
+  \]
+
+  Let $n$ integer and $c_{-n}, \dots, c_{n} \in \bbC$ be such that \[
+      Q(x) = c_0 + \sum_{0 < \abs{k} \leq n} c_k e^{ikx} \text{.}
+  \] Let $c = \max\{\abs{c_{-n}}, \dots, \abs{c_{-1}},
+  \abs{c_1}, \dots, \abs{c_{n}}\}$.
+
+  Let $R(x)$ be a polynomial such that \[
+      \abs{e^{ix} - R(x)} < \frac{\epsilon}{4nc}
+      \quad\text{for all $-n\pi \leq x \leq n\pi$.}
+  \] Such $R$ exists because $e^{ix}$ can be approximated by polynomials uniformly
+  on any interval.
+
+  Construct \[
+    Q'(x) = c_0 + \sum_{0 < \abs{k} \leq n}c_k R(kx)
+  \] and observe that it is a polynomial. Then \begin{align*}
+    \abs{q(x) - Q'(x)}
+    &\leq \abs{q(x) - Q(x)} + \abs{Q(x) - Q'(x)} \\
+    &< \frac{\epsilon}{2}
+    + \abs{\sum_{0 < \abs{k} \leq n}c_k\left(e^{ikx} - R(kx)\right)} \\
+    &\leq \frac{\epsilon}{2}
+    + \sum_{0 < \abs{k} \leq n}\abs{c_k}\abs{e^{ikx} - R(kx)} \\
+    &< \frac{\epsilon}{2}
+    + \sum_{0 < \abs{k} \leq n}\abs{c_k}\frac{\epsilon}{4nc} \\
+    &\leq \frac{\epsilon}{2}
+    + \sum_{0 < \abs{k} \leq n}\frac{\epsilon}{4n} \\
+    &= \epsilon \text{,}
+  \end{align*} where we use $-n\pi \leq kx \leq n\pi$ for all
+  $x \in [-\pi, \pi]$ and $-n \leq k \leq n$
+
+  Let \[
+    P(x) = Q'\left(\frac{x-a}{b-a}\pi\right) \text{.}
+  \] Then $P$ is a polynomial and \[
+    \abs{f(x) - P(x)} = \abs{q(x) - Q'(x)} < \epsilon \text{.}
+  \]\qed
+\end{document}
