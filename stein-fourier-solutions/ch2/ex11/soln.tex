@@ -24,10 +24,56 @@
 \newcommand\bbR{\mathbb{R}}
 \newcommand\bbZ{\mathbb{Z}}
 
+\newcommand\calU{\mathcal{U}}
+\newcommand\calL{\mathcal{L}}
+
 \newtheorem*{lem}{Lemma}
 \newtheorem*{cor}{Corollary}
 
 \begin{document}
+  We first show that $f$ is integrable.
+
+  Pick an arbitrary $\varepsilon > 0$. Let $k$ be such that \[
+    \int_0^1\abs{f_k(x)-f(x)}\,dx < \frac\varepsilon5 \text{.}
+  \] Let $P = \{0 = p_0, \dots, p_N=1\}$ be a partition such that\[
+    \calU(P, f_k) - \calL(P, f_k) < \frac\varepsilon5
+    \quad\text{and}\quad
+    \calU(P, \abs{f-f_k}) - \calL(P, \abs{f-f_k}) < \frac\varepsilon5 \text{.}
+  \] $P$ exists because $f_k$ and $\abs{f-f_k}$ are integrable\footnote{
+    We can find $P$ by finding $P_1$ and $P_2$ such that
+    $\calU(P_1, f_k) - \calL(P_1, f_k) < \varepsilon/5$ and
+    $\calU(P_2, g_k) - \calL(P_2, g_k) < \varepsilon/5$, and setting
+    $P = P_1 \cup P_2$.
+  }. Observe that \[
+    0 \leq \calL(P, f) \leq \int_0^1 \abs{f_k(x) - f(x)}\,dx
+    \leq \calU(P, f)\text,
+  \] implying that \[
+    \calU(P, f) \leq \frac{2\varepsilon}{5}\text.
+  \]
+
+  For convenience, define $I_j = [p_{j-1}, p_j]$ for $j = 1, \dots, N$. We have
+  \begin{align*}
+    \sup_{x\in I_j} f(x) &\leq \sup_{x\in I} f_k(x)
+    + \sup_{x\in I} \abs{f_k - f(x)}
+    \text{, and} \\
+    \inf_{x\in I_j} f(x) &\geq \inf_{x\in I} f_k(x)
+    - \sup_{x\in I} \abs{f_k - f(x)}
+  \end{align*} Then \[
+    \sup_{x\in I_j}f(x) - \inf_{x\in I_j} f(x)
+    \leq \sup_{x\in I} f_k(x) - \inf_{x\in I} f_k(x)
+    + 2\sup_{x\in I} \abs{f_k - f(x)} \text{.}
+  \] Hence,\begin{align*}
+    &\calU(P, f) - \calL(P, f) \\
+    &= \sum_{j=1}^N \abs{I_j}\sup_{x\in I_j}f(x)
+    - \sum_{j=1}^N \abs{I_j}\inf_{x\in I_j}f(x) \\
+    &\leq \sum_{j=1}^N \abs{I_j}\sup_{x\in I_j}f_k(x)
+    - \sum_{j=1}^N \abs{I_j}\inf_{x\in I_j}f_k(x)
+    + 2\sum_{j=1}^N \abs{I_j}\sup_{x\in I_j}\abs{f_k(x) - f(x)} \\
+    &= \calU(P, f_k) - \calL(P, f_k) + 2\calU(P, \abs{f_k - f}) \\
+    &< \varepsilon \text{.}
+  \end{align*} Since $\varepsilon > 0$ is arbitrary, $f$ is integrable and its
+  Fourier coefficients exist.
+
   We have\begin{align*}
     \abs{\hat{f}_k(n) - \hat{f}_k(n)}
     &= \abs{\int_0^1f_k(x)e^{-2\pi inx}\,dx - \int_0^1f(x)e^{-2\pi inx}\,dx} \\
