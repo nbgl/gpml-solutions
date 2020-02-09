@@ -1,0 +1,105 @@
+\documentclass[oneside]{article}
+
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{enumitem}
+\usepackage{mathtools}
+\usepackage{pgfplots}
+
+\allowdisplaybreaks
+
+% Notation shortcuts
+\newcommand\abs[1]{\left|#1\right|}
+\newcommand\defeq{\overset{\mathrm{def}}{=}}
+\newcommand*\Laplace{\mathop{}\!\mathbin\bigtriangleup}
+
+\DeclareMathOperator{\sgn}{sgn}
+\DeclareMathOperator{\atantwo}{atan2}
+
+\newcommand\bbC{\mathbb{C}}
+\newcommand\bbR{\mathbb{R}}
+\newcommand\bbZ{\mathbb{Z}}
+
+\newtheorem*{lem}{Lemma}
+
+\begin{document}
+  \begin{enumerate}[label=(\alph*)]
+    \item\hspace{0pt}
+
+      \begin{tikzpicture}[
+        declare function={
+          func(\x)= (\x<0) * -x + (\x >= 0) * x;
+        }
+      ]
+      \begin{axis}[
+       width=.88\textwidth,
+       height=.6\textwidth,
+        axis x line=middle, axis y line=middle,
+        ymin=-0, ymax=3.5, ytick={0,...,3}, ylabel=$f(\theta)$,
+        xmin=-pi, xmax=pi, xtick={
+          -3.14159, -1.5708, 1.5708, 3.14159
+      },
+      xticklabels={
+          $-\pi$, $-\frac{\pi}{2}$, $\frac{\pi}{2}$, $\pi$
+      },
+      xlabel=$\theta$,
+      ]
+      \addplot[black, domain=-pi:pi, smooth]{func(x)};
+      \end{axis}
+      \end{tikzpicture}
+
+    \item The Fourier coefficients are\begin{align*}
+      \hat f(n)
+      &= \frac{1}{2\pi}\int_{-\pi}^\pi \abs{\theta} e^{-in\theta} d\theta \\
+      &= \frac{1}{2\pi}\int_{-\pi}^\pi \abs{\theta} \cos n\theta d\theta
+      - \frac{1}{2\pi}i\int_{-\pi}^\pi \abs{\theta} \sin n\theta d\theta
+      \text{.}
+    \end{align*}
+
+    $\abs{\theta} \cos n\theta$ is even and $\abs{\theta} \sin n\theta$ is odd,
+    so \[
+      \hat f(n) = \frac{1}{\pi}\int_{0}^\pi \theta \cos n\theta d\theta \text{.}
+    \]
+
+    We have $\hat f(0) = \pi/2$. For $n \neq 0$, we have \begin{align*}
+      \hat f(n) &= \frac{1}{\pi}\int_{0}^\pi \theta \cos n\theta d\theta \\
+      &= \frac{\cos\pi n +\pi n \sin\pi n - 1}{\pi n^2} \\
+      &= \frac{-1 + (-1)^n}{\pi n^2}
+    \end{align*} \qed
+
+    \item The series is cosine since $f$ is even, so \[
+      f(\theta)
+      \sim \frac{\pi}{2} +
+      \sum_{n\neq0}\frac{-1 + (-1)^n}{\pi n^2}\cos n \theta \text{.}
+    \]
+
+    Eliminating zero terms,\begin{equation}
+      \label{eq:fourier-series}
+      f(\theta)
+      \sim \frac{\pi}{2} -
+      \frac{4}{\pi}\sum_{n\text{ odd}\geq1}\frac{\cos n \theta}{n^2} \text{.}
+    \end{equation}
+
+    \item Observe that $\sum\abs{n^{-2}}$ converges absolutely, so we have
+    equality in \eqref{eq:fourier-series}. Taking $\theta = 0$, we get
+    \begin{align*}
+      &0 = \frac{\pi}{2} -
+      \frac{4}{\pi}\sum_{n\text{ odd}\geq1}\frac{1}{n^2} \\
+      &\iff \sum_{n\text{ odd}\geq1}\frac{1}{n^2} = \frac{\pi^2}{8} \text{.}
+    \end{align*}
+
+    From example 2 in section x.x, we have \[
+      g(\theta)
+      \sim \frac{\pi^2}{12} + \sum_{n=1}^\infty \frac{\cos n\theta}{n^2}
+    \] when $g(\theta) = (\pi-\theta)^2/4$ for $0 \leq \theta \leq 2\pi$. Since
+    $\sum n^{-2}$ converges absolutely, we also have equality. Taking
+    $\theta = 0$,\begin{align*}
+      &\frac{\pi^2}{4} = \frac{\pi^2}{12}+\sum_{n=1}^\infty \frac{1}{n^2} \\
+      &\iff \sum_{n=1}^\infty \frac{1}{n^2} = \frac{\pi^2}{6} \text{.}
+    \end{align*}\qed
+
+
+  \end{enumerate}
+\end{document}
