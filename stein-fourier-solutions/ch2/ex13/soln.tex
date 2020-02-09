@@ -1,0 +1,253 @@
+\documentclass[oneside]{article}
+
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{enumitem}
+\usepackage{mathtools}
+
+\allowdisplaybreaks
+
+% Notation shortcuts
+\newcommand\abs[1]{\left|#1\right|}
+\newcommand\defeq{\overset{\mathrm{def}}{=}}
+\newcommand*\Laplace{\mathop{}\!\mathbin\bigtriangleup}
+
+\DeclarePairedDelimiter\ceil{\lceil}{\rceil}
+\DeclarePairedDelimiter\floor{\lfloor}{\rfloor}
+
+\DeclareMathOperator{\sgn}{sgn}
+\DeclareMathOperator{\atantwo}{atan2}
+
+\newcommand\bbC{\mathbb{C}}
+\newcommand\bbR{\mathbb{R}}
+\newcommand\bbZ{\mathbb{Z}}
+
+\newtheorem*{lem}{Lemma}
+\newtheorem*{cor}{Corollary}
+
+\renewcommand{\thefootnote}{[\arabic{footnote}]}
+
+\begin{document}
+  \begin{enumerate}[label=(\alph*)]
+    \item We will prove this in three parts. For parts 1 and 2 we will assume
+    that $s = 0$. In part 1, we will show that \[
+      \sum_{n=1}^\infty c_nr^n = (1-r) \sum_{n=1}^\infty s_nr^n \text{.}
+    \] In part 2, we prove that \[
+      \lim_{r\to1}(1-r) \sum_{n=1}^\infty s_nr^n = 0 \text{.}
+    \] Finally, in part 3, we generalise this result to cases where $s \neq 0$.
+
+    \begin{enumerate}[label=\textbf{\arabic*.}]
+      \item
+        Let $s_n$ be the partial sum $s_n = \sum_{k=1}^n c_k$.
+
+        We have \begin{align*}
+          (1-r)\sum_{n=1}^Ns_nr^n % + s_Nr^{N+1}
+          &= \sum_{n=1}^Ns_nr^n - \sum_{n=1}^Ns_nr^{n+1} \\
+          &= \sum_{n=1}^Ns_nr^n - \sum_{n=2}^{N+1}s_{n-1}r^n \\
+          &= s_1r + \sum_{n=2}^N(s_n - s_{n-1})r^n - s_Nr^{N+1} \\
+          &= c_1r + \sum_{n=2}^Nc_nr^n - s_Nr^{N+1} \\
+          &= \sum_{n=1}^Nc_nr^n - s_Nr^{N+1} \text{.}
+        \end{align*} Hence \[
+          \sum_{n=1}^Nc_nr^n = (1-r)\sum_{n=1}^Ns_nr^n + s_Nr^{N+1} \text{.}
+        \]
+
+        By assumption $s_N \to 0$ as $N\to\infty$. Also, $r^{N+1} \to 0$ as
+        $N\to\infty$ because $r \in (0, 1)$. Hence, $s_Nr^{N+1}$ vanishes as
+        $N \to \infty$.
+
+        For all $0 < r < 1$, L.H.S. converges by Dirichlet's test since $s_n$ is
+        bounded and $r^n$ converges monotonically to $0$. Then $R.H.S.$ also
+        converges and we get\[
+          \sum_{n=1}^\infty c_nr^n = (1-r)\sum_{n=1}^\infty s_nr^n \text{.}
+        \]
+
+      \item We show that $\lim_{r\to0}\sum_{n=1}^\infty s_nr^n=0$. We argue by
+        the Moore-Osgood theorem that the limit can be interchanged with the
+        sum.
+
+        Firstly we observe that for all $N$ finite,
+        $\lim_{r\to1}(1-r)\sum_{n=1}^N s_nr^n$ exists.
+
+        Secondly, we need to show that $\sum_{n=1}^\infty s_nr^n$ converges
+        uniformly for all $r\in(0,1)$. We have shown convergence in part 1. To
+        prove that it is uniform, choose some $\epsilon > 0$. Let $N$ be such
+        that $\abs{s_n} < \epsilon$ for all $n > N$. Then for all $r \in (0,1)$,
+        \begin{align*}
+          \abs{(1-r)\sum_{n=1}^N s_nr^n - (1-r)\sum_{n=1}^\infty s_nr^n}
+          &= \abs{(1-r)\sum_{n=N+1}^\infty s_nr^n} \\
+          &\leq (1-r)\epsilon\sum_{n=N+1}^\infty r^n \\
+          &= (1-r)\epsilon\frac{r^{N+1}}{1-r} \\
+          &< \epsilon\text{,}
+        \end{align*} so the sum converges uniformly.
+
+        Hence, we can interchange the limits by the Moore-Osgood theorem and
+        \begin{align*}
+          \lim_{r\to1}\sum_{n=1}^\infty c_nr^n
+          &= \lim_{r\to1}(1-r)\sum_{n=1}^\infty s_nr^n \\
+          &= \sum_{n=1}^\infty s_n\lim_{r\to1}\left(r^n - r^{n+1}\right) \\
+          &= 0 \text{.}
+        \end{align*} Therefore, $\sum c_n$ is Abel summable to $0$.
+
+      \item We have shown that if a series converges to $0$, then it is also
+        Abel summable to $0$. We now generalise this to series that converge to
+        $s \neq 0$.
+
+        Let $\sum_{n=1}^\infty c_n = s$, then construct $\{c_n'\}_{n=1}^\infty$
+        by $c'_1 = -s$, $c'_2 = c_1$, $c'_3 = c_2$, and so on. In other words
+        we are constructing a new series by prepending $-s$. Then \[
+          \sum_{n=1}^\infty c'_n
+          = -s + \sum_{n=2}^\infty c'_n
+          = -s + \sum_{n=1}^\infty c_n
+          = 0 \text{.}
+        \] Since $\sum c_n'$ converges to $0$ it is also Abel summable to $0$
+        and \[
+          0 = \lim_{r\to1}\sum_{n=1}^\infty c_n'r^n
+          = \lim_{r\to1}c_1'r + \lim_{r\to1}\sum_{n=2}^\infty c_n'r^n
+          = -s + \lim_{r\to1}\sum_{n=1}^\infty c_nr^n \text{,}
+        \] so $\sum c_n$ is Abel summable to $s$.\qed
+    \end{enumerate}
+
+  \item Consider the series $\sum_{n=0}^\infty (-1)^n$. This series clearly
+    diverges because $\lim_{n\to\infty}(-1)^n$ does not converge to $0$.
+    However, this series is Abel summable. For all $r \in [0, 1)$ define,\[
+        A(r)
+        = \sum_{n=0}^\infty (-1)^nr^n
+        = \sum_{n=0}^\infty (-r)^n
+        = \frac{1}{1+r}
+      \] where for the last inequality we recognise this as a geometric series.
+      Then $\lim_{r\to1}A(r) = 1/2$.
+
+  \item The proof is similar to (a). We first assume that $\sigma = 0$. In part
+    1 we show that  \[
+      \sum_{n=1}^\infty c_nr^n = (1-r)^2\sum_{n=1}^\infty n \sigma_n r^n\text{.}
+    \] Part 2 we prove that \[
+      \lim_{r\to1}(1-r)^2\sum_{n=1}^\infty n \sigma_n r^n = 0\text{.}
+    \] Finally, part 3 generalises this result to cases where $\sigma \neq 0$.
+
+    \begin{enumerate}[label=\textbf{\arabic*.}]
+      \item Let $s_n$ be the partial sum $s_n = \sum_{k=1}^n c_k$. Let
+        $\sigma_n = \frac1n\sum_{k=1}^ns_k$ be the mean of fit $n$ partial sums.
+
+        Following the same argument as in (a), part 1, for $r\in(0,1)$ we have
+        \begin{align*}
+          &\sum_{n=1}^Nc^nr^n = (1-r)\sum_{n=1}^N s_nr^n + s_Nr^{N+1}
+          \text{,} \\
+          &\sum_{n=1}^Ns^nr^n
+          = (1-r)\sum_{n=1}^N n\sigma_nr^n + N\sigma_Nr^{N+1}
+          \text{.}
+        \end{align*}
+
+        Then\begin{align*}
+          \sum_{n=1}^\infty c_nr^n
+          &= (1-r)^2 \sum_{n=1}^\infty n\sigma_nr^n \\
+          &\quad + (1-r)\lim_{n\to\infty}s_nr^{n+1}
+          + \lim_{n\to\infty}n\sigma_nr^{n+1}
+          \text{.}
+        \end{align*}
+
+        By assumption, $\sigma_n\to0$ as $n\to\infty$. Also, $nr^{n+1}\to0$
+        since $r \in (0,1)$. Hence, \begin{equation}
+          \label{eq:last-term-vanishes}
+          \lim_{n\to\infty}n\sigma_nr^{n+1}=0\text{,}
+        \end{equation}and the last
+        term vanishes.
+
+        To show that the middle term vanishes as well, observe that
+        $s_n = n\sigma_n - (n - 1)\sigma_{n-1}$. Then \[
+          \lim_{n\to\infty}s_nr^{n+1}
+          = \lim_{n\to\infty}n\sigma_nr^{n+1}
+          - \lim_{n\to\infty}(n - 1)\sigma_{n-1}r^{n+1}
+          = 0\text{,}
+        \] where the last equality is by \eqref{eq:last-term-vanishes}.
+
+        Hence,\[
+          \sum_{n=1}^\infty c_nr^n = (1-r)^2 \sum_{n=1}^\infty n\sigma_nr^n
+          \text{.}
+        \]
+
+        Finally, we show that these series converge for all $r \in (0,1)$. For
+        $n$ big enough $\abs{\sigma_n} < 1$, so
+        $\abs{n\sigma_nr^n} < \abs{nr^n}$. Then R.H.S. converges because
+        $\sum \abs{nr^n}$ converges.
+
+      \item We show that
+        $\lim_{r\to1} (1-r)^2\sum_{n=1}^\infty n \sigma_nr^n = 0$.
+
+        From part 1, we know that $(1-r)^2 \sum_{n=1}^\infty n\sigma_n r^n$
+        converges for all $r \in (0, 1)$. To show
+        that this convergence is uniform in $r$, pick an $\epsilon > 0$. Let
+        $N$ be such that $\abs{\sigma_n} < \epsilon$ for all $n > N$. Then for
+        all $r \in (0, 1)$,\begin{align*}
+          \abs{(1-r)^2 \sum_{n=1}^\infty N\sigma_nr^n
+          - (1-r)^2 \sum_{n=1}^\infty n\sigma_nr^n}
+          &= \abs{(1-r)^2 \sum_{n=N+1}^\infty n\sigma_nr^n} \\
+          &\leq (1-r)^2 \sum_{n=N+1}^\infty nr^n\abs{\sigma_n} \\
+          &\leq (1-r)^2 \epsilon\sum_{n=N+1}^\infty nr^n \\
+          &\leq (1-r)^2 \epsilon\sum_{n=1}^\infty nr^n \\
+          &= (1-r)^2 \epsilon\frac{r}{(1-r)^2} \\
+          &\leq \epsilon \text{.}
+        \end{align*} Above, we use the fact that for $\abs{r} < 1$,
+        \[
+          \sum_{n=1}^M nr^{n-1}
+          = \frac{d}{dr}\sum_{n=1}^M r^n
+          = \frac{d}{dr}\frac{r-r^{M+1}}{1-r}
+          = \frac{Mr^{M+1}-(M+1)r^M+1}{(1-r)^2} \text{.}
+        \] Limiting $M \to \infty$, we obtain\begin{equation}
+          \label{eq:infinite-sum-nr}
+          \sum_{n=1}^\infty nr^{n-1}
+          = \frac{1}{(1-r)^2} \text{.}
+        \end{equation}
+
+        Then the sum converges uniformly and we can interchange the limits by
+        the Moore-Osgood theorem. We have \begin{align*}
+          \lim_{r\to1}\sum_{n=1}^\infty c_nr^n
+          &= \lim_{r\to1}(1-r)^2\sum_{n=1}^\infty n\sigma_nr^n \\
+          &= \sum_{n=1}^\infty \lim_{r\to1}n\sigma_nr^n(1-r)^2 \\
+          &= 0
+        \end{align*} as desired.
+
+        \item We have shown that if $\sum c_n$ is Cesàro summable to $0$, then
+        it is also Abel summable to $0$. We now generalise this to series that
+        are Cesàro summable to $\sigma \neq 0$.
+
+        If $\sum c_n$ is Cesàro summable to $\sigma$, then construct
+        $\{c_n'\}_{n=1}^\infty$ by $c'_1 = c_1-s$, $c'_2 = c_2$, $c'_3 = c_3$,
+        and so on. In other words we are constructing a new series by
+        subtracting $s$ from the first term and leaving the others intact. Then
+        the partial sums $\sigma'_n$ satisfy $\sigma'_n = \sigma_n - \sigma$, so
+        $\sigma_n' \to 0$ as $n \to \infty$. Since $\sum c_n'$ is Cesàro
+        summable to $0$, it is also Abel summable to $0$ and \[
+          0 = \lim_{r\to1}\sum_{n=1}^\infty c_n'r^n
+          = \lim_{r\to1}c_1'r + \lim_{r\to1}\sum_{n=2}^\infty c_n'r^n
+          = c_1 -s + \lim_{r\to1}\sum_{n=2}^\infty c_nr^n \text{,}
+        \] so $\sum c_n$ is Abel summable to $s$.\qed
+    \end{enumerate}
+
+  \item Consider the sum \[
+    \sum_{n=1}^\infty (-1)^{n-1}n \text{.}
+  \] We show that it is Abel summable but not Cesàro summable.
+
+  To show Abel summability, we use \eqref{eq:infinite-sum-nr} to find that\[
+    \sum_{n=1}^\infty (-1)^{n-1}nr^n = \frac{r}{(1+r)^n} \text{.}
+  \] Then\[
+    \lim_{r\to1}\sum_{n=1}^\infty (-1)^{n-1}nr^n
+    = \lim_{r\to1}\frac{r}{(1+r)^n}
+    = \frac{1}{4} \text{,}
+  \] so $\sum_{n=1}^\infty (-1)^{n-1}n$ is Abel summable to $1/4$.
+
+  To show that it is not Cesàro summable, observe that the partial sums are
+  \[
+    \sigma_n = \begin{cases}
+      (n + 1) / 2 & \text{ for $n$ odd,} \\
+      -n / 2 & \text{ for $n$ even.}
+    \end{cases}
+  \] This is easily shown by induction. For $n$ odd, we have
+  $\sigma_n = \sigma_{n-1} + n = -(n - 1) / 2 + n = (n+1)/2$. For $n$ even, we
+  get $\sigma_n = \sigma_{n-1} - n = n/2 - n = -n / 2$. $\sigma_1 = 1$
+  forms the base case. Then $\sigma_n$ diverges and
+  $\sum_{n=1}^\infty (-1)^{n-1}n$ is not Cesàro summable.
+
+  \end{enumerate}
+\end{document}
