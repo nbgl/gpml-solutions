@@ -1,0 +1,151 @@
+\documentclass[paperoneside]{article}
+
+\usepackage[pass]{geometry}
+\newlength\DX
+\DX=3.5in
+\paperwidth=\dimexpr\paperwidth-\DX\relax
+\hoffset=\dimexpr\hoffset-.5\DX\relax
+\newlength\DY
+\DY=2.8in
+\paperheight=\dimexpr\paperheight-\DY\relax
+\voffset=\dimexpr\voffset-.5\DY-.5\footskip\relax
+
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{enumitem}
+\usepackage{mathtools}
+
+\allowdisplaybreaks
+
+% Notation shortcuts
+\newcommand\abs[1]{{\left|#1\right|}}
+\newcommand\defeq{\overset{\mathrm{def}}{=}}
+\newcommand*\Laplace{\mathop{}\!\mathbin\bigtriangleup}
+
+\DeclarePairedDelimiter\ceil{\lceil}{\rceil}
+\DeclarePairedDelimiter\floor{\lfloor}{\rfloor}
+
+\DeclareMathOperator{\sgn}{sgn}
+\DeclareMathOperator{\atantwo}{atan2}
+
+\newcommand\bbC{\mathbb{C}}
+\newcommand\bbR{\mathbb{R}}
+\newcommand\bbZ{\mathbb{Z}}
+
+\newtheorem*{lem}{Lemma}
+\newtheorem*{cor}{Corollary}
+
+\begin{document}
+  The Poisson kernel can be expressed as the Fourier series\[
+    P_r(\theta) = \sum_{-\infty}^{n=\infty} r^\abs{n} e^{in\theta} \text{.}
+  \] We define \[
+    u(r, \theta) = \frac{\partial P_r(\theta)}{\partial \theta} \text{.}
+  \]
+
+  We can rearrange\[
+    P_r(\theta)
+    = 1 + \sum_{n=1}^\infty r^n e^{in\theta} + \sum_{n=1}^\infty r^n e^{-in\theta}
+    = 1 + \frac{r e^{i\theta}}{1-re^{i\theta}} + \frac{r e^{-i\theta}}{1-re^{-i\theta}} \text{.}
+  \]
+
+  Differentiating,\[
+    u(r, \theta)
+    = \frac{\partial P_r(\theta)}{\partial\theta}
+    = \frac{ire^{i\theta}}{\left(1-re^{i\theta}\right)^2}
+    - \frac{ir e^{-i\theta}}{\left(1-re^{-i\theta}\right)^2} \text{.}
+  \]
+
+  \begin{enumerate}[label=(\roman*)]
+    \item We want to show that $\Delta u = 0$ in the unit disc.
+
+    We know that \[
+      \Delta u
+      = \frac1r\frac\partial{\partial r}r\frac{\partial u}{\partial r}
+      + \frac1{r^2}\frac{\partial^2 u}{\partial \theta^2} \text{.}
+    \]
+
+    We first find $\partial u/\partial r$. Differentiating w.r.t. $r$,\begin{align*}
+      \frac{\partial u}{\partial r}
+      &= ie^{i\theta}\frac{(1-re^{i\theta})^2+2re^{i\theta}(1-re^{i\theta})}{(1-re^{i\theta})^4} \\
+      &\qquad- ie^{-i\theta}\frac{(1-re^{-i\theta})^2+2re^{-i\theta}(1-re^{-i\theta})}{(1-re^{-i\theta})^4} \\
+      &= ie^{i\theta}\frac{1+re^{i\theta}}{(1-re^{i\theta})^3} 
+      - ie^{-i\theta}\frac{1+re^{-i\theta}}{(1-re^{-i\theta})^3} \text{.}
+    \end{align*} Differentiating again to get $\partial^2 u/\partial r^2$,\begin{align*}
+      \frac{\partial^2 u}{\partial r^2}
+      &= ie^{i\theta}\frac{(1-re^{i\theta})^3e^{i\theta} + 3e^{i\theta}(1-re^{i\theta})^2(1+re^{i\theta})}{(1-re^{i\theta})^6} \\
+      &\qquad- ie^{-i\theta}\frac{(1-re^{-i\theta})^3e^{-i\theta} + 3e^{-i\theta}(1-re^{-i\theta})^2(1+re^{-i\theta})}{(1-re^{-i\theta})^6} \\
+      &= 2ie^{2i\theta}\frac{2+re^{i\theta}}{(1-re^{i\theta})^4}
+      - 2ie^{-2i\theta}\frac{2+re^{-i\theta}}{(1-re^{-i\theta})^4} \text{.}
+    \end{align*}
+
+    We now find $\partial^2 u/\partial \theta^2$. Differentiating twice,
+    \begin{align*}
+      \frac{\partial u}{\partial\theta}
+      &= ir\frac{ie^{i\theta}(1-re^{i\theta})^2 + 2ire^{2i\theta}(1-re^{i\theta})}{(1-re^{i\theta})^4} \\
+      &\qquad- ir\frac{-ie^{-i\theta}(1-re^{-i\theta})^2 - 2e^{-i\theta}ire^{-i\theta}(1-re^{-i\theta})}{(1-re^{-i\theta})^4} \\
+      &= -r\frac{e^{i\theta} + re^{2i\theta}}{(1-re^{i\theta})^3}
+      - r\frac{e^{-i\theta} + re^{-2i\theta}}{(1-re^{-i\theta})^3}
+    \end{align*}
+    and
+    \begin{align*}
+      &\frac{\partial^2 u}{\partial\theta^2} \\
+      &= -ir\frac{(e^{i\theta} + 2re^{2i\theta})(1-re^{i\theta}) + 3re^{i\theta}(e^{i\theta} + re^{2i\theta})}{(1-re^{i\theta})^4} \\
+      &\qquad + ir\frac{(e^{-i\theta} + 2re^{-2i\theta})(1-re^{-i\theta}) + 3re^{-i\theta}(e^{-i\theta} + re^{-2i\theta})}{(1-re^{-i\theta})^4} \\
+      &= -ir\frac{e^{i\theta} + 4re^{2i\theta} + r^2e^{3i\theta}}{(1-re^{i\theta})^4} + ir\frac{e^{-i\theta} + 4re^{-2i\theta} + r^2e^{-3i\theta}}{(1-re^{-i\theta})^4} \text{.}
+    \end{align*}
+
+    Finally\begin{align*}
+      \Delta u
+      &= \frac1r \frac\partial{\partial r} r \frac{\partial u}{\partial r} + \frac1{r^2} \frac{\partial^2 u}{\partial \theta^2} \\
+      &= \frac1r \frac{\partial u}{\partial r}
+      + \frac{\partial^2 u}{\partial r^2}
+      + \frac1{r^2} \frac{\partial^2 u}{\partial \theta^2} \\
+      &= ie^{i\theta}\frac{1+re^{i\theta}}{r(1-re^{i\theta})^3} 
+      - ie^{-i\theta}\frac{1+re^{-i\theta}}{r(1-re^{-i\theta})^3} \\
+      &\qquad + 2ie^{2i\theta}\frac{2+re^{i\theta}}{(1-re^{i\theta})^4}
+      - 2ie^{-2i\theta}\frac{2+re^{-i\theta}}{(1-re^{-i\theta})^4} \\
+      &\qquad -i\frac{e^{i\theta} + 4re^{2i\theta} + r^2e^{3i\theta}}{r(1-re^{i\theta})^4} + i\frac{e^{-i\theta} + 4re^{-2i\theta} + r^2e^{-3i\theta}}{r(1-re^{-i\theta})^4} \\
+      &= \frac{ie^{i\theta}}{r(1-re^{i\theta})^4}\Big[
+      (1+re^{i\theta})(1 - re^{i\theta}) \\
+      &\qquad\qquad+ 2re^{i\theta}(2+re^{i\theta})
+      - (1 + 4re^{i\theta} + r^2e^{2i\theta}) \Big] \\
+      &\qquad- \frac{ie^{-i\theta}}{r(1-re^{-i\theta})^4}\Big[
+      (1+re^{-i\theta})(1 - re^{-i\theta}) \\
+      &\qquad\qquad+ 2re^{-i\theta}(2+re^{-i\theta})
+      - (1 + 4re^{-i\theta} + r^2e^{-2i\theta}) \Big] \\
+      &= \frac{ie^{i\theta}}{r(1-re^{i\theta})^4}\Big[
+      1-r^2e^{2i\theta} + 4re^{i\theta}+2r^2e^{2i\theta}
+      - 1 - 4re^{i\theta} - r^2e^{2i\theta}) \Big] \\
+      &\qquad- \frac{ie^{-i\theta}}{r(1-re^{-i\theta})^4}\Big[
+      1-r^2e^{-2i\theta} + 4re^{-i\theta}+2r^2e^{-2i\theta} \\
+      &\qquad\qquad- 1 - 4re^{-i\theta} - r^2e^{-2i\theta} \Big] \\
+      &= 0 \text{.}
+    \end{align*}\qed
+
+    \item Recall that \[
+      u(r, \theta)
+      = \frac{ire^{i\theta}}{(1 - re^{i\theta})^2}
+      - \frac{ire^{-i\theta}}{(1 - re^{-i\theta})^2} \text{.}
+    \] 
+
+    We argue by cases on $\theta$. \begin{itemize}[leftmargin=43pt]
+      \item[($e^{i\theta} \neq 1$)] Taking the limit,\[
+          \lim_{r\to1} u(r, \theta)
+          = \frac{ie^{i\theta}}{(1-e^{i\theta})^2}
+          - \frac{ie^{-i\theta}}{(1-e^{-i\theta})^2} \text{.}
+        \] Since $e^{i\theta} \neq 1$ by assumption, the denominators are non-zero and this limit is well-defined. Simplifying,\[
+          \lim_{r\to1} u(r, \theta)
+          = \frac{0}{(1-e^{i\theta})^2(1-e^{-i\theta})^2} = 0
+           \text{.}
+        \]
+
+      \item[($e^{i\theta} = 1$)] Since $e^{i\theta} = 1$ by assumption, $u$ simplifies to \[
+        u(r, \theta)
+        = \frac{ir}{(1 - r)^2}
+        - \frac{ir}{(1 - r)^2} = 0 \text{.}
+      \] for all $0 \leq r < 1$. Hence $\lim_{r\to1} u(r, \theta) = 0$.\qed
+      \end{itemize}
+  \end{enumerate}
+\end{document}
