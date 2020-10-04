@@ -1,0 +1,123 @@
+\documentclass[oneside]{article}
+
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{enumitem}
+\usepackage{mathtools}
+\usepackage{cleveref}
+
+\allowdisplaybreaks
+
+% Notation shortcuts
+\newcommand\abs[1]{\left|#1\right|}
+\newcommand\defeq{\overset{\mathrm{def}}{=}}
+\newcommand*\Laplace{\mathop{}\!\mathbin\bigtriangleup}
+
+\DeclarePairedDelimiter\ceil{\lceil}{\rceil}
+\DeclarePairedDelimiter\floor{\lfloor}{\rfloor}
+
+\DeclareMathOperator{\sgn}{sgn}
+\DeclareMathOperator{\atantwo}{atan2}
+
+\newcommand\bbC{\mathbb{C}}
+\newcommand\bbR{\mathbb{R}}
+\newcommand\bbZ{\mathbb{Z}}
+
+\newtheorem*{lem}{Lemma}
+\newtheorem*{cor}{Corollary}
+
+\renewcommand{\thefootnote}{[\arabic{footnote}]}
+
+\begin{document}
+  \begin{enumerate}[label=(\alph*)]
+    \item We show that $s_n - \sigma_n \to 0$ as $n \to \infty$.
+
+    We require the fact that \[
+      \sum_{k=1}^n s_k
+      = \sum_{k=1}^n \sum_{j=1}^k c_j
+      = \sum_{k=1}^n (n - k + 1)c_k
+      \text{,}
+    \] so \begin{equation}
+      \label{eq:diff}
+      s_n - \sigma_n
+      = \sum_{k=1}^n c_k - \frac1n\sum_{k=1}^n (n - k + 1)c_k
+      = \frac1n\sum_{k=1}^n (k - 1)c_k \text{.}
+    \end{equation}
+
+    Pick an arbitrary $\epsilon > 0$. We will show that there exists $N$ such
+    that for all $n > N$, $\abs{s_n - \sigma_n} < \epsilon$.
+    
+    Since $nc_n \to 0$ by assumption, there exists $M$ such that
+    $k\abs{c_k} < \epsilon/2$ for all $k > M$. Let
+    $\rho = \sum_{k=1}^M k \abs{c_k}$.
+
+    Choose $N \geq \max(2\rho/\epsilon, M)$. Then for all $n > N$ we have
+    $n > 2\rho/\epsilon$, so $n\epsilon > \rho+n\epsilon/2$. Hence,
+    \begin{align*}
+      n\abs{s_n-\sigma_n}
+      &= \abs{\sum_{k=1}^n (k-1)c_k} & \text{(by \eqref{eq:diff})} \\
+      &\leq \sum_{k=1}^n (k-1)\abs{c_k} \\
+      &\leq \sum_{k=1}^n k\abs{c_k} \\
+      &= \rho + \sum_{k=M+1}^n k\abs{c_k} \\
+      &\leq \rho + \sum_{k=M+1}^n \frac{\epsilon}{2} \\
+      &= \rho + (n-M)\frac{\epsilon}{2} \\
+      &\leq \rho + n\frac{\epsilon}{2} \\
+      &< n\epsilon \text{.}
+    \end{align*} Dividing both sides by $n$ concludes the proof.\qed
+
+  \item
+    We are given that $\lim_{k\to\infty}k\abs{c_k} = 0$ and that $\{c_k\}_{k=1}^\infty$ is Abel summable.
+
+    Define \begin{align*}
+      A_n(r) &= \sum_{k=1}^n c_nr^k \text{,} \\
+      A(r) &= \lim_{n\to\infty}A_n(r) = \sum_{k=1}^n c_nr^k \text{,} \\
+      \overline{A} &= \lim_{r\to1} A(r) \text{.}
+    \end{align*}
+
+    We want to show that $A(1) = \sum_{k=1}^\infty c_k$ converges. 
+
+    Choose an arbitrary $\epsilon > 0$. We will show that there exists $N$ such that for all $n > N$, $\abs{A_n(1) - \overline{A}} < \epsilon$.
+
+    Let $\rho > 0$ such that $k\abs{c_k} < \rho$ for all $k = 1,2,\dots$; this bound exists because $\lim_{k\to\infty}k\abs{c_k} = 0$. Since $\lim_{t\to1} A(t) = \overline{A}$, there exists $0 < T < 1$ such that for all $T < t < 1$, $\abs{A(t) - \overline{A}} < \epsilon/3$. Let $\alpha > \max\{3\rho/\epsilon, 1/(1-T)\} > 0$. Because $\lim_{k\to\infty} k\abs{c_k}=0$, we can find $N$ such that for all $k>N$, $k\abs{c_k} < \epsilon/3\alpha$.
+
+    Choose an arbitrary $n > N$. We will show that $\abs{A_n(1) - \overline{A}} < \epsilon$.
+
+    Let $r = 1 - 1/\alpha n$. By the triangle inequality\[
+      \abs{A_n(1) - \overline{A}}
+      \leq \abs{A_n(1) - A_n(r)}  + \abs{A_n(r) - A(r)} + \abs{A(r) - \overline{A}}
+      \text{.}
+    \] We tackle these terms one by one.
+
+    Firstly,\begin{align}
+      \abs{A_n(1) - A_n(r)}
+      &= \abs{\sum_{k=1}^n c_k r^k - \sum_{k=1}^n c_k} \nonumber\\
+      &= \abs{\sum_{k=1}^n c_k (1 - r^k)} \nonumber\\
+      &= (1-r)\abs{\sum_{k=1}^n c_k \sum_{j=0}^{k-1} r^j} \label{eq:factor}\\
+      &\leq (1-r)\sum_{k=1}^n k\abs{c_k} \label{eq:rlessthanone} \\
+      &< (1-r)n\rho \label{eq:bounded}\\
+      &= \frac1{\alpha n}n\rho = \frac{\rho}{\alpha} < \frac{\epsilon}{3} \text{.} \label{eq:sub}
+    \end{align} In \cref{eq:factor} we use the fact that $1 - r^k = (1-r)(1 + r + \dots + r^{k-1})$. In \cref{eq:rlessthanone} $0 < r^j < 1$ implies $\sum_{j=0}^{k-1} r^j \leq k$. \Cref{eq:bounded} is by the bound that defines $\rho$. Finally in \cref{eq:sub} we substitute for $r$ and $\alpha$.
+
+    Bounding the second term, \begin{align}
+      \abs{A(r) - A_n(r)}
+      &= \abs{\sum_{k=n+1}^\infty c_k r^k} \nonumber\\
+      &< \frac{\epsilon}{3\alpha} \sum_{k=n+1}^\infty \frac1k r^k \label{eq:bounded2}\\
+      &< \frac{\epsilon}{3\alpha n}\sum_{k=n+1}^\infty r^k \label{eq:nlessthank}\\
+      &= \frac{\epsilon r^{n+1}}{3\alpha n (1-r)} \nonumber\\
+      &< \frac{\epsilon}{3\alpha n (1-r)}  \nonumber\\
+      &= \frac{\epsilon}{3} \text{.} \label{eq:sub2}
+    \end{align} In \cref{eq:bounded2} we use the fact that $k > n > N$, so by our choice of $N$, $k\abs{c_k} < \epsilon/3\alpha$. \Cref{eq:nlessthank} is because $1/k < 1/n$. In \cref{eq:sub2} we substitute for $r$.
+
+    For the final term, we have $\alpha > 1/(1-T)$, so $r = 1 - 1/\alpha n > T$. Then $\abs{A(r) - \overline{A}} < \epsilon/3$ by our choice of $T$.
+
+    Putting it all together, \begin{align*}
+      \abs{A_n(1) - \overline{A}}
+      &\leq \abs{A_n(1) - A_n(r)}  + \abs{A_n(r) - A(r)} + \abs{A(r) - \overline{A}} \\
+      &< \epsilon/3 + \epsilon/3 + \epsilon/3 \\
+      &= \epsilon
+    \end{align*}
+    and $\lim_{n\to\infty} A_n(1) = \sum_{k=1}^\infty c_n = \overline{A}$.
+  \end{enumerate}
+\end{document}
