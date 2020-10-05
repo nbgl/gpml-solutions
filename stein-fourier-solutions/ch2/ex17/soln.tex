@@ -1,0 +1,119 @@
+\documentclass[oneside]{article}
+
+\usepackage[pass]{geometry}
+\newlength\DX
+\DX=3.5in
+\paperwidth=\dimexpr\paperwidth-\DX\relax
+\hoffset=\dimexpr\hoffset-.5\DX\relax
+\newlength\DY
+\DY=2.8in
+\paperheight=\dimexpr\paperheight-\DY\relax
+\voffset=\dimexpr\voffset-.5\DY-.5\footskip\relax
+
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{enumitem}
+\usepackage{mathtools}
+\usepackage{cleveref}
+
+\allowdisplaybreaks
+
+% Notation shortcuts
+\newcommand\abs[1]{\left|#1\right|}
+\newcommand\defeq{\overset{\mathrm{def}}{=}}
+\newcommand*\Laplace{\mathop{}\!\mathbin\bigtriangleup}
+
+\DeclarePairedDelimiter\ceil{\lceil}{\rceil}
+\DeclarePairedDelimiter\floor{\lfloor}{\rfloor}
+
+\DeclareMathOperator{\sgn}{sgn}
+\DeclareMathOperator{\atantwo}{atan2}
+
+\newcommand\bbC{\mathbb{C}}
+\newcommand\bbR{\mathbb{R}}
+\newcommand\bbZ{\mathbb{Z}}
+
+\newtheorem*{lem}{Lemma}
+\newtheorem*{cor}{Corollary}
+
+\renewcommand{\thefootnote}{[\arabic{footnote}]}
+
+\begin{document}
+  \begin{enumerate}[label=(\alph*)]
+    \item
+      Choose an arbitrary $\epsilon > 0$. We will show that there exists $0 \leq t < 1$ such that for all $t < r < 1$, \[
+        \abs{A_r(f)(\theta) - \frac{f(\theta^+) + f(\theta^-)}{2}} < C\epsilon \text{,}
+      \] where $C > 0$ is a constant.
+
+      We follow the proof of theorem 4.1 in the book.
+
+      We can write \begin{align}
+        &A_r(f)(\theta) - \frac{f(\theta^+) + f(\theta^-)}{2} \nonumber\\
+        &=(f * P_r)(\theta) - \frac{f(\theta^+) + f(\theta^-)}{2} \nonumber\\
+        &= \frac{1}{2\pi} \int_{-\pi}^\pi P_r(t)f(\theta - t)dt - \frac{f(\theta^+) + f(\theta^-)}{2} \nonumber\\
+        &= \frac{1}{2\pi} \int_{-\pi}^\pi P_r(t)f(\theta - t)dt \label{eq:integral-half}\\
+        &\qquad- \frac{f(\theta^+)}{2\pi}\int_{-\pi}^0 P_r(t)dt - \frac{f(\theta^-)}{2\pi}\int_0^\pi P_r(t)dt \nonumber\\
+        &= \frac{1}{2\pi}\int_{-\pi}^0 P_r(t)\left[f(\theta-t) - f(\theta^+)\right]dt \nonumber\\
+        &\qquad+ \frac{1}{2\pi}\int_0^\pi P_r(t)\left[f(\theta-t) - f(\theta^-)\right]dt \text{.} \nonumber
+      \end{align} In \cref{eq:integral-half} we use the fact that $\frac{1}{2\pi}\int_{-\pi}^0 P_r(t)dt = \frac{1}{2\pi}\int_0^\pi P_r(t)dt = \frac{1}{2}$; this is because $P_r(t)$ is even in $t$ and $\frac{1}{2\pi}\int_{-\pi}^\pi P_r(t)dt = 1$.
+
+      We tackle the first term. Since $f$ has a jump discontinuity at $\theta$, there exists $\delta$, so that $-\delta < t < 0$ implies $\abs{f(\theta - t) - f(\theta^+)} < \epsilon$ and $0 < t < \delta$ implies $\abs{f(\theta - t) - f(\theta^-)} < \epsilon$. Then\begin{align*}
+        &\abs{\frac{1}{2\pi}\int_{-\pi}^0 P_r(t)\left[f(\theta-t) - f(\theta^+)\right]dt} \\
+        &\leq \frac{1}{2\pi} \int_{-\pi}^{-\delta} \abs{P_r(t)} \abs{f(\theta-t) - f(\theta^+)} dt \\
+        &\qquad+ \frac{1}{2\pi} \int_{-\delta}^0 \abs{P_r(t)} \abs{f(\theta-t) - f(\theta^+)} dt \\
+        &< \frac{B}{2\pi} \int_{-\pi}^{-\delta} \abs{P_r(t)} dt 
+        + \frac{\epsilon}{2\pi} \int_{-\delta}^0 \abs{P_r(t)} dt\text{,}
+      \end{align*} where $B > 0$ is a bound for $f$, which exists since $f$ is integrable. Applying similar steps to the second term, we find \begin{align*}
+        &\abs{\frac{1}{2\pi}\int_0^\pi P_r(t)\left[f(\theta-t) - f(\theta^-)\right]dt} \\
+        &< \frac{\epsilon}{2\pi} \int_0^{\delta} \abs{P_r(t)} dt
+        + \frac{B}{2\pi} \int_{\delta}^{\pi} \abs{P_r(t)} dt
+      \end{align*}
+
+      Summing these,\begin{align*}
+        &\abs{(f * P_r)(\theta) - \frac{f(\theta^+) + f(\theta^-)}{2}} \\
+        &\leq \abs{\frac{1}{2\pi}\int_{-\pi}^0 P_r(t)\left[f(\theta-t) - f(\theta^+)\right]dt} \\
+        &\qquad+ \abs{\frac{1}{2\pi}\int_0^\pi P_r(t)\left[f(\theta-t) - f(\theta^-)\right]dt} \\
+        &< \frac{\epsilon}{2\pi} \int_{-\delta}^\delta \abs{P_r(t)} dt
+        + \frac{B}{2\pi} \int_{\delta \leq \abs{t} \leq \pi} \abs{P_r(t)} dt \\
+        &\leq \frac{\epsilon}{2\pi} \int_{-\pi}^\pi \abs{P_r(t)} dt
+        + \frac{B}{2\pi} \int_{\delta \leq \abs{t} \leq \pi} \abs{P_r(t)} dt
+        \text{.}
+      \end{align*} Since $P_r$ is a good kernel, there exists $M > 0$ such that $\int_{-\pi}^\pi \abs{P_r(\theta)}d\theta \leq M$ for all $0 \leq r < 1$. Hence, the first term is bounded by $\epsilon M/2\pi$. Also by the definition of a good kernel, we have that $\int_{\delta \leq \abs{\theta} \leq \pi} \abs{P_r(\theta)} d\theta \to 0$ as $r \to 1$. Then we can find $0 \leq t < \pi$ such that for all $t < r < \pi$, $\int_{\delta \leq \abs{\theta} \leq \pi} \abs{P_r(\theta)} d\theta < \epsilon$.
+
+      Then for all $r \in (t, \pi)$, \begin{align*}
+        \abs{(f * P_r)(\theta) - \frac{f(\theta^+) + f(\theta^-)}{2}}
+        < \frac{\epsilon M}{2\pi} + \frac{\epsilon B}{2\pi}
+        = \frac{M + B}{2\pi}\epsilon \text{,}
+      \end{align*} and $\frac{M + B}{2\pi}$ is a constant.\qed
+
+    \item The $N$\textsuperscript{th} Cesàro mean of the Fourier series at $\theta$ equals $(f * F_N)(\theta)$, where $F_N$ is the Fejér kernel. It suffices to show that $(f * F_N)(\theta) \to (f(\theta^+) + f(\theta^-))/2$ as $N \to \infty$. We follow the proof in (a).
+
+    Choose an arbitrary $\epsilon > 0$. We can write \begin{align*}
+        &(f * F_N)(\theta) - \frac{f(\theta^+) + f(\theta^-)}{2} \\
+        &= \frac{1}{2\pi}\int_{-\pi}^0 F_N(t)\left[f(\theta-t) - f(\theta^+)\right]dt\\
+        &\qquad+ \frac{1}{2\pi}\int_0^\pi F_N(t)\left[f(\theta-t) - f(\theta^-)\right]dt\text{,}
+    \end{align*} because $\frac{1}{2\pi}\int_{-\pi}^0 F_N(t)dt = \frac{1}{2\pi}\int_0^\pi F_N(t)dt = \frac{1}{2}$ since $F_N$ is an even good kernel.
+
+    Pick a $\delta$ such that $-\delta < t < 0$ implies $\abs{f(\theta - t) - f(\theta^+)} < \epsilon$ and $0 < t < \delta$ implies $\abs{f(\theta - t) - f(\theta^-)} < \epsilon$. Then \begin{align*}
+      &\abs{\frac{1}{2\pi} \int_{-\pi}^0 F_N \left[f(\theta - t) - f(\theta^+) \right]dt} \\
+      &< \frac{B}{2\pi}\int_{-\pi}^{-\delta}\abs{F_N(t)}dt + \frac{\epsilon}{2\pi} \int_{-\delta}^0 \abs{F_N(t)}dt
+    \end{align*} and \begin{align*}
+      &\abs{\frac{1}{2\pi} \int_0^\pi F_N \left[f(\theta - t) - f(\theta^+) \right]dt} \\
+      &< \frac{\epsilon}{2\pi} \int_0^\delta \abs{F_N(t)}dt + \frac{B}{2\pi}\int_\delta^\pi\abs{F_N(t)}dt \text{,}
+    \end{align*} where $B>0$ is a bound for $f$.
+
+    Summing,\begin{align*}
+      &\abs{(f * F_N)(\theta) - \frac{f(\theta^+) + f(\theta^-)}{2}} \\
+      &\leq \frac{\epsilon}{2\pi}\int_{-\pi}^\pi \abs{F_N(t)}dt
+      + \frac{B}{2\pi}\int_{\delta \leq \abs{t} \leq \pi} \abs{F_N(t)} dt \text{.}
+    \end{align*} By the properties of good kernels, $\int_{-\pi}^\pi \abs{F_N(t)}dt$ is bounded by $M>0$, and for all $N$ big enough, $\int_{\delta\leq\abs{t}\leq\pi}\abs{F_N(t)}dt < \epsilon$.
+
+    Then for all $N$ big enough,\[
+      \abs{(f * F_N)(\theta) - \frac{f(\theta^+) + f(\theta^-)}{2}}
+        < \frac{\epsilon M}{2\pi} + \frac{\epsilon B}{2\pi}
+        = \frac{M + B}{2\pi}\epsilon \text{,}
+    \] where $\frac{M + B}{2\pi}$ is a constant.\qed
+  \end{enumerate}
+\end{document}
