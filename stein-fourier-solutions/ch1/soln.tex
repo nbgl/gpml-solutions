@@ -1,0 +1,1255 @@
+\documentclass[oneside]{article}
+
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{enumitem}
+\usepackage{mathtools}
+\usepackage{cleveref}
+
+\allowdisplaybreaks
+
+% Notation shortcuts
+\newcommand\abs[1]{\left|#1\right|}
+\newcommand\defeq{\overset{\mathrm{def}}{=}}
+\newcommand*\Laplace{\mathop{}\!\mathbin\bigtriangleup}
+
+\DeclarePairedDelimiter\ceil{\lceil}{\rceil}
+\DeclarePairedDelimiter\floor{\lfloor}{\rfloor}
+
+\DeclareMathOperator{\sgn}{sgn}
+\DeclareMathOperator{\atantwo}{atan2}
+
+\newcommand\bbC{\mathbb{C}}
+\newcommand\bbR{\mathbb{R}}
+\newcommand\bbQ{\mathbb{Q}}
+\newcommand\bbZ{\mathbb{Z}}
+
+\newtheorem*{lem}{Lemma}
+\newtheorem*{cor}{Corollary}
+
+\renewcommand{\thefootnote}{[\arabic{footnote}]}
+
+\begin{document}
+  \section{Exercises}
+  \begin{enumerate}[label=\textbf{\arabic*.}]
+    \item
+    \begin{enumerate}[label=\textbf{(\alph*)}]
+    \item $\abs{z}$ is the distance from $z$ to the origin.
+
+    \item \begin{align*}
+      & \abs{z} \defeq \left(x^2 + y^2\right)^{1/2} = 0 \\
+      &\iff
+        x^2 + y^2 = 0 \\
+      &\iff
+        x^2 = 0\text{ and }y^2 = 0 &
+        \text{($x, y \in \bbR$, so $x^2, y^2 \geq 0$)} \\
+      &\iff
+        x = 0\text{ and }y = 0 \\
+      &\iff
+        z \defeq x + iy = 0
+    \end{align*} \qed
+
+    \item We have $\lambda z = (\lambda x) + i (\lambda y)$ for some
+      $\lambda \in \bbR$. Substituting into the definition of the modulus,
+      \begin{align*}
+        \abs{\lambda z} =
+        &\left((\lambda x)^2 + (\lambda y)^2\right)^{1/2} \\
+        = & \left(\lambda^2\right)^{1/2}\left(x^2 + y^2\right)^{1/2} \\
+        = & \abs{\lambda}\abs{z} \text{.}
+      \end{align*}
+      \qed
+
+    \item Let $z_1 \defeq x_1 + iy_1$ and $z_2 \defeq x_2 + iy_2$ for some
+      $x_1, x_2, y_1, y_2 \in \bbR$.
+
+      We first show that $\abs{z_1z_2} = \abs{z_1}\abs{z_2}$. We have
+      \begin{align*}
+        z_1z_2
+        & = x_1x_2 + ix_1y_2 + ix_2y_1 + i^2y_1y_2 \\
+        & = (x_1x_2 - y_1y_2) + i(x_1y_2 + x_2y_1)\text{.}
+      \end{align*}
+      Substituting into the definition of the modulus,
+      \begin{align*}
+        \abs{z_1z_2}^2 &= (x_1x_2 - y_1y_2)^2+(x_1y_2 + x_2y_1)^2 \\
+        &= \left(x_1^2x_2^2 - 2x_1x_2y_1y_2 + y_1^2y_2^2\right)
+          + \left(x_1^2y_2^2 + 2x_1x_2y_1y_2 + x_2^2y_1^2\right) \\
+        &= x_1^2x_2^2 + x_1^2y_2^2 + x_2^2y_1^2 + y_1^2y_2^2 \\
+        &= \left(x_1^2 + y_1^2\right)\left(x_2^2 + y_2^2\right) \\
+        &= \abs{z_1}^2\abs{z_2}^2 \text{.}
+      \end{align*}
+      Taking the square root of both sides concludes the proof.
+
+      We now show that $\abs{z_1 + z_2} \leq \abs{z_1} + \abs{z_2}$. We have
+      \[
+        z_1 + z_2 = (x_1 + x_2) + i(y_1 + y_2) \text.
+      \]
+      By algebra,
+      \begin{align*}
+        & 0 \leq (x_1y_2-x_2y_1)^2 \\
+        & \iff 0 \leq x_1^2y_2^2 - 2x_1x_2y_1y_2 + x_2^2y_1^2 \\
+        & \iff 2x_1x_2y_1y_2 \leq x_1^2y_2^2 + x_2^2y_1^2 \\
+        & \iff x_1^2x_2^2 + 2x_1x_2y_1y_2 + y_1^2y_2^2
+          \leq x_1^2x_2^2 + x_1^2y_2^2 + x_2^2y_1^2 + y_1^2y_2^2 \\
+        & \iff (x_1x_2 + y_1y_2)^2
+          \leq \left(x_1^2 + y_1^2\right)\left(x_2^2 + y_2^2\right) \\
+        & \implies x_1x_2 + y_1y_2
+          \leq \sqrt{x_1^2 + y_1^2}\sqrt{x_2^2 + y_2^2} \hspace{20pt} \text{ (since $\mathrm{RHS} \geq 0$)} \\
+        & \iff x_1^2 + 2x_1x_2 + x_2^2 + y_1^2 + 2y_1y_2 + y_2^2
+          \\&\hspace{40pt} \leq x_1^2 + y_1^2
+            + 2\sqrt{x_1^2 + y_1^2}\sqrt{x_2^2 + y_2^2}
+            + x_2^2 + y_2^2 \\
+        & \iff (x_1 + x_2)^2 + (y_1 + y_2)^2
+          \leq \left(\sqrt{x_1^2 + y_1^2} + \sqrt{x_2^2 + y_2^2}\right)^2 \\
+        & \iff \sqrt{(x_1 + x_2)^2 + (y_1 + y_2)^2}
+          \leq \sqrt{x_1^2 + y_1^2} + \sqrt{x_2^2 + y_2^2} \\
+        & \iff \abs{z_1 + z_2} \leq \abs{z_1} + \abs{z_2} \text{.}
+      \end{align*}\qed
+
+    \item Observe that \begin{align*}
+        \frac{1}{z} &= \frac{1}{x + iy} \\
+        &= \frac{x - iy}{(x + iy)(x - iy)} \\
+        &= \frac{x - iy}{x^2 + y^2}\text.
+      \end{align*}
+
+      Thus \begin{align*}
+        \abs{\frac{1}{z}} &= \abs{\frac{x - iy}{x^2 + y^2}} \\
+        &= \frac{1}{x^2 + y^2}\abs{x - iy} & \text{(by (c))}
+      \end{align*}
+
+      Observing that the definition of $\abs{z}$ depends only on $x^2$ and
+      $y^2$, $\abs{x-iy} = \abs{x + iy} = \abs{z}$. Observe also that
+      $\abs{z}^2 = x^2 + y^2$ by squaring both sides of its definition. Then \[
+        \abs{\frac{1}{z}} = \frac{1}{\abs{z}^2}\abs{z} = \frac{1}{\abs{z}}.
+      \]
+      \qed
+
+  \end{enumerate}
+
+  \item
+  \begin{enumerate}[label=\textbf{(\alph*)}]
+    \item The complex conjugate $\overline{z}$ is the reflection of $z$ about
+      the $x$-axis.
+
+    \item \begin{align*}
+        \abs{z}^2 &= x^2 + y^2 \\
+                  &= x^2 - i^2y^2 \\
+                  &= (x + iy)(x - iy) \\
+                  &= z\overline{z}\text{.}
+      \end{align*}
+      \qed
+
+    \item
+      Observe that \begin{align*}
+        \frac{1}{z} &= \frac{1}{x + iy} \\
+         &= \frac{x - iy}{(x + iy)(x - iy)} \\
+         &= \frac{x - iy}{x^2 + y^2} \text{.}
+      \end{align*}
+
+      When $z$ belongs to the unit circle, $x^2 + y^2 = 1$, so
+      $1/z = x - iy = \overline{z}$.\qed
+
+  \end{enumerate}
+  \item
+  \begin{enumerate}[label=\textbf{(\alph*)}]
+    \item Assume $\{w_n\}_{n=1}^\infty$ converges. Let $w$ and $w'$ be its
+      limits. We show that they are equal.
+
+      Observe that for all $n$, \begin{align*}
+        \abs{(w_n - w) - (w_n - w')}
+        &\leq \abs{w_n - w} + \abs{-(w_n - w')} \\
+        &= \abs{w_n - w} + \abs{w_n - w'}\text,
+      \end{align*} where the first line is by the triangle inequality.
+
+      Since \[
+        \lim_{n\to\infty}\abs{w_n - w} = 0
+        \text{ and }\lim_{n\to\infty}\abs{w_n - w'} = 0
+      \] by assumption,\[
+        \lim_{n\to\infty}\abs{(w_n - w) - (w_n - w')} = 0
+      \] by the squeeze theorem (here, the fact that the modulus is non-negative
+      places a lower bound on the limit).
+
+      Observe that $(w_n - w) - (w_n - w') = w' - w$, so this sequence is
+      constant. Since its limit is $0$, we have that $w' - w = 0$. \qed
+
+    \item Both directions use the observation that for all complex numbers
+      $z = x + iy$ with $x, y \in \bbR$,
+      \begin{align} \label{eq:b-lemma}
+        \abs{z} &= \sqrt{x^2 + y^2} \nonumber\\
+        &\geq \sqrt{x^2} \\
+        &= \abs{x} \text{.} \nonumber
+      \end{align} A similar argument shows that $\abs{z} \geq \abs{y}$.
+
+      \begin{itemize}[leftmargin=34pt]
+      \item[($\implies$)] Let $\{w_n\}_{n=1}^\infty \subset \bbC$ be a
+        convergent. We show that it is Cauchy.
+
+      Decompose $w = t + is$, $w_n = t_n + is_n$ for $t, s, t_n, s_n \in \bbR$.
+      Dealing with the real and imaginary parts of $w_n - w$ separately we have
+      \[
+        \lim_{n\to\infty} \abs{t_n - t} \to 0
+        \text{ and } \lim_{n\to\infty} \abs{s_n - s} \to 0
+      \] by \eqref{eq:b-lemma} and the squeeze theorem.
+
+      Then $\{t_n\}_{n=1}^\infty$ and $\{s_n\}_{n=1}^\infty$ converge, so they
+      are Cauchy.
+
+      Pick an arbitrary $\epsilon > 0$. Find $N$ such that
+      $\abs{t_n - t_m} < \epsilon/2$ and $\abs{s_n - s_m} < \epsilon/2$
+      whenever $n, m > N$. Then \begin{align*}
+        \abs{w_n - w_n} &= \abs{(t_n - t_m) + i(s_n - s_m)} \\
+        &\leq \abs{t_n - t_m} + \abs{s_n - s_m} \\
+        &< \epsilon
+      \end{align*} by the triangle inequality whenever $n, m > N$.
+
+      \item[($\impliedby$)] Let $\{w_n\}_{n=1} \subset \bbC$ be Cauchy. We show
+        that it is convergent.
+
+        Pick an arbitrary $\epsilon > 0$. Then there exists a positive integer
+        $N$ such that $\abs{w_n - w_m} < \epsilon$ for all $n, m > N$. Decompose
+        $w_n = t_n + is_n$ for $t_n, s_n \in \bbR$, and decompose $w_m$
+        similarly. Then $\abs{t_n - t_m} \leq \abs{w_n - w_m} < \epsilon$
+        $\abs{s_n - s_m} \leq \abs{w_n - w_m} < \epsilon$ by \eqref{eq:b-lemma}.
+        Thus $\{t_n\}_{n=0}^\infty$ and $\{s_n\}_{n=0}^\infty$ are Cauchy. It
+        follows that they converge.
+
+        Let $t$ and $s$ be the limits of $\{t_n\}_{n=0}^\infty$ and
+        $\{s_n\}_{n=0}^\infty$, respectively. Define $w = t + is$.
+
+        We have $\abs{w_n - w} \leq \abs{t_n - t} + \abs{s_n - s}$ by the
+        triangle inequality. We also have $\lim_{n\to\infty}\abs{t_n - t} = 0$
+        and $\lim_{n\to\infty}\abs{s_n - s} = 0$, which implies
+        $\lim_{n\to\infty}(\abs{t_n - t} + \abs{s_n - s}) = 0$. Then by the
+        squeeze theorem
+        \[
+          \lim_{n\to\infty}\abs{w_n - w} = 0
+        \] and $\{w_n\}_{n=1} \subset \bbC$ converges.\qed
+    \end{itemize}
+
+    \item Let $\{a_n\}_{n=1}^\infty$ be a sequence of non-negative reals such
+      that $\sum_{n=1}^\infty a_n$ converges. Let
+      $\{z_n\}_{n=1}^\infty \subset \bbC$ be a sequence satisfying
+      $\abs{z_n} < a_n$ for all $n$. We show that $\sum_{n=1}^\infty z_n$
+      converges.
+
+      Define $S_N = \sum_{n=1}^N z_n$. Our goal is to show that
+      $\{S_N\}_{N=1}^\infty$ converges. By (b) it suffices to show that it is
+      Cauchy.
+
+      Let $A_N = \sum_{n=1}^N a_n$. By assumption, the sequence formed by these
+      partial sums converges, so it is Cauchy.
+
+      Pick an arbitrary $\epsilon > 0$.
+
+      Then there exists a positive integer $M$ such that for all $N, N' > M$,\[
+        \abs{A_N - A_{N'}} < \epsilon\text{.}
+      \]
+
+      W.l.o.g, assume $N > N'$. Observe that \begin{align*}
+        &\abs{A_N - A_{N'}} < \epsilon \\
+        &\iff \abs{\sum_{n=1}^N a_n - \sum_{n=1}^{N'} a_n} < \epsilon \\
+        &\iff \abs{\sum_{n=N'+1}^N a_n} < \epsilon \\
+        &\iff \sum_{n=N'+1}^N a_n < \epsilon
+          & \text{($a_n \geq 0 \;\forall n$)}\\
+        &\implies \sum_{n=N'+1}^N \abs{z_n} < \epsilon \\
+        &\implies \abs{\sum_{n=N'+1}^N z_n} < \epsilon
+          & \text{(triangle ineq.)}\\
+        &\iff \abs{\sum_{n=1}^N z_n - \sum_{n=1}^{N'} z_n} < \epsilon \\
+        &\iff \abs{S_N - S_{N'}} < \epsilon\text{.}
+      \end{align*}
+
+      So $\{S_N\}_{n=1}^\infty$ is Cauchy, implying that $\sum_{n=1}^\infty z_n$
+      converges.
+      \qed
+
+  \end{enumerate}
+
+  \item
+  \begin{enumerate}[label=\textbf{(\alph*)}]
+    \item Define \[
+      e^z = \sum_{n=0}^\infty \frac{z^n}{n!}\text{.}
+    \]
+    We first show that this series converges for every $z \in \bbC$.
+
+    Define \[
+      a_n = \frac{\abs{z^n}}{n!} \text.
+    \] Then\[
+      \frac{a_{n+1}}{a_n}
+      = \frac{\abs{z^{n+1}}n!}{\abs{z^n}(n+1)!}
+      = \frac{\abs{z}^{n+1}n!}{\abs{z}^n(n+1)!}
+      = \frac{\abs{z}}{n+1} \text{.}
+    \] Applying the ratio test,\[
+      \lim_{n\to\infty} \frac{\abs{z}}{n+1} = 0\text,
+    \] so the series $\sum_{n=0}^\infty a_n$ converges.
+
+    Recalling that $\abs{z^n / n!} = \abs{z^n}/n! = a_n$, we have that \[
+      e^z = \sum_{n=0}^{z^n}
+    \] converges by 3(c).
+
+    We now show that the convergence is uniform on every bounded subset of
+    $\bbC$. Pick an arbitrary bounded $S \subset \bbC$ and an arbitrary
+    $\epsilon > 0$. We will show that there exists an integer $M$ such that
+    for all $N > M$ and $s \in S$, \begin{equation} \label{eq:uniform-conv-def}
+      \abs{\sum_{n=0}^N\frac{z^n}{n!} - e^x} < \epsilon \text{.}
+    \end{equation}
+
+    Note that \eqref{eq:uniform-conv-def} is equivalent to \begin{equation}
+      \label{eq:uniform-conv-def-cancelled}
+      \abs{\sum_{n=N+1}^\infty\frac{z^n}{n!}} < \epsilon
+    \end{equation} after cancelling the first $N$ terms of the series.
+
+    Choose $c$ such that $c > \abs{s}$ for all $s \in S$. This is well-defined
+    because $S$ is bounded. We know from above that \[
+      e^c = \sum_{n=0}^\infty \frac{c^n}{n!}
+    \] converges. Then there exists an integer $M$ such that for all $N > M$,\[
+      \abs{\sum_{n=0}^N \frac{c^n}{n!} - e^c} < \epsilon \text{,}
+    \] or after cancelling the first $N$ terms of the series,\[
+      \sum_{n=N+1}^\infty \frac{c^n}{n!} < \epsilon \text{.}
+    \]
+
+    Observe that for all $n$, \[
+      \frac{c^n}{n!} > \frac{\abs{z}^n}{n!} = \abs{\frac{z^n}{n!}}\text{,}
+    \] so \[
+      \sum_{n=N+1}^\infty \abs{\frac{z^n}{n!}} < \epsilon \text{.}
+    \]
+
+    For every partial sum from $N+1$ to some $N'$ we have\[
+      \abs{\sum_{n=N+1}^{N'} \frac{z^n}{n!}}
+      \leq \sum_{n=N+1}^{N'} \abs{\frac{z^n}{n!}}
+    \] by the triangle inequality. Taking the limit, \begin{align*}
+      \abs{\sum_{n=N+1}^\infty \frac{z^n}{n!}}
+      &\leq \sum_{n=N+1}^\infty \abs{\frac{z^n}{n!}} \\
+      &< \epsilon\text{,}
+    \end{align*} which matches \eqref{eq:uniform-conv-def-cancelled}, concluding
+    the proof.\qed
+
+    \item We first show that the series \[
+      e^z = \sum_{n=0}^\infty \frac{z^n}{n!}
+    \] converges absolutely for all $z$. We have \[
+      \lim_{n\to\infty}\abs{\frac{\frac{z^{n+1}}{(n+1)!}}{\frac{z^n}{n!}}}
+      = \lim_{n\to\infty}\abs{\frac{z}{n+1}}
+      = \lim_{n\to\infty}\frac{\abs{z}}{n+1}
+      = 0\text{,}
+    \] so the series converges absolutely by the ratio test.
+
+    Observe that for the $n$\textsuperscript{th} term of the series for
+    $e^{z_1+z_2}$,\begin{align*}
+      \frac{(z_1+z_2)^n}{n!}
+      &= \frac{1}{n!}\sum_{k=0}^n \frac{n!}{k!(n-k)!} z_1^k z_2^{n-k} \\
+      &= \sum_{k=0}^n \frac{z_1^k}{k!} \frac{z_2^{n-k}}{(n-k)!} \text{.}
+    \end{align*}
+
+    We thus recognise the series for $e^{z_1 + z_2}$ as the Cauchy product of
+    the series for $e^{z_1}$ and $e^{z_2}$. Since we've shown that these
+    converge absolutely, $e^{z_1 + z_2} = e^{z_1}e^{z_2}$.\qed
+
+    \item We first find the power series of $\cos y$ around $0$. We have
+    \begin{align*}
+      \cos0 &= \cos 0 = 1\text{,} \\
+      \cos'0 &= -\sin 0 = 0\text{,} \\
+      \cos''0 &= -\cos 0 = -1\text{,} \\
+      \cos'''0 &= \sin 0 = 0\text{,} \\
+      \cos''''0 &= \cos 0 = 1\text{,}
+    \end{align*} and so on. The odd terms are zero, so we can skip them and
+    write our power series as \[
+      \cos y = \sum_{n=0}^\infty \frac{(-1)^ny^{2n}}{(2n)!} \text{.}
+    \] To prove convergence, we have\[
+      \lim_{n\to\infty}\abs{\frac{\frac{(-1)^{n+1}y^{2n+2}}{(2n+2)!}}
+      {\frac{(-1)^ny^{2n}}{(2n)!}}}
+      = \lim_{n\to\infty}\abs{\frac{y^2}{(2n+2)(2n+1)}} = 0 \text{,}
+    \] so the power series converges absolutely by the ratio test.
+
+    We repeat the same for $\sin y$: \begin{align*}
+      \sin0 &= \sin 0 = 0\text{,} \\
+      \sin'0 &= \cos 0 = 1\text{,} \\
+      \sin''0 &= -\sin 0 = 0\text{,} \\
+      \sin'''0 &= -\cos 0 = -1\text{,} \\
+      \sin''''0 &= \sin 0 = 0\text{,}
+    \end{align*} and so on. Collapsing the even terms, which are zero, we write \[
+      \sin y = \sum_{n=0}^\infty \frac{(-1)^ny^{2n+1}}{(2n+1)!} \text{.}
+    \] Again proving convergence, we have\[
+      \lim_{n\to\infty}\abs{\frac{\frac{(-1)^{n+1}y^{2n+3}}{(2n+3)!}}
+      {\frac{(-1)^ny^{2n+1}}{(2n+1)!}}}
+      = \lim_{n\to\infty}\abs{\frac{y^2}{(2n+3)(2n+2)}}
+      = 0\text{,}
+    \] so this power series also converges absolutely by the ratio test.
+
+    We combine the power series as \begin{align*}
+      \cos y + i\sin y &= \sum_{n=0}^\infty \frac{(-1)^ny^{2n}}{(2n)!}
+        + i \sum_{n=0}^\infty \frac{(-1)^ny^{2n+1}}{(2n+1)!} \\
+      &= \sum_{n=0}^\infty \frac{(-1)^ny^{2n}}{(2n)!}
+        + \sum_{n=0}^\infty \frac{(-1)^niy^{2n+1}}{(2n+1)!} \\
+      &= \sum_{n=0}^\infty \frac{i^ny^n}{n!} \text{,}
+    \end{align*} where the $n$\textsuperscript{th} term of the power series for
+    $\cos y$ becomes the $2n$\textsuperscript{th} term of the combined series,
+    and the $n$\textsuperscript{th} term of the series for $\cos y$ becomes the
+    $2n + 1$\textsuperscript{th} term of the combined series. We are able to
+    combine the two power series into one because they are absolutely
+    convergent.
+
+    Then \begin{align*}
+      \cos y + i\sin y &= \sum_{n=0}^\infty \frac{i^ny^n}{n!} \\
+      &= \sum_{n=0}^\infty \frac{(iy)^n}{n!} \\
+      &= e^{iy}\text,
+    \end{align*} where the last equality is by our definition of complex
+    exponentiation.\qed
+
+    \item Let $x, y \in \bbR$. We have \begin{align*}
+      e^{x+iy} &= e^xe^{iy} & \text{(by (b))} \\
+      &= e^x(\cos y + i\sin y) \text{.} & \text{(by (c))} \\
+    \end{align*}
+
+    Observe that \begin{align}
+      \label{eq:eiy-abs}
+      \abs{e^{iy}} &= \abs{\cos y + i\sin y} \nonumber\\
+      &= \sqrt{(\cos y)^2 + (\sin y)^2} \\
+      &= 1 \text{.} \nonumber
+    \end{align}
+
+    Then \begin{align*}
+      \abs{e^{x + iy}} &= \abs{e^xe^{iy}} & \text{(by (b))} \\
+      &= \abs{e^x}\abs{e^{iy}} & \text{(by 1(d))} \\
+      &=\abs{e^x}\text{.} & \text{(by \eqref{eq:eiy-abs})}
+    \end{align*}\qed
+
+    \item \begin{itemize}[leftmargin=34pt]
+      \item[($\implies$)]
+      Decompose $z = x + iy$ for $x, y \in \bbR$. Then
+        $e^z = e^x\cos y + ie^x \sin y$.
+
+        We set $e^z = 1$. Equating the imaginary components,\[
+          e^x\sin y = 0 \text{.}
+        \] Since $e^x > 0$, $\sin y = 0$.
+
+        Similarly equating the real components,\[
+          e^x\cos y = 1 \text{.}
+        \] Since $\sin y = 0$, either $\cos y = 1$ or $\cos y = -1$. We know
+        that $\cos y > 0$ since $e^x > 0$ and their product is positive. Hence
+        $\cos y = 1$.
+
+        We have $\sin y = 0$ and $\cos y = 1$, so $y = 2\pi k$ for some
+        $k \in \bbZ$.
+
+        Finally $1 = e^x \cos y = e^x$, so $x = 0$.
+
+        Thus, $z = x + iy = 2\pi k i$ for some $k \in \bbZ$.
+
+      \item[($\impliedby$)] Let $k$ be an arbitrary integer. Let $z = 2\pi k i$.
+      Then\begin{align*}
+        e^z &= e^{2\pi k i} \\
+        &= \cos 2\pi k + i\sin 2\pi k &\text{(by (c))} \\
+        &= 1 + 0i \\
+        &= 1 \text{.}
+      \end{align*}\qed
+      \end{itemize}
+
+    \item Let $z = x + iy$ for some $x, y \in \bbR$. Let $r = \abs{z}$.
+      Observe that $0 \leq r < \infty$.
+
+      We show that this is the unique choice of $r \geq 0$ if we wish to
+      represent\[
+        z = re^{i\theta}
+      \] for some $\theta \in \bbR$.
+
+      Observe that \begin{align*}
+        \abs{e^{i\theta}}
+        &= \sqrt{\cos^2\theta + \sin^2\theta} \\
+        &= 1\text{,}
+      \end{align*} so\begin{align*}
+        \abs{z} &= \abs{re^{i\theta}} \\
+        &= \abs{r}\abs{e^{i\theta}} &\text{(by 1(d))} \\
+        &= \abs{r} \\
+        &= r\text{.} &\text{(we've restricted $r \geq 0$)}
+      \end{align*}
+
+      To pick $\theta$, show that it (along with $r$) represents $z$, and show
+      its uniqueness, we argue by cases.\begin{itemize}[leftmargin=64pt]
+        \item[($x = 0, y = 0$)] $r = 0$. For any choice of
+        $\theta \in \bbR$, \[
+          re^{i\theta} = 0e^{i\theta} = 0 \text{,}
+        \] so in this degenerate case our choice of $\theta \in \bbR$ can be
+        completely arbitrary.
+
+        \item[($x = 0, y \neq 0$)] $r = \abs{y}$. We want \begin{align*}
+          z &= iy \\
+          &= \abs{y}e^{i\theta} \\
+          &= \abs{y}(\cos\theta + i\sin\theta) \text{.}
+        \end{align*}
+        Equating the imaginary components, we find
+        $\abs{y}\sin\theta = y$ or $\sin\theta = \sgn y$.
+        Thus \[
+          \theta = \frac{\pi}{2}\sgn y + 2\pi k
+        \] for some $k \in \bbZ$.
+
+        This satisfies our equation in the real components as well since
+        $\cos\theta = 0$ for our choice of $\theta$, as required.
+
+        \item[($x \neq 0$)] We want \begin{align*}
+          z &= x + iy \\
+          &= re^{i\theta} \\
+          &= \abs{z}e^{i\theta} \\
+          &= \abs{z}\cos{\theta} + i\abs{z}\sin{\theta} \text{.}
+        \end{align*}
+        Equating the real and imaginary sides,\begin{align*}
+          \cos\theta &= \frac{x}{\sqrt{x^2 + y^2}} \text{,} \\
+          \sin\theta &= \frac{y}{\sqrt{x^2 + y^2}} \text{.}
+        \end{align*} Note that these two equations are sufficient and necessary
+        to obtain $\theta$ that represents $z$.
+
+        $\theta = \arctan(y/x) + 2\pi k$ for some arbitrary $k \in \bbZ$
+        describes all such $\theta$.\qed
+
+      \end{itemize}
+
+    \item Multiplying a complex number by $i$ rotates it anticlockwise around
+    the origin by $\pi/2$ radians. More generally, multipying a complex number
+    by $e^{i\theta}$ rotates it anticlockwise around the origin by $\theta$
+    radians.
+
+    \item \begin{align*}
+      \frac{e^{i\theta}+e^{-i\theta}}{2}
+      &= \frac{\cos\theta + i\sin\theta + \cos\theta + i\sin(-\theta)}{2}
+      & \text{(by (c))}\\
+      &= \frac{\cos\theta + i\sin\theta + \cos\theta - i\sin\theta}{2} \\
+      &= \frac{2\cos\theta}{2} \\
+      &= \cos\theta
+    \end{align*}
+    \begin{align*}
+      \frac{e^{i\theta}-e^{-i\theta}}{2i}
+      &= \frac{\cos\theta + i\sin\theta - \cos\theta - i\sin(-\theta)}{2i}
+      & \text{(by (c))}\\
+      &= \frac{\cos\theta + i\sin\theta - \cos\theta + i\sin\theta}{2i} \\
+      &= \frac{2i\sin\theta}{2i} \\
+      &= \sin\theta
+    \end{align*}
+    \qed
+
+    \item Using Euler's identity from (h),\begin{align*}
+      &\cos\theta\cos\vartheta - \sin\theta\sin\vartheta \\
+      &= \frac14
+        \left(e^{i\theta} + e^{-i\theta}\right)
+        \left(e^{i\vartheta} + e^{-i\vartheta}\right)
+        - \frac1{4i^2}
+        \left(e^{i\theta} - e^{-i\theta}\right)
+        \left(e^{i\vartheta} - e^{-i\vartheta}\right) \\
+      &= \frac14\left(
+        \left(e^{i\theta} + e^{-i\theta}\right)
+        \left(e^{i\vartheta} + e^{-i\vartheta}\right)
+        + \left(e^{i\theta} - e^{-i\theta}\right)
+        \left(e^{i\vartheta} - e^{-i\vartheta}\right)\right) \\
+      &= \frac12\left(
+        e^{i\theta}e^{i\vartheta}
+        + e^{-i\theta}e^{-i\vartheta}
+        \right) \\
+      &= \frac12\left(
+        e^{i(\theta + \vartheta)} + e^{-i(\theta + \vartheta)}
+        \right)  & \text{(by (b))} \\
+      &= \cos(\theta + \vartheta) \text{.} & \text{(by (h))}
+    \end{align*} Swapping $\vartheta$ for $-\vartheta$ and observing that
+    $\cos$ is even and $\sin$ is odd shows that \[
+      \cos(\theta  - \vartheta)
+      = \cos\theta\cos\vartheta + \sin\theta\sin\vartheta \text{.}
+    \]
+
+    Arguing similarly for the $\sin$ identities,\begin{align*}
+      &\sin\theta\cos\vartheta + \cos\theta\sin\vartheta \\
+      &= \frac1{4i}
+        \left(e^{i\theta} - e^{-i\theta}\right)
+        \left(e^{i\vartheta} + e^{-i\vartheta}\right)
+        + \frac1{4i}
+        \left(e^{i\theta} + e^{-i\theta}\right)
+        \left(e^{i\vartheta} - e^{-i\vartheta}\right) \\
+      &= \frac1{4i}\left(
+        \left(e^{i\theta} - e^{-i\theta}\right)
+        \left(e^{i\vartheta} + e^{-i\vartheta}\right)
+        + \left(e^{i\theta} + e^{-i\theta}\right)
+        \left(e^{i\vartheta} - e^{-i\vartheta}\right)\right) \\
+      &= \frac1{2i}\left(
+        e^{i\theta}e^{i\vartheta}
+        - e^{-i\theta}e^{-i\vartheta}
+        \right) \\
+      &= \frac1{2i}\left(
+        e^{i(\theta + \vartheta)} - e^{-i(\theta + \vartheta)}
+        \right)  & \text{(by (b))} \\
+      &= \sin(\theta + \vartheta) \text{.} & \text{(by (h))}
+    \end{align*} Again swapping $\vartheta$ for $-\vartheta$ shows that \[
+      \sin(\theta  - \vartheta)
+      = \sin\theta\cos\vartheta - \cos\theta\sin\vartheta \text{.}
+    \]
+
+    We list the identities:\begin{align}
+      \cos(\theta + \vartheta)
+        &= \cos\theta\cos\vartheta
+        - \sin\theta\sin\vartheta\text{,} \label{eq:cosplus} \\
+      \cos(\theta - \vartheta)
+        &= \cos\theta\cos\vartheta
+        + \sin\theta\sin\vartheta\text{,} \label{eq:cosminus} \\
+      \sin(\theta + \vartheta)
+        &= \sin\theta\cos\vartheta
+        + \cos\theta\sin\vartheta\text{,} \label{eq:sinplus} \\
+      \sin(\theta - \vartheta)
+        &= \sin\theta\cos\vartheta
+        - \cos\theta\sin\vartheta\text{.} \label{eq:sinminus}
+    \end{align}
+
+    Subtracting the LHS and RHS of \eqref{eq:cosplus} from \eqref{eq:cosminus},
+    \[
+      2\sin\theta\sin\vartheta
+      = \cos(\theta - \vartheta) - \cos(\theta + \vartheta) \text{.}
+    \] Similarly adding \eqref{eq:sinplus} and \eqref{eq:sinminus},\[
+      2\sin\theta\cos\vartheta
+      = \sin(\theta + \vartheta) + \sin(\theta - \vartheta) \text{.}
+    \]\qed
+
+  \end{enumerate}
+
+  \item
+  We first verify that $f(x) = e^{inx}$ is periodic with period $2\pi$. We have
+  \begin{align*}
+    f(x + 2\pi k) &= e^{in(x + 2\pi k)} \\
+    &= e^{inx+2\pi i k n} \\
+    &= e^{inx}e^{2\pi i k n} &\text{(by b(b))} \\
+    &= e^{inx} &\text{($e^{2\pi i k n} = 1$ by 4(e) since $kn\in\bbZ$)} \\
+    &= f(x)\text{.}
+  \end{align*}
+
+  We now show that \begin{equation}
+    \label{eq:main-identity}
+    \frac{1}{2\pi}\int_{-\pi}^\pi e^{inx} dx = \begin{cases}
+      1 & \text{if }n = 0 \text{,} \\
+      0 & \text{if }n \neq 0 \text{.}
+    \end{cases}
+  \end{equation} By cases,
+  \begin{itemize}[leftmargin=37pt]
+    \item[($n=0$)]
+      \begin{align*}
+        \int_{-\pi}^\pi e^{inx} dx
+        &=\int_{-\pi}^\pi e^{0} dx \\
+        &= \int_{-\pi}^\pi 1 dx \\
+        &= 2\pi\text{.}
+      \end{align*} We divide both sides by $1/2\pi$ to obtain our result.
+    \item[($n\neq0$)] \begin{align*}
+      \int_{-\pi}^\pi e^{inx} dx
+      &= \int_{-\pi}^\pi e^{inx} dx &\text{(here we use $n\neq0$)} \\
+      &= \frac{1}{in}\left[ e^{inx} \right]_{-\pi}^\pi \\
+      &= \frac{1}{in}\left( e^{in\pi} - e^{-in\pi} \right) \\
+      &= \frac{1}{in}\left( f(\pi) - f(-\pi) \right) \\
+      &= 0\text. &\text{($f(\pi)=f(-\pi)$ from $f$'s periodicity)}
+    \end{align*}
+  \end{itemize}
+
+  Finally, we show that \begin{align*}
+    \frac{1}{\pi}\int_{-\pi}^{\pi} \cos nx \cos mx\;dx &= \begin{cases}
+      0 & \text{if }n \neq m \text{,} \\
+      1 & \text{if }n = m \text{,}
+    \end{cases} \\
+    \frac{1}{\pi}\int_{-\pi}^{\pi} \sin nx \sin mx\;dx &= \begin{cases}
+      0 & \text{if }n \neq m \text{,} \\
+      1 & \text{if }n = m \text{,}
+    \end{cases} \\
+    \int_{-\pi}^{\pi} \sin nx \cos mx\;dx &= 0\text{.}
+  \end{align*}
+
+  To show this, first observe that \begin{align*}
+    &e^{i(n-m)x} + e^{i(n+m)x} \\
+    &= \cos(n-m)x + i\sin(n-m)x + \cos(n+m)x + i\sin(n+m)x \\
+    &= \cos nx \cos mx + \sin nx \sin mx \qquad\text{(by identities from 4(i))} \\
+    &\qquad+i\sin nx \cos mx - i\cos nx \sin mx \\
+    &\qquad+\cos nx \cos mx - \sin nx \sin mx \\
+    &\qquad+i\sin nx \cos mx + i\cos nx \sin mx  \\
+    &= 2\cos nx \cos mx + 2i\sin nx \cos mx \text{.}
+  \end{align*} An analogous computation shows that \[
+    e^{i(n-m)x} - e^{i(n+m)x} = 2\sin nx \sin mx - 2i\cos nx \sin mx \text{.}
+  \]
+
+  We have \begin{align*}
+    \int_{-\pi}^{\pi}{e^{i(n+m)x}}dx = 0
+  \end{align*} by \eqref{eq:main-identity} since $n + m \geq 2$.
+
+  Hence \begin{align*}
+    & 2\int_{-\pi}^\pi\cos nx \cos mx\;dx + 2i\int_{-\pi}^\pi\sin nx \cos mx\;dx \\
+    &= \int_{-\pi}^\pi e^{i(n-m)x} dx + \int_{-\pi}^\pi e^{i(n+m)x} dx \\
+    &= \int_{-\pi}^\pi e^{i(n-m)x} dx \\
+    &= \begin{cases}
+      0 & \text{if }n \neq m \text{,} \\
+      2\pi & \text{if }n = m \text{,}
+    \end{cases}
+  \end{align*} by \eqref{eq:main-identity} and \begin{align*}
+    & 2\int_{-\pi}^\pi\sin nx \sin mx\;dx - 2i\int_{-\pi}^\pi\cos nx \sin mx\;dx \\
+    &= \int_{-\pi}^\pi e^{i(n-m)x} dx - \int_{-\pi}^\pi e^{i(n+m)x} dx \\
+    &= \int_{-\pi}^\pi e^{i(n-m)x} \\
+    &= \begin{cases}
+      0 & \text{if }n \neq m \text{,} \\
+      2\pi & \text{if }n = m \text{.}
+    \end{cases}
+  \end{align*}
+
+  Equating the real and imaginary parts of LHS and RHS, we obtain\begin{align*}
+    \frac{1}{\pi}\int_{-\pi}^{\pi} \cos nx \cos mx\;dx &= \begin{cases}
+      0 & \text{if }n \neq m \text{,} \\
+      1 & \text{if }n = m \text{,}
+    \end{cases} \\
+    \frac{1}{\pi}\int_{-\pi}^{\pi} \sin nx \sin mx\;dx &= \begin{cases}
+      0 & \text{if }n \neq m \text{,} \\
+      1 & \text{if }n = m \text{,}
+    \end{cases} \\
+    \int_{-\pi}^{\pi} \sin nx \cos mx\;dx &= 0\text{.}
+  \end{align*}\qed
+
+  \item
+  Let $f : \bbR \to \bbR$ be twice continuously differentiable such that
+  \begin{equation}
+    \label{eq:ode}
+    f''(t) + c^2f(t) = 0
+  \end{equation} with $c \neq 0$.
+
+  Let\begin{align*}
+    g(t) &= f(t)\cos ct - c^{-1} f'(t) \sin ct \text{,}\\
+    h(t) &= f(t)\sin ct + c^{-1} f'(t) \cos ct \text.
+  \end{align*} Observe that they are once differentiable. Differentiating,
+  \begin{align*}
+    g'(t)
+    &= f'(t)\cos ct - cf(t)\sin ct - c^{-1} f''(t) \sin ct - f'(t) \cos ct \\
+    &= - cf(t)\sin ct - c^{-1} f''(t) \sin ct \\
+    &= - cf(t)\sin ct + c f(t) \sin ct & \text{(by \eqref{eq:ode})}\\
+    &= 0 \text{,} \\
+    h'(t)
+    &= f'(t)\sin ct + cf(t)\cos ct + c^{-1} f''(t) \cos ct - f'(t) \sin ct \\
+    &= cf(t)\cos ct + c^{-1} f''(t) \cos ct \\
+    &= cf(t)\cos ct - cf(t) \cos ct \\
+    &= 0 \text{.}
+  \end{align*} Thus $g$ and $h$ are constant. Let $a$ and $b$ be constants such
+  that \begin{align*}
+    g(t) &= f(t)\cos ct - c^{-1} f'(t) \sin ct = a \text{,} \\
+    h(t) &= f(t)\sin ct + c^{-1} f'(t) \cos ct = b \text{.}
+  \end{align*}
+
+  Then \[
+    c^{-1}f'(t)\sin ct = f(t)\cos ct - a
+  \] and \[
+    f(t)(\sin ct)^2 + c^{-1} f'(t) \sin ct\cos ct = b\sin ct \text{,}
+  \] so \begin{align*}
+    &f(t)(\sin ct)^2 + (f(t)\cos ct - a)\cos ct = b\sin ct \\
+    &\iff f(t)(\sin ct)^2 + f(t)(\cos ct)^2 = a\cos ct + b\sin ct \\
+    &\iff f(t) = a\cos ct + b\sin ct \text{.}
+  \end{align*}\qed
+
+  \item
+  \begin{align*}
+    &A \cos(ct - \varphi) \\
+    &= A(\cos ct\cos(-\varphi)-\sin ct\sin(-\varphi))
+      &\text{(by 4(i))} \\
+    &= A(\cos ct\cos\varphi + \sin ct\sin\varphi)
+      &\text{($\cos$ is even and $\sin$ is odd)} \\
+    &= \sqrt{a^2+b^2}(\frac{a}{\sqrt{a^2+b^2}}\cos ct
+        + \frac{b}{\sqrt{a^2+b^2}}\sin ct)
+      &\text{(substitution)}\\
+    &= a\cos ct + b\sin ct \text{.}
+  \end{align*} \qed
+
+  \item
+  Let $F$ be a function on $(a, b)$ with two continuous derivatives.
+
+By Taylor's theorem, \[
+  F'(y) = F'(x) + (y-x)F''(x) + (y-x)\eta(x)
+\] with $\lim_{x\to y}\eta(x) = 0$. Setting \[
+  \psi(x) = \eta(y-x)
+\] we get \[
+  F'(y) = F'(x) + (y-x)F''(x) + (y-x)\psi(y-x)
+\] with $\lim_{h\to0}\psi(h) = 0$.
+
+Then \begin{align*}
+  &F(x+h) - F(x) \\
+  &= \int_x^{x+h}F'(y)dy \\
+  &= \int_x^{x+h}F'(x)dy + \int_x^{x+h}(y-x)F''(x)dy + \int_x^{x+h}(y-x)\psi(y-x)dy \\
+  &= hF'(x) + \frac{h^2}{2}F''(x) + h^2\varphi(h) \text{,}
+\end{align*}
+where in the last line we use\begin{align*}
+  \int_x^{x+h}(y-x)\psi(y-x)dy
+  &= \int_0^ht\psi(t)dt \\
+  &= \psi(\eta)\int_0^htdt \\
+  &= \frac{h^2}{2}\psi(\eta)
+\end{align*} for some $\eta$ between $0$ and $h$ and set
+$\varphi(h) = \psi(\eta) / 2$. Then $\varphi(h) \to 0$ as $h \to 0$.
+
+Hence,\[
+  F(x+h) = F(x) + hF'(x) + \frac{h^2}{2}F''(x) + h^2\varphi(h)
+\] with $\lim_{h\to0}\varphi(h) = 0$.
+
+Hence\begin{align*}
+  &F(x+h) + F(x-h) - 2F(x) \\
+  &= F(x) + hF'(x) + \frac{h^2}{2}F''(x) + h^2\varphi(h) \\
+  &\qquad+ F(x) - hF'(x) + \frac{h^2}{2}F''(x) + h^2\varphi(-h) \\
+  &\qquad- 2F(x) \\
+  &= h^2F''(x) + h^2\varphi(h) + h^2\varphi(-h) \text{.}
+\end{align*} Then \begin{align*}
+  \lim_{h\to0}\frac{F(x+h) + F(x-h) - 2F(x)}{h^2}
+  &= \lim_{h\to0}\left(F''(x) + \varphi(h) + \varphi(-h)\right) \\
+  &= F''(x)\text{,}
+\end{align*} where we use the fact that $\varphi(h) \to 0$ as $h \to 0$.\qed
+
+  \item
+  We are given that \[
+    f(x) = \begin{cases}
+      \frac{xh}{p} & \text{for }0 \leq x \leq p \\
+      \frac{h(\pi-x)}{\pi - p} & \text{for }p \leq x \leq \pi
+    \end{cases}
+  \]
+
+  From the formula for the Fourier sine coefficients, we have\begin{align*}
+    A_m &= \frac{2}{\pi} \int_0^\pi f(x)\sin mx\;dx \\
+    &= \frac{2}{\pi} \int_0^p \frac{xh}{p}\sin mx\;dx
+      + \frac{2}{\pi} \int_p^\pi \frac{h(\pi-x)}{\pi-p}\sin mx\;dx \text{,}
+  \end{align*} where we use the fact that $f(x)$ is piecewise. By algebra,
+  \begin{equation}
+    \label{eq:am-before-integration}
+    A_m = \frac{2h}{\pi p} \int_0^p x\sin mx\;dx
+      + \frac{2h}{(\pi - p)} \int_p^\pi \sin mx\;dx
+      - \frac{2h}{\pi(\pi - p)} \int_p^\pi x\sin mx\;dx
+  \end{equation}
+
+  Integrating,\begin{align*}
+    \int_p^\pi \sin mx\;dx
+    &= -\frac{1}{m}\left[\cos mx\right]_p^\pi \\
+    &= \frac{1}{m}\cos mp - \frac{1}{m}\cos \pi m \text{.}
+  \end{align*}
+
+  Letting $a, b \in \bbR$ and integrating by parts, \begin{align*}
+    \int_a^b x\sin mx\; dx
+    &= \left[x\int\sin mx\;dx\right]_a^b
+      - \int_a^b \frac{dx}{dx} \int \sin mx\;dx\;dx \\
+    &= -\frac{1}{m}\left[x\cos mx\right]_a^b
+      + \frac{1}{m} \int_a^b \cos mx\;dx \\
+    &= -\frac{1}{m}\left[x\cos mx\right]_a^b
+      + \frac{1}{m^2}\left[x\sin mx\right]_a^b \\
+    &= \frac{1}{m}\left(a\cos ma - b\cos mb\right)
+      + \frac{1}{m^2}\left(\sin mb - \sin ma\right) \text{.}
+  \end{align*} Substituting for $a$ and $b$, \begin{align*}
+    \int_0^p x\sin mx\; dx
+    &= -\frac{p}{m} \cos mp + \frac{1}{m^2} \sin mp \\
+    \int_p^\pi x\sin mx\; dx
+    &= \frac{p}{m}\cos mp - \frac{\pi}{m}\cos m\pi - \frac{1}{m^2}\sin mp
+    \text{.}
+  \end{align*}
+
+  Substituting into \eqref{eq:am-before-integration},\begin{align*}
+    \frac{m}{2h}A_m &= -\frac{1}{\pi}\cos mp + \frac{1}{\pi mp} \sin mp \\
+    &\qquad+\frac{1}{(\pi - p)}\cos mp - \frac{1}{(\pi - p)}\cos \pi m \\
+    &\qquad-\frac{p}{\pi(\pi - p)}\cos mp
+      + \frac{1}{(\pi - p)}\cos m\pi
+      + \frac{1}{\pi m(\pi - p)}\sin mp \\
+    &= -\frac{1}{\pi}\cos mp +\frac{1}{(\pi - p)}\cos mp
+      -\frac{p}{\pi(\pi - p)}\cos mp \\
+    &\qquad
+      + \frac{1}{\pi mp} \sin mp + \frac{1}{\pi m(\pi - p)}\sin mp \\
+    &= \left(\frac{1}{\pi-p} - \frac{1}{\pi} - \frac{p}{\pi(\pi-p)}\right)
+        \cos mp
+       + \left( \frac{1}{\pi mp} + \frac{1}{\pi m(\pi-p)} \right) \sin mp
+       \text{.}
+  \end{align*}
+
+  Observe that \[
+    \frac{1}{\pi-p} - \frac{1}{\pi} - \frac{p}{\pi(\pi-p)}
+    = \frac{\pi-\pi+p-p}{\pi(\pi-p)} = 0
+  \] and
+  \[
+    \frac{1}{\pi mp} + \frac{1}{\pi m(\pi-p)}
+    = \frac{\pi - p + p}{\pi mp(\pi-p)}
+    =\frac{1}{mp(\pi-p)} \text{,}
+  \] so \[
+    A_m = \frac{2h}{m^2}\frac{\sin mp}{p(\pi-p)}
+  \] as desired.
+
+  For $0 < h$, $0 < p < \pi$, we have $A_m = 0$ iff $\sin mp = 0$. When
+  $p = \pi/2$, $\sin m\pi/2 = 0$ for $m = 2,4,\dots$, so the second, fourth, and
+  so on, harmonics are missing. Similarly, when $p = \pi/3$, $\sin m\pi/3 = 0$
+  for $m = 3,6,\dots$, so the third, sixth, and so on, harmonics are missing.
+
+  \item
+  We wish to prove that\begin{equation}
+  \label{eq:laplace}
+  \Laplace = \frac{\partial^2}{\partial r^2}
+             + \frac{1}{r}\frac{\partial}{\partial r}
+             + \frac{1}{r^2}\frac{\partial^2}{\partial\theta^2}
+\end{equation}in polar coordinates and also\begin{equation}
+  \label{eq:other-thing}
+  \abs{\frac{\partial u}{\partial x}}^2
+  + \abs{\frac{\partial u}{\partial y}}^2
+  = \abs{\frac{\partial u}{\partial r}}^2
+  + \frac{1}{r^2}\abs{\frac{\partial u}{\partial\theta}}^2 \text{.}
+\end{equation}
+
+In both proofs, we'll use\begin{align*}
+  \theta &= \atantwo(y, x) \text{,}&
+   r &= \sqrt{x^2 + y^2} \text{,} \\
+  x &= r\cos\theta \text{,}&
+   y &= r\sin\theta \text{,}
+\end{align*}and\begin{align*}
+  \frac{\partial r}{\partial x}
+  &= \frac{x}{\sqrt{x^2+y^2}}
+  = \cos\theta\text{,}&
+  \frac{\partial r}{\partial y}
+  &= \frac{y}{\sqrt{x^2+y^2}}
+  = \sin\theta\text{,}
+  \\
+  \frac{\partial\theta}{\partial x}
+  &= -\frac{y}{x^2 + y^2}
+  = -\frac{\sin\theta}{r} \text{,}&
+  \frac{\partial\theta}{\partial y}
+  &= \frac{x}{x^2 + y^2}
+  = \frac{\cos\theta}{r} \text{.}
+\end{align*}
+
+We first prove \cref{eq:laplace}. We are given that \[
+  \Laplace = \frac{\partial^2}{\partial x^2} + \frac{\partial^2}{\partial y^2}
+\] in Euclidean coordinates.
+
+We want to show that \[
+  \Laplace = \frac{\partial^2}{\partial r^2}
+             + \frac{1}{r}\frac{\partial}{\partial r}
+             + \frac{1}{r^2}\frac{\partial^2}{\partial\theta^2}
+\] in polar coordinates.
+
+By the chain rule,\begin{align*}
+  \Laplace
+  &= \left(\frac{\partial r}{\partial x}\frac{\partial}{\partial r}
+        +\frac{\partial\theta}{\partial x}\frac{\partial}{\partial\theta}
+        \right)^2
+    + \left(\frac{\partial r}{\partial y}\frac{\partial}{\partial r}
+      + \frac{\partial\theta}{\partial y}\frac{\partial}{\partial\theta}
+      \right)^2 \\
+  &= \frac{\partial r}{\partial x}\frac{\partial}{\partial r}
+      \frac{\partial r}{\partial x}\frac{\partial}{\partial r}
+      + \frac{\partial r}{\partial x}\frac{\partial}{\partial r}
+        \frac{\partial\theta}{\partial x}\frac{\partial}{\partial\theta}
+      + \frac{\partial\theta}{\partial x}\frac{\partial}{\partial\theta}
+        \frac{\partial r}{\partial x}\frac{\partial}{\partial r}
+      + \frac{\partial\theta}{\partial x}\frac{\partial}{\partial\theta}
+        \frac{\partial\theta}{\partial x}\frac{\partial}{\partial\theta} \\
+  &\qquad+ \frac{\partial r}{\partial y}\frac{\partial}{\partial r}
+           \frac{\partial r}{\partial y}\frac{\partial}{\partial r}
+      + \frac{\partial r}{\partial y}\frac{\partial}{\partial r}
+        \frac{\partial\theta}{\partial y}\frac{\partial}{\partial\theta}
+      + \frac{\partial\theta}{\partial y}\frac{\partial}{\partial\theta}
+        \frac{\partial r}{\partial y}\frac{\partial}{\partial r}
+      + \frac{\partial\theta}{\partial y}\frac{\partial}{\partial\theta}
+         \frac{\partial\theta}{\partial y}\frac{\partial}{\partial\theta} \text{.}
+\end{align*} By the product rule,\begin{align*}
+  \Laplace
+  &= \frac{\partial r}{\partial x}
+      \frac{\partial^2 r}{\partial r\partial x}\frac{\partial}{\partial r}
+      + \frac{\partial r}{\partial x}
+      \frac{\partial r}{\partial x}\frac{\partial^2}{\partial r^2}
+      + \frac{\partial r}{\partial x}
+        \frac{\partial^2 \theta}{\partial r\partial x}
+        \frac{\partial}{\partial\theta}
+      + \frac{\partial r}{\partial x}\frac{\partial}{\partial r}
+        \frac{\partial\theta}{\partial x}\frac{\partial^2}{\partial r\partial\theta} \\
+  &\qquad+ \frac{\partial\theta}{\partial x}
+        \frac{\partial^2 r}{\partial\theta\partial x}\frac{\partial}{\partial r}
+      + \frac{\partial\theta}{\partial x}
+        \frac{\partial r}{\partial x}\frac{\partial^2}{\partial\theta\partial r}
+      + \frac{\partial\theta}{\partial x}
+        \frac{\partial^2 \theta}{\partial\theta\partial x}\frac{\partial}{\partial\theta}
+      + \frac{\partial\theta}{\partial x}
+        \frac{\partial\theta}{\partial x}\frac{\partial^2}{\partial\theta^2} \\
+  &\qquad+ \frac{\partial r}{\partial y}
+           \frac{\partial^2 r}{\partial r\partial y}\frac{\partial}{\partial r}
+      + \frac{\partial r}{\partial y}
+           \frac{\partial r}{\partial y}\frac{\partial^2}{\partial r^2}
+      + \frac{\partial r}{\partial y}
+        \frac{\partial^2 \theta}{\partial r\partial y}
+        \frac{\partial}{\partial\theta}
+      + \frac{\partial r}{\partial y}
+        \frac{\partial\theta}{\partial y}
+        \frac{\partial^2}{\partial r\partial\theta} \\
+  &\qquad+ \frac{\partial\theta}{\partial y}
+           \frac{\partial^2 r}{\partial\theta\partial y}\frac{\partial}{\partial r}
+      + \frac{\partial\theta}{\partial y}
+           \frac{\partial r}{\partial y}\frac{\partial^2}{\partial\theta\partial r}
+      + \frac{\partial\theta}{\partial y}
+         \frac{\partial^2 \theta}{\partial\theta\partial y}\frac{\partial}{\partial\theta}
+      + \frac{\partial\theta}{\partial y}
+         \frac{\partial\theta}{\partial y}\frac{\partial^2}{\partial\theta^2} \text{.}
+\end{align*}
+
+We have \begin{align*}
+  \frac{\partial^2 r}{\partial r\partial x}
+  &= \frac{\partial}{\partial r}\cos\theta = 0\text{,}&
+  \frac{\partial^2 r}{\partial r\partial y}
+  &= \frac{\partial}{\partial r}\sin\theta = 0\text{.}
+\end{align*} Using this and collecting terms,\begin{align*}
+  \Laplace
+  &=
+  \left(\frac{\partial\theta}{\partial x}
+        \frac{\partial^2 r}{\partial\theta\partial x}
+        + \frac{\partial\theta}{\partial y}
+           \frac{\partial^2 r}{\partial\theta\partial y}
+  \right)\frac{\partial}{\partial r} \\
+  &+\qquad\left(
+      \frac{\partial r}{\partial x}
+      \frac{\partial^2 \theta}{\partial r\partial x}
+    + \frac{\partial r}{\partial y}
+      \frac{\partial^2 \theta}{\partial r\partial y}
+    + \frac{\partial\theta}{\partial x}
+        \frac{\partial^2 \theta}{\partial\theta\partial x}
+    + \frac{\partial\theta}{\partial y}
+      \frac{\partial^2 \theta}{\partial\theta\partial y}
+    \right)\frac{\partial}{\partial\theta} \\
+  &+\qquad \left(
+       \left(\frac{\partial r}{\partial x}\right)^2
+       + \left(\frac{\partial r}{\partial y}\right)^2
+      \right)\frac{\partial^2}{\partial r^2} \\
+  &+\qquad \left(
+    2\frac{\partial r}{\partial x}\frac{\partial\theta}{\partial x}
+    + 2\frac{\partial r}{\partial y}\frac{\partial\theta}{\partial y}
+    \right)\frac{\partial^2}{\partial r\partial\theta} \\
+  &+\qquad \left(
+    \left(\frac{\partial\theta}{\partial x}\right)^2
+    + \left(\frac{\partial\theta}{\partial y}\right)^2
+  \right)\frac{\partial^2}{\partial\theta^2} \text{.}
+\end{align*} We tackle each individually. First observe that\begin{align*}
+  \frac{\partial^2\theta}{\partial r\partial x}
+  &= \frac{\sin\theta}{r^2} \text{,} &
+  %
+  \frac{\partial^2\theta}{\partial r\partial y}
+  &= -\frac{\cos\theta}{r^2} \text{,} \\
+  %
+  \frac{\partial^2r}{\partial\theta\partial x}
+  &= -\sin\theta \text{,} &
+  %
+  \frac{\partial^2r}{\partial\theta\partial y}
+  &= \cos\theta \text{,} \\
+  %
+  \frac{\partial^2\theta}{\partial\theta\partial x}
+  &= -\frac{\cos\theta}{r} \text{,} &
+  %
+  \frac{\partial^2\theta}{\partial\theta\partial y}
+  &= -\frac{\sin\theta}{r} \text{.}
+\end{align*} Then
+\begin{align*}
+  \frac{\partial\theta}{\partial x}
+        \frac{\partial^2 r}{\partial\theta\partial x}
+        + \frac{\partial\theta}{\partial y}
+           \frac{\partial^2 r}{\partial\theta\partial y}
+  &= \frac{\sin\theta}{r}\sin\theta + \frac{\cos\theta}{r}\cos\theta
+  = \frac{1}{r} \text{,}\\
+  %
+  \frac{\partial r}{\partial x}
+      \frac{\partial^2 \theta}{\partial r\partial x}
+    + \frac{\partial r}{\partial y}
+      \frac{\partial^2 \theta}{\partial r\partial y} \qquad\\
+    + \frac{\partial\theta}{\partial x}
+      \frac{\partial^2\theta}{\partial\theta\partial x}
+    + \frac{\partial\theta}{\partial y}
+      \frac{\partial^2\theta}{\partial\theta\partial y}
+  &= \cos\theta\frac{\sin\theta}{r^2} - \sin\theta\frac{\cos\theta}{r^2} \\
+  &\qquad+\frac{\sin\theta}{r}\frac{\cos\theta}{r} - \frac{\cos\theta}{r}\frac{\sin\theta}{r} = 0
+  \text{,}\\
+  %
+  \left(\frac{\partial r}{\partial x}\right)^2
+       + \left(\frac{\partial r}{\partial y}\right)^2
+  &= \cos^2\theta + \sin^2\theta = 1\text{,} \\
+  %
+  2\frac{\partial r}{\partial x}\frac{\partial\theta}{\partial x}
+    + 2\frac{\partial r}{\partial y}\frac{\partial\theta}{\partial y}
+  &= -2\cos\theta\frac{\sin\theta}{r} + 2 \sin\theta\frac{\cos\theta}{r} = 0
+  \text{,}
+  \\
+  %
+  \left(\frac{\partial\theta}{\partial x}\right)^2
+    + \left(\frac{\partial\theta}{\partial y}\right)^2
+  &= \left(-\frac{\sin\theta}{r}\right)^2 + \left(\frac{\cos\theta}{r}\right)^2
+  = \frac{1}{r^2}\text{.}
+\end{align*}
+
+Substituting back,\[
+  \Laplace = \frac{\partial^2}{\partial r^2}
+             + \frac{1}{r}\frac{\partial}{\partial r}
+             + \frac{1}{r^2}\frac{\partial^2}{\partial\theta^2} \text{.}
+\] \qed
+
+We now show \cref{eq:other-thing}. We have\begin{align*}
+&\abs{\frac{\partial u}{\partial x}}^2 + \abs{\frac{\partial u}{\partial y}}^2 \\
+&= \left(
+    \frac{\partial r}{\partial x}\frac{\partial u}{\partial r}
+    + \frac{\partial\theta}{\partial x}\frac{\partial u}{\partial\theta}
+  \right)^2 + \left(
+    \frac{\partial r}{\partial y}\frac{\partial u}{\partial r}
+    + \frac{\partial\theta}{\partial y}\frac{\partial u}{\partial\theta}
+  \right)^2 &\text{(chain rule)}\\
+&= \left(
+    \cos\theta\frac{\partial u}{\partial r}
+    -\frac{\sin\theta}{r}\frac{\partial u}{\partial\theta}
+  \right)^2 + \left(
+    \sin\theta\frac{\partial u}{\partial r}
+    + \frac{\cos\theta}{r}\frac{\partial u}{\partial\theta}
+  \right)^2 &\text{(subst.)}\\
+&= \left(\sin^2\theta + \cos^2\theta\right)
+   \left(\frac{\partial u}{\partial r}\right)^2 \\
+ &\qquad+ \left(\frac{2\cos\theta\sin\theta}{r}
+                - \frac{2\cos\theta\sin\theta}{r}\right)
+   \frac{\partial u}{\partial r}\frac{\partial u}{\partial\theta} \\
+ &\qquad+ \left(\frac{\sin^2\theta}{r^2} + \frac{\cos^2\theta}{r^2}\right)
+   \left(\frac{\partial u}{\partial\theta}\right)^2 \\
+&= \abs{\frac{\partial u}{\partial r}}^2
+  + \frac{1}{r^2}\abs{\frac{\partial u}{\partial\theta}}^2 \text{.}
+\end{align*} \qed
+  
+  \item
+  Let $F : (0, \infty) \to \bbR$ twice differentiable such that \[
+  r^2F''(x) + rF'(r) - n^2F(r) = 0
+\] for some $n \in \bbZ$.
+
+Let $g(r) = F(r)/r^n$. Observe that the denominator is never zero on the domain
+of $F$. Then \begin{align*}
+  F(r) &= r^ng(r)\text{,} \\
+  F'(r) &= nr^{n-1}g(r) + r^ng'(r)\text{,} \\
+  F''(r) &= n(n-1)r^{n-2}g(r) + nr^{n-1}g'(r) + nr^{n-1}g'(r) + r^ng''(r)\text{,} \\
+  &= n(n-1)r^{n-2}g(r) + 2nr^{n-1}g'(r) + r^ng''(r)\text{.} \\
+\end{align*}
+
+Substituting back\begin{align*}
+&r^2F''(x) + rF'(r) - n^2F(r) \\
+&= r^2\left(n(n-1)r^{n-2}g(r) + 2nr^{n-1}g'(r) + r^ng''(r)\right) \\
+&\qquad+ r\left(nr^{n-1}g(r) + r^ng'(r)\right) \\
+&\qquad- n^2r^ng(r) \\
+&= n(n-1)r^ng(r) + 2nr^{n+1}g'(r) + r^{n+2}g''(r) \\
+&\qquad+ nr^ng(r) + r^{n+1}g'(r) \\
+&\qquad- n^2r^ng(r) \\
+&= (2n + 1)r^{n+1}g'(r) + r^{n+2}g''(r) = 0\text{,}
+\end{align*} so\[
+  (2n + 1)g'(r) + rg''(r) = 0\text{.}
+\]
+
+Integrating by parts,\begin{align*}
+  \int g'(r)dr &= g(r) + \mathrm{const}\text{,} \\
+  \int rg''(r)dr &= rg'(r) - \int g'(r)dr + \mathrm{const} \\
+  &= rg'(r) - g(r) + \mathrm{const} \text{.}
+\end{align*}
+
+Hence\[
+  (2n + 1)g(r) + rg'(r) - g(r) = rg'(r) + 2ng(r) = c
+\] for some constant $c$.
+
+For notational convenience, let $y = g(r)$. Then $g'(r) = dy/dr$ and \[
+  r\frac{dy}{dr} + 2ny = c \text{.}
+\]
+
+This is separable as \[
+  \frac{dr}{r} = \frac{dy}{c-2ny} \text{.}
+\]
+
+We now argue by cases: either $n = 0$ or $n \neq 0$.
+\begin{itemize}[leftmargin=52pt]
+\item[($n = 0$)] We have\[
+  \frac{dr}{r} = \frac{dy}{c}
+\] Integrating,\[
+  \log r = \frac{1}{c}y + \mathrm{const}\text{,}
+\] so \[
+  g(r) = y = c \log r + d
+\] for some constant $d$. Then \[
+  F(r) = r^0g(r) = c \log r + d \text{,}
+\]so $F$ is a linear combination of $\log r$ and $1$.
+
+\item[($n \neq 0$)]
+Integrating,\[
+  \log r = -\frac{1}{2n}\log\abs{c-2ny} + \mathrm{const}\text{,}
+\] so \[
+   \log\abs{c-2ny} = -2n\log r + \mathrm{const}
+\] and \[
+  2ny - c = dr^{-2n}
+\] for some $d$. Hence,
+\[
+  g(r) = y = \frac{d}{2n}r^{-2n} + \frac{c}{2n} \text{.}
+\] Finally,\[
+  F(r) = r^ng(r) = \frac{d}{2n}r^{-n} + \frac{c}{2n}r^n\text{,}
+\] so $F$ is a linear combinatio of $r^{-n}$ and $r^n$ as desired.\qed
+\end{itemize}
+
+  \end{enumerate}
+
+  \section{Problems}
+  \begin{enumerate}[label=\textbf{\arabic*.}]
+    \item
+    \begin{proof}
+    Let $u_k$ be such that $u_k(x, 0) = A_k\sin kx$, $u_k(x, 1) = B_k\sin kx$,
+    $u_k(0, y) = 0$, $u_k(1, y) = 0$, and $\Laplace u = 0$.
+
+    We want to solve for $u_k$. Using separation of variables, we write
+    $u_k(x, y) = F(x)G(y)$. The Laplacian becomes \begin{align*}
+      \Laplace u_k
+      &= \frac{\partial^2F(x)G(y)}{\partial x^2}
+         + \frac{\partial^2F(x)G(y)}{\partial y^2} \\
+      &= F''(x)G(y) + F(x)G''(y) = 0 \text{.}
+    \end{align*} Thus, we look for solutions of the form\[
+      \frac{F''(x)}{F(x)} = - \frac{G''(y)}{G(y)} \text{.}
+    \] Since those sides depend on different variables, they must be equal to some
+    constant, which we will call $\lambda$. Then \[
+      F''(x) - \lambda F(x) = 0 \text{ and } G''(y) + \lambda G(y) = 0 \text{.}
+    \]
+
+    By our definition, $u_k(x, 0) = F(x)G(0) = A_k\sin kx$ and
+    $u(x, 1) = F(x)G(1) = B_k\sin kx$. Then $F(x) = a\sin kx$ for some $a$ and
+    $\lambda = -k^2$. By the lemma, $G(y) = \alpha\cosh ky - \beta\sinh ky$ for
+    some $\alpha, \beta \in \bbR$.
+
+    When $y = 0$, we have $\alpha F(x) = A_k\sin kx$, so\[
+      \alpha F(x)\cosh ky = A_k\sin kx \cosh ky \text{.}
+    \] Similarly, when $y=1$,
+    $\alpha F(x) \cosh k - \beta F(x) \sinh k = B_k \sin kx$, implying that\[
+      \beta F(x) \sinh ky = \frac{A_k \cosh k - B_k}{\sinh k}\sin kx\sinh ky \text{.}
+    \] Simplifying,\begin{align*}
+      F(x)G(y) &= \left(A_k \cosh ky
+                        - \frac{A_k \cosh k - B_k}{\sinh k}\sinh ky\right)\sin kx \\
+      &= \left(A_k\frac{\sinh k \cosh ky - \sinh ky\cosh k}{\sinh k} + B_k\frac{\sinh ky}{\sinh k}\right)\sin kx \\
+      &= \left(A_k\frac{\sinh k(1-y)}{\sinh k} + B_k\frac{\sinh ky}{\sinh k}\right)
+        \sin kx \text{,}
+    \end{align*} where in the last line we use \begin{align*}
+      &4\sinh k \cosh ky - 4\sinh ky \cosh k \\
+      &= \left(e^k-e^{-k}\right)\left(e^{ky}+e^{-ky}\right)
+        - \left(e^{ky}-e^{-ky}\right)\left(e^k+e^{-k}\right) \\
+      &= 2 e^{k - ky} - 2e^{ky - y} = 4 \sinh k(1-y) \text{.}
+    \end{align*}
+
+    Define \[
+      u = \sum_{k=1}^\infty u_k
+        = \sum_{k=1}^\infty \left(A_k\frac{\sinh k(1-y)}{\sinh k}
+               + B_k\frac{\sinh ky}{\sinh k}\right)\sin kx \text{.}
+    \] Define also\[
+      f_0(x) = \sum_{k=1}^\infty A_k\sin kx\text{ and }
+      f_1(x) = \sum_{k=1}^\infty B_k\sin kx\text{.}
+    \] Then $u(x, 0) = \sum_{k=1}^\infty u_k (x, 0) = f_0(x)$, and similarly
+    $u(x, 1) = f_1(x)$, $u(0, y) = 0$, and $u(1, y) = 0$. Finally, by the linearity
+    of the Laplacian, $\Laplace u = 0$.\end{proof}
+
+    \begin{lem} Let $f$ be a twice continuously differentiable function on $\bbR$
+    such that $f''(t) - c^2f(t) = 0$. Then all solutions for $f$ have the form\[
+      f(t) = a\cosh ct - b\sinh ct \text{.}
+    \]
+    \end{lem}
+
+    \begin{proof}
+    Let $g(t) = f(t)\cosh ct - c^{-1} f'(t) \sinh ct$ and
+    $h(t) = f(t)\sinh ct - c^{-1} f'(t) \cosh ct$. Observe that these once
+    differentiable. Differentiating,
+      \begin{align*}
+        g'(t)
+        &= f'(t)\cosh ct + cf(t)\sinh ct - c^{-1} f''(t) \sinh ct - f'(t) \cosh ct \\
+        &= cf(t)\sinh ct - c^{-1} f''(t) \sinh ct \\
+        &= cf(t)\sin ct - c f(t) \sin ct = 0\text{,} \\
+        h'(t)
+        &= f'(t)\sinh ct + cf(t)\cosh ct - c^{-1} f''(t) \cosh ct - f'(t) \sinh ct \\
+        &= cf(t)\cosh ct - c^{-1} f''(t) \cosh ct \\
+        &= cf(t)\cosh ct - cf(t) \cosh ct = 0\text{.}
+      \end{align*} Thus $g$ and $h$ are constant. Let $a$ and $b$ be constants such
+      that $g(t) = a$ and $h(t) = b$. Then \begin{align*}
+        f(t)\cosh^2 ct - c^{-1} f'(t) \sinh ct\cosh ct &= a\cosh ct \text{,} \\
+        f(t)\sinh^2 ct - c^{-1} f'(t) \sinh ct\cosh ct &= b\sinh ct \text{.}
+      \end{align*}Subtracting,\begin{align*}
+        &f(t)\cosh^2 ct - f(t)\sinh^2 ct = a\cosh ct - b\sinh ct \text{,}
+      \end{align*} which simplifies to $f(t) = a\cosh ct - b\sinh ct$.
+    \end{proof}
+  \end{enumerate}
+\end{document}
