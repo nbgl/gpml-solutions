@@ -1,0 +1,176 @@
+\documentclass[oneside]{article}
+
+\usepackage[pass]{geometry}
+\newlength\DX
+\DX=3.5in
+\paperwidth=\dimexpr\paperwidth-\DX\relax
+\hoffset=\dimexpr\hoffset-.5\DX\relax
+\newlength\DY
+\DY=2.8in
+\paperheight=\dimexpr\paperheight-\DY\relax
+\voffset=\dimexpr\voffset-.5\DY-.5\footskip\relax
+
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{enumitem}
+\usepackage{mathtools}
+\usepackage{cleveref}
+
+\allowdisplaybreaks
+
+% Notation shortcuts
+\newcommand\abs[1]{\left|#1\right|}
+\newcommand\defeq{\overset{\mathrm{def}}{=}}
+\newcommand*\Laplace{\mathop{}\!\mathbin\bigtriangleup}
+
+\DeclarePairedDelimiter\ceil{\lceil}{\rceil}
+\DeclarePairedDelimiter\floor{\lfloor}{\rfloor}
+
+\DeclareMathOperator{\sgn}{sgn}
+\DeclareMathOperator{\atantwo}{atan2}
+
+\newcommand\bbC{\mathbb{C}}
+\newcommand\bbR{\mathbb{R}}
+\newcommand\bbQ{\mathbb{Q}}
+\newcommand\bbZ{\mathbb{Z}}
+
+\newtheorem*{lem}{Lemma}
+\newtheorem*{cor}{Corollary}
+
+\renewcommand{\thefootnote}{[\arabic{footnote}]}
+
+\begin{document}
+  \begin{enumerate}[label=(\alph*)]
+    \item
+      We are given that \[
+        f(x) = \begin{cases}
+          0 &\text{if }x < 0\text{,} \\
+          1 &\text{if }x \geq 0 \text{.}
+        \end{cases}
+      \] Choose a countable dense sequence $\{r_n\}$ in $(0,1]$, for example, an enumeration of $(0,1] \cap \bbQ$. Define $F: [0,1] \to \bbR$ with \[
+        F(x) = \sum_{n=1}^\infty \frac1{n^2}f(x-r_n) \text{.}
+      \] We want to show that $F$ is integrable and that it is discontinuous at every point of $\{r_n\}$.
+
+      \paragraph{Integrability} It is sufficient to show that $F$ is monotonic. Then $F$ is integrable since it is bounded\footnote{$F$ is bounded above by $\sum_{n=1}^\infty 1/n^2$ and below by $0$ since the codomain of $f$ is $\{0,1\}$.} and monotonic on a closed interval.
+
+      Choose $x$ and $x'$ with $x \leq x'$. For all $n$, $f(x - r_n) = 1$ implies $r_n \leq x$, so $r_n \leq x'$ and $f(x' - r_n) = 1 = f(x - r_n)$. Since $f$ is either $0$ or $1$, $f(x - r_n)/n^2 \leq f(x' - r_n)/n^2$. Therefore $F(x) \leq F(x')$ since all terms of the series for $F(x)$ are bounded by those of $F(x')$.
+
+      \paragraph{Discontinuity} We will show that $F$ is discontinous at all $r_n$. Choose an arbitrary $\delta > 0$. Set $x = \max\{0, r_n - \delta/2\}$, so $\abs{r_n - x} \leq \delta/2 < \delta$\footnote{We never have $x = r_n$ because $\delta > 0$ and $r_n > 0$.}. But $\abs{F(r_n) - F(x)} \geq 1/n^2$. This can be seen by noting that for all $m$, $f(x - r_m) \leq f(r_n - r_m)$ since $x < r_n$, and in particular, $0 = f(x - r_n) < f(r_n - r_n) = 1$. Then the series for $F(r_n)$ includes all the terms that the series for $F(x)$ includes, but $F(r_n)$ also has a $1/n^2$ term that $F(x)$ is missing. \qed
+
+    \item Choose a countable dense sequence $\{r_n\}$ in $[0,1]$. Let\[
+        F(x) = \sum_{n=1}^\infty 3^{-n}g(x-r_n)
+      \] with \[
+        g(x) = \begin{cases}\
+          \sin 1/x & \text{if }x \neq 0\text{,} \\
+          0 & \text{if }x = 0\text{.}
+        \end{cases}
+      \] We want to show that $F$ is integrable, discontinuous at every point of $\{r_n\}$, and non-monotonic in any subinterval of $[0,1]$.
+
+      For convenience, define $g_n : [0, 1] \to \bbR$ by $g_n(x) = g(x - r_n)$.
+
+      \paragraph{Integrability} It suffices to show that the set of discontinuities of $F$ has measure zero.
+
+      Let $S = [0,1]\setminus \{r_n\}_{n=1}^\infty$. We will show that $F$ is continuous at every $x \in S$. Choose an abitrary $x \in S$ and $\epsilon > 0$.
+
+      Let $N$ be a positive integer such that $3^{-N} < \epsilon/2$. For each $n = 1, \dots, N$, $g_n(x)$ is continuous everywhere except at $x = r_n$. Since $x \neq r_n$ by our choice of $S$, there exists $\delta_n$ such that $\abs{g_n(x) - g_n(x')} < \epsilon$ whenever $\abs{x - x'} < \delta_n$.
+
+      Set $\delta = \min\{\delta_1, \dots, \delta_N\}$. Then for all $x' \in [0, 1]$, $\abs{x - x'} < \delta$ implies \begin{align*}
+        \abs{F(x) - F(x')}
+        &\leq \sum_{n=1}^\infty 3^{-n} \abs{g_n(x) - g_n(x')} \\
+        &= \sum_{n=1}^N 3^{-n} \abs{g_n(x) - g_n(x')} \\
+        &\qquad+ \sum_{n=N+1}^\infty 3^{-n} \abs{g_n(x) - g_n(x')} \text{.}
+        % &\leq \epsilon\sum_{n=1}^N 3^{-n} + 2\sum_{n=N+1}^\infty 3^{-n} \\
+        % &= \epsilon\frac{1 - 3^{-N}}{2} + 3^{-N} \\
+        % &< \frac12\epsilon + 2\frac{\epsilon}{4} = \epsilon\text{.}
+      \end{align*} The first term is bounded by \[
+        \sum_{n=1}^N 3^{-n} \abs{g_n(x) - g_n(x')}
+        < \epsilon\sum_{n=1}^N 3^{-n}
+        = \epsilon \frac{1 - 3^{-N}}{2} < \frac{\epsilon}{2}
+      \] by our choice of $\delta$. The second term is bounded by \[
+        \sum_{n=N+1}^\infty 3^{-n} \abs{g_n(x) - g_n(x')}
+        \leq 2 \sum_{n=N+1}^\infty 3^{-n} = 3^{-N} < \frac{\epsilon}{2}
+      \] because $g_n$ is bounded by $1$ and by our choice of $N$. Hence, \[
+        \abs{F(x) - F(x')} < \frac{\epsilon}{2} + \frac{\epsilon}{2} = \epsilon \text{.}
+      \]
+
+      Then the set of discontinuities is a subset of the countable set $[0,1]\setminus S = \{r_n\}_{n=1}^\infty$, and therefore has measure zero.
+
+      \paragraph{Discontinuity} Choose some positive integer $n$. We will show that $F$ is not continuous at $r_n$. Choose an arbitary $\delta > 0$.
+
+      Let \[
+        h(x) = \sum_{k=1}^{n-1} 3^{-k} g_k(x) + 3^{-n-1}g_{n+1}(x) \text{.}
+      \] Our choice of $h$ is continuous at $r_n$ as a finite sum of functions that are continuous at $r_n$. Hence, there exists $\delta_h>0$ such that $\abs{x - r_n} < \delta_h$ implies $\abs{h(x) - h(r_n)}<3^{-n-1}$. Refine our choice of $\delta$ as $\delta' = \min\{\delta, \delta_h\}$.
+
+      We can choose an integer $m$ such that $-\delta' < 1/\pi(m + 1/2) < \delta'$ and $0 \leq r_n + 1/\pi(m + 1/2) \leq 1$. Let $x = r_n + 1/\pi(m + 1/2)$ and observe that $\abs{r_n - x} < \delta' \leq \delta'$.
+
+      Then by the reverse triangle inequality,\begin{align*}
+        \abs{F(r_n) - F(x)}
+        &\geq3^{-n}\abs{g_n(r_n) - g_n(x)} \\
+        &\qquad- \abs{h(r_n) - h(x)} \\
+        &\qquad- \sum_{k=n+2}^\infty 3^{-k}\abs{g_k(r_n) - g_k(x)} \text{.}
+      \end{align*} We simplify the first term with\begin{align*}
+        3^{-n}\abs{g_n(r_n) - g_n(x)}
+        &= 3^{-n}\abs{g(0) - g\left(\frac{1}{m(\pi + 1/2)}\right)} \\
+        &= 3^{-n}\abs{0 - \sin\pi \left(m + \frac12\right)} \\
+        &= 3^{-n} \text{.}
+      \end{align*} By our choice of $\delta_h$ and thus $\delta'$, $\abs{h(r_n) - h(x)} < 3^{-n-1}$. Finally, $\abs{g_k}$ has a bound at $1$, so \[
+        \sum_{k=n+2}^\infty 3^{-k}\abs{g_k(r_n) - g_k(x)}
+        \leq 2\sum_{k=n+2}^\infty 3^{-k}
+        = 3^{-n-1} \text{.}
+      \] Combining these bounds, \[
+        \abs{F(r_n) - F(x)} > 3^{-n} - 3^{-n-1} - 3^{-n-1} = 3^{-n-1} \text{,}
+      \] which is a constant not dependent on $\delta$.
+
+      \paragraph{Non-monotonicity} Choose arbitrary $0 \leq a < b \leq 1$. We will find $a < y < y' < b$ so that $F(y) < F(y')$ and also $a < z < z' < b$ with $F(z) > F(z')$.
+
+      Since $\{r_k\}_{k=1}^\infty$ is dense in $[0,1]$, $(a, b) \cap \{r_k\}_{k=1}^\infty$ is nonempty. Let $n$ be the index of the first element of 
+      $\{r_k\}_{k=1}^\infty$ contained in $(a, b)$; that is, $r_n \in (a, b)$ but $r_k \notin (a, b)$ for $k= 1, \dots, n-1$.
+
+      Set $y = z = r_n$. Define $h : [0, 1] \to \bbR$ by \[
+        h(x) = \sum_{k=1}^{n-1} 3^{-k} g_k(x) + 3^{-n-1} g_{n+1}(x) \text{.}
+      \] We have that $h$ is continuous at $r_n$ as a sum of continuous functions. Then there exists $\delta > 0$ such that $\abs{x - r_n} < \delta$ implies $\abs{h(x) - h(r_n)} < 3^{-n-1}$ and $\delta$ is small enough such that $(r_n - \delta, r_n + \delta) \subseteq (a, b)$. Let $y' = r_n + 1/(2k_y + 1/2)\pi$, where $k_y > 0$ is an integer such that $1/(2k_y + 1/2)\pi < \delta$. Similarly, let $z' = r_n + 1/(2k_z + 3/2)\pi$, for integer $k_z > 0$ such that $1/(2k_z + 3/2)\pi < \delta$.
+
+      Then \begin{align*}
+        F(y) - F(y')
+        &= 3^{-n}g_n(r_n) - 3^{-n}g_n\left(r_n + \frac1{\left(2k_y + \frac12\right)\pi}\right) \\
+        &\qquad + h(y) - h(y') \\
+        &\qquad + \sum_{k=n+2}^\infty 3^{-k} g_k(y) - \sum_{k=n+2}^\infty 3^{-k} g_k(y') \text{.}
+      \end{align*} The first term can be simplified as\begin{align*}
+        &3^{-n}g_n(r_n) - 3^{-n}g_n\left(r_n + \frac1{\left(2k_y + \frac12\right)\pi}\right) \\
+        &= 3^{-n}\sin0 - 3^{-n}\sin\left(2k_y + \frac12\right)\pi \\
+        &= -3^{-n}
+      \end{align*} The second term can be bounded with $\abs{h(y) - h(y')} < 3^{-n-1}$ by our choice of $\delta$ and hence $y'$. We bound the last term as \begin{align*}
+        &\abs{\sum_{k=n+2}^\infty 3^{-k} g_k(y) - \sum_{k=n+2}^\infty 3^{-k} g_k(y')} \\
+        &\leq \sum_{k=n+2}^\infty 3^{-k} \abs{g_k(y)}  \sum_{k=n+2}^\infty 3^{-k} \abs{g_k(y')} \\
+        &\leq 2\sum_{k=n+2}^\infty 3^{-k} \\
+        &= 3^{-n-1}
+      \end{align*} Lastly, \begin{align*}
+        F(y) - F(y')
+        &\leq 3^{-n}g_n(r_n) - 3^{-n}g_n\left(r_n + \frac1{\left(2k_y + \frac12\right)\pi}\right) \\
+        &\qquad + \abs{h(y) - h(y')} \\
+        &\qquad + \abs{\sum_{k=n+2}^\infty 3^{-k} g_k(y) - \sum_{k=n+2}^\infty 3^{-k} g_k(y')} \\
+        &< -3^{-n} + 3^{-n-1} + 3^{-n-1} = -3^{-n-1} \text{,}
+      \end{align*} so $F(y) < F(y')$.
+
+      Similarly, for $z$, the first term simplifies to\[
+        3^{-n}g_n(r_n) - 3^{-n}g_n\left(r_n + \frac1{\left(2k_z + \frac32\right)\pi}\right)
+        = 3^{-n} \text{,}
+      \] the second term has a bound of $\abs{h(z) - h(z')} < 3^{-n-1}$, and the last term has can be bounded with \[
+        \abs{\sum_{k=n+2}^\infty 3^{-k} g_k(z) - \sum_{k=n+2}^\infty 3^{-k} g_k(z')} = 3^{-n-1} \text{.}
+      \] These combine to\begin{align*}
+        F(z) - F(z')
+        &\geq 3^{-n}g_n(r_n) - 3^{-n}g_n\left(r_n + \frac1{\left(2k_z + \frac12\right)\pi}\right) \\
+        &\qquad - \abs{h(z) - h(z')} \\
+        &\qquad - \abs{\sum_{k=n+2}^\infty 3^{-k} g_k(z) - \sum_{k=n+2}^\infty 3^{-k} g_k(z')} \\
+        &> 3^{-n} - 3^{-n-1} - 3^{-n-1} = 3^{-n-1} \text{,}
+      \end{align*} so $F(z) > F(z')$.
+
+    \item We show that $F$ is integrable on every interval in $\bbR$ but is discontinuous whenever $x = m/2n$ for odd $m \in \bbZ$ and nonzero $n \in \bbZ$.
+
+    \paragraph{Integrability} TODO
+
+    \paragraph{Discontinuity} TODO
+  \end{enumerate}
+\end{document}

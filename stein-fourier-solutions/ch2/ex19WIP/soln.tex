@@ -1,0 +1,139 @@
+\documentclass[oneside]{article}
+
+\usepackage[pass]{geometry}
+\newlength\DX
+\DX=3.5in
+\paperwidth=\dimexpr\paperwidth-\DX\relax
+\hoffset=\dimexpr\hoffset-.5\DX\relax
+\newlength\DY
+\DY=2.8in
+\paperheight=\dimexpr\paperheight-\DY\relax
+\voffset=\dimexpr\voffset-.5\DY-.5\footskip\relax
+
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{enumitem}
+\usepackage{mathtools}
+\usepackage{cleveref}
+
+\allowdisplaybreaks
+
+% Notation shortcuts
+\newcommand\abs[1]{\left|#1\right|}
+\newcommand\defeq{\overset{\mathrm{def}}{=}}
+\newcommand*\Laplace{\mathop{}\!\mathbin\bigtriangleup}
+
+\DeclarePairedDelimiter\ceil{\lceil}{\rceil}
+\DeclarePairedDelimiter\floor{\lfloor}{\rfloor}
+
+\DeclareMathOperator{\sgn}{sgn}
+\DeclareMathOperator{\atantwo}{atan2}
+
+\newcommand\bbC{\mathbb{C}}
+\newcommand\bbR{\mathbb{R}}
+\newcommand\bbQ{\mathbb{Q}}
+\newcommand\bbZ{\mathbb{Z}}
+
+\newtheorem*{lem}{Lemma}
+\newtheorem*{cor}{Corollary}
+
+\renewcommand{\thefootnote}{[\arabic{footnote}]}
+
+\begin{document}
+  We wish to solve Laplace's equation $\Delta u = 0$ in the semi-infinite strip\[
+    S = \{(x, y) : 0<x<1, 0<y\}
+  \] subject to the boundary conditions\begin{align*}
+    u(0, y) = 0 &\qquad\text{for } 0 \leq y \text{,} \\
+    u(1, y) = 0 &\qquad\text{for } 0 \leq y \text{, and} \\
+    u(x, 0) = f(x) &\qquad\text{for } 0 \leq x \leq 1
+  \end{align*} for some function $f$ with $f(0) = f(1) = 0$.
+
+  We follow our solution to problem 1 in chapter 1.
+
+  Begin by finding a special solution. By separation of variables, we write \[
+    u(x, y) = F(x)G(y) \text{,}
+  \] so Laplace's equation becomes\[
+    \Delta u
+    = \frac{\partial^2 F(x)}{\partial x^2}G(y)
+    + F(x)\frac{\partial^2 G(y)}{\partial y^2} = 0 \text{,}
+  \] and we can look for solutions of the form \[
+    \frac{F''(x)}{F(x)} = -\frac{G''(y)}{G(y)} \text{.}
+  \] Since those sides depend on different variables, they must be equal to some constant $\lambda$. Then\[
+    F''(x) - \lambda F(x) = 0\quad\text{and}\quad G''(y) + \lambda G(y) = 0 \text{.}
+  \]
+
+  By our boundary conditions, $F(0) = F(1) = 0$. Applying exercise 6 in chapter 1, $\lambda = -(n\pi)^2$ for some integer $n$
+  and \[
+    F(x) = b \sin n \pi x \text{.}
+  \] for some $b$.
+
+  Solving the differential equation for $G$ by the lemma from problem 1 in chapter 1, we find that solutions for $G$ can be expressed as\[
+    G(y) = b \cosh n \pi y - c \sinh n \pi y
+    = \frac{b - c}{2} e^{n\pi y} + \frac{b+c}{2} e^{-n\pi y}
+    % = \frac{(b+c)e^{k\pi x} + (b-c) e^{-k\pi x}}{2} \text{.}
+  \] for some $b$ and $c$. Then all linear combinations of $e^{n \pi y} \sin n \pi x$ and $e^{-n \pi y} \sin n \pi x$ are solutions as long as the boundary condition in $f$ is satisfied.
+
+  Let $u_n(x, y) = e^{-n \pi y} \sin n \pi x$ be one of the solutions, so then $u_{-n}(x, y) = -e^{n \pi y} \sin n \pi x$ is the other solution. By linearity of the Laplacian, each \[
+    u(x, y) = \sum_{n \neq 0} b_n e^{-n \pi y} \sin n \pi x
+  \] with some coefficients $\{b_n\}_{n\neq0}$ is a solution for \[
+    f(x) = u(x, 0) = \sum_{n \neq 0} b_n \sin n \pi x \text{.}
+  \] Expressing $f(x) = \sum_{n=1}^\infty a_n \sin n \pi x$, we find that $a_n = b_n - b_{-n}$.
+
+  We can express the general formula for $u$ as an integral involving $f$. Choose some arbitrary constants $r_n \in \bbR$ for $n = 1, 2, \dots$ to select from many possible solutions. Let \[
+    g_y(t) = \frac{-1}{2} \sum_{n=1}^\infty \left(r_n e^{-n \pi y} + (r_n - 1)e^{n \pi y} \right) \sin n \pi t
+  \] Then under some regularity conditions \begin{align*}
+    &u(x, y) \\
+    &= (f * g_y)(x) \\
+    &= \int_0^1 f(t) g_y(x-t) dt \\
+    &= -\frac12 \int_0^1 \left[\sum_{k=1}^\infty a_k \sin k \pi t\right] \\
+    &\qquad\qquad\qquad\left[\sum_{n=1}^\infty \left(r_n e^{-n \pi y} + (r_n - 1)e^{n \pi y} \right) \sin n \pi (x-t) dt\right] \\
+    &= -\frac12
+    \sum_{n=1}^\infty \left(r_n e^{-n \pi y} + (r_n - 1)e^{n \pi y} \right) \left[\sum_{k=1}^\infty a_k \int_0^1 \sin k \pi t \sin n \pi (x-t) dt\right] \\
+  \end{align*}
+
+  We have
+  \begin{align*}
+    &\int_0^1 \sin k \pi t \sin n \pi (x-t)\;dt \\
+    &= \sin n\pi x \int_0^1 \sin k \pi t \cos n \pi t\;dt - \cos n \pi x\int_0^1 \sin k \pi t \sin n \pi t\;dt \\
+    &= \frac12\sin n\pi x \int_0^1 \sin (k+n) \pi t
+    + \frac12\sin n\pi x \int_0^1 \sin (k-n) \pi t \\
+    &\qquad- \frac12\cos n \pi x\int_0^1 \cos(k-n) \pi t dt
+    + \frac12\cos n \pi x\int_0^1 \cos(k+n) \pi t dt \text{.}
+  \end{align*}
+  For $n = k$,\begin{align*}
+    &\frac12\sin n\pi x \int_0^1 \sin (k+n) \pi t
+    + \frac12\sin n\pi x \int_0^1 \sin (k-n) \pi t \\
+    &\qquad- \frac12\cos n \pi x\int_0^1 \cos(k-n) \pi t dt
+    + \frac12\cos n \pi x\int_0^1 \cos(k+n) \pi t dt \\
+    &= \frac12\sin n\pi x \int_0^1 \sin 2 n \pi t
+    - \frac12\cos n \pi x\int_0^1 dt
+    + \frac12\cos n \pi x\int_0^1 \cos 2 n \pi t dt \\
+    &= - \frac12\cos n \pi x \text{.}
+  \end{align*}
+  For $n \neq k$ with $k+n$ and $k-n$ even,\begin{align*}
+    &\frac12\sin n\pi x \int_0^1 \sin (k+n) \pi t
+    + \frac12\sin n\pi x \int_0^1 \sin (k-n) \pi t \\
+    &\qquad- \frac12\cos n \pi x\int_0^1 \cos(k-n) \pi t dt
+    + \frac12\cos n \pi x\int_0^1 \cos(k+n) \pi t dt \\
+    &= 0 \text{.}
+  \end{align*}
+  For $n \neq k$ with $k+n$ and $k-n$ odd,\begin{align*}
+    &\frac12\sin n\pi x \int_0^1 \sin (k+n) \pi t
+    + \frac12\sin n\pi x \int_0^1 \sin (k-n) \pi t \\
+    &\qquad- \frac12\cos n \pi x\int_0^1 \cos(k-n) \pi t dt
+    + \frac12\cos n \pi x\int_0^1 \cos(k+n) \pi t dt \\
+    &= \frac{\sin n\pi x}{(k+n)\pi}
+    + \frac{\sin n\pi x}{(k-n)\pi}
+  \end{align*}
+
+  % Set $b_n = r_n a_n$ and $b_{-n} = (r_n - 1) a_n$, so $b__{}n - b_{-n} = a_n$ as required. Then\begin{align*}
+  %   u(x, y) &= \sum_{n=1}^\infty \left(r_n e^{-n \pi y} + (r_n - 1) e^{n \pi y}\right) a_n \sin (n \pi x) \\
+  %   &= \sum_{n=1}^\infty \left(r_n e^{-n \pi y} + (r_n - 1) e^{n \pi y}\right) \sin (n \pi x) \int_0^1 \frac{-1}2 f(t) \sin n \pi t \\
+  %   &= \sum_{n=1}^\infty \left(r_n e^{-n \pi y} + (r_n - 1) e^{n \pi y}\right) \sin (n \pi x) \int_0^1 \frac{-1}2 f(t) \sin n \pi t
+  % \end{align*}
+
+
+
+\end{document}
