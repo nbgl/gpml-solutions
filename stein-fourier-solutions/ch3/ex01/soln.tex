@@ -1,0 +1,63 @@
+\documentclass[oneside]{article}
+
+\usepackage[pass]{geometry}
+\newlength\DX
+\DX=3.5in
+\paperwidth=\dimexpr\paperwidth-\DX\relax
+\hoffset=\dimexpr\hoffset-.5\DX\relax
+\newlength\DY
+\DY=2.8in
+\paperheight=\dimexpr\paperheight-\DY\relax
+\voffset=\dimexpr\voffset-.5\DY-.5\footskip\relax
+
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{enumitem}
+\usepackage{mathtools}
+\usepackage{cleveref}
+
+\allowdisplaybreaks
+
+% Notation shortcuts
+\newcommand\abs[1]{\left|#1\right|}
+\newcommand\norm[1]{\left\|#1\right\|}
+\newcommand\defeq{\overset{\mathrm{def}}{=}}
+\newcommand*\Laplace{\mathop{}\!\mathbin\bigtriangleup}
+
+\DeclarePairedDelimiter\ceil{\lceil}{\rceil}
+\DeclarePairedDelimiter\floor{\lfloor}{\rfloor}
+
+\DeclareMathOperator{\sgn}{sgn}
+\DeclareMathOperator{\atantwo}{atan2}
+
+\newcommand\bbC{\mathbb{C}}
+\newcommand\bbR{\mathbb{R}}
+\newcommand\bbQ{\mathbb{Q}}
+\newcommand\bbZ{\mathbb{Z}}
+
+\newtheorem*{lem}{Lemma}
+\newtheorem*{cor}{Corollary}
+
+\renewcommand{\thefootnote}{[\arabic{footnote}]}
+
+\begin{document}
+  \begin{proof}
+    To prove completeness of $\bbC^d$, consider $\bbR^{2d}$ and identify every\[
+      (x_1+i y_1, x_2 +iy_2, \dots, x_d + iy_d) \in \bbC^d
+    \] with \[
+      (x_1, y_1, x_2, y_2, \dots, x_d, y_d) \in \bbR^{2d} \text{.}
+    \] This transformation is isomorphic under addition and preserves the norm, so it is an isometry.
+
+    Hence, it is sufficient to show the completeness of $\bbR^d$ for all $d$. Let $\{v_n\}_{n=1}^\infty \subset \bbR^d$ be a Cauchy sequence. For all $n$, denote\[
+      v_n = (v_{n,1}, \dots, v_{n,d}) \text{.}
+    \]
+
+    For every dimension $k=1, \dots, d$ consider the sequence $\{v_{n,k}\}_{n=1}^\infty$. It is Cauchy, since for all $n, m$, $\abs{v_{n,k} - v_{m,k}}$ is bounded by $\norm{v_n - v_m}$, so it converges to some $\ell_k \in \bbR$ by completeness of $\bbR$.
+
+    Let $\ell \in \bbR^d = (\ell_1, \dots, \ell_d)$. We decompose the distance as\[
+      \norm{v_n - \ell}^2 = \sum_{k=1}^d (v_{n,k} - \ell_k)^2
+    \] and observe that the RHS goes to 0 as $n \to \infty$ by convergence of $\{v_{n,k}\}_{n=1}^\infty$. Hence, $v_n$ converges to $\ell$ as $n \to \infty$.
+  \end{proof}
+\end{document}
