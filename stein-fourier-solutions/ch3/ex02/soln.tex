@@ -48,10 +48,6 @@
       \abs{A_n - B}^2 \leq \epsilon \text{,}
     \] so $\abs{A_n - B} \to 0$ as $n \to \infty$.
 
-    Finally, we must prove that $B \in \ell^2(\bbZ)$. Choose some $\epsilon > 0$ and pick $n$ such that $\norm{A_n - B} < \epsilon$. Then for every $K$\[
-      \sqrt{\sum_{k=-K}^K \abs{b_k}^2} \leq \norm{A_n} + \norm{A_n - B} < \norm{A_n} + \epsilon \text{.}
-    \] Limiting $K$ to infinity, we find that \[
-      \norm{B} \leq \norm{A_n} + \epsilon < \infty \text{,}
-    \] so $B \in \ell^2(\bbZ)$.
+    Finally, we must prove that $B \in \ell^2(\bbZ)$. Pick $n$ such that $\norm{A_n - B} < 1$. Then $A_n - B \in \ell^2(\bbZ)$, so $B = A_n - (A_n - B) \in \ell^2(\bbZ)$ since vector spaces are closed under addition.
   \end{proof}
 \end{document}
