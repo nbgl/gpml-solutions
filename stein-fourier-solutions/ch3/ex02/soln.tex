@@ -1,0 +1,67 @@
+\documentclass[oneside]{article}
+
+\usepackage[pass]{geometry}
+\newlength\DX
+\DX=3.5in
+\paperwidth=\dimexpr\paperwidth-\DX\relax
+\hoffset=\dimexpr\hoffset-.5\DX\relax
+\newlength\DY
+\DY=2.8in
+\paperheight=\dimexpr\paperheight-\DY\relax
+\voffset=\dimexpr\voffset-.5\DY-.5\footskip\relax
+
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{enumitem}
+\usepackage{mathtools}
+\usepackage{cleveref}
+
+\allowdisplaybreaks
+
+% Notation shortcuts
+\newcommand\abs[1]{\left|#1\right|}
+\newcommand\norm[1]{\left\|#1\right\|}
+\newcommand\defeq{\overset{\mathrm{def}}{=}}
+\newcommand*\Laplace{\mathop{}\!\mathbin\bigtriangleup}
+
+\DeclarePairedDelimiter\ceil{\lceil}{\rceil}
+\DeclarePairedDelimiter\floor{\lfloor}{\rfloor}
+
+\DeclareMathOperator{\sgn}{sgn}
+\DeclareMathOperator{\atantwo}{atan2}
+
+\newcommand\bbC{\mathbb{C}}
+\newcommand\bbR{\mathbb{R}}
+\newcommand\bbQ{\mathbb{Q}}
+\newcommand\bbZ{\mathbb{Z}}
+
+\newtheorem*{lem}{Lemma}
+\newtheorem*{cor}{Corollary}
+
+\renewcommand{\thefootnote}{[\arabic{footnote}]}
+
+\begin{document}
+  \begin{proof}
+    Consider the sequence $\{A_n\}_{n=1}^\infty$ where $A_n = \{a_{n,k}\}_{k\in\bbZ}$.
+
+    For every $k \in \bbZ$, the sequence $\{a_{n,k}\}_{n=1}^\infty$ is Cauchy since $\abs{a_{n,k} - a_{m,k}}$ is bounded by $\norm{A_n - A_m}$ for all $n, m \in \{1, 2, \dots \}$. By completeness of $\bbC$\footnote{See exercise 1.} $\{a_{n,k}\}_{n=1}^\infty$ converges to some $b_k$.
+
+    Let $B = (\dots, b_{-1}, b_0, b_1, \dots)$. Since $\{A_n\}_{n=1}^\infty$ is Cauchy, for all $\epsilon>0$ there exists $N$ such that for all $n, m > N$, \[
+      \sum_{k=-K}^K \abs{a_{n,k} - a_{m,k}}^2
+      \leq \norm{A_n - A_m}^2 < \epsilon \text{.}
+    \] Limiting $m \to \infty$, we obtain \[
+      \sum_{k=-K}^K \abs{a_{n,k} - b_k}^2
+      \leq \epsilon \text{.}
+    \] By the monotonic convergence theorem, we can limit $K \to \infty$ and obtain\[
+      \abs{A_n - B}^2 \leq \epsilon \text{,}
+    \] so $\abs{A_n - B} \to 0$ as $n \to \infty$.
+
+    Finally, we must prove that $B \in \ell^2(\bbZ)$. Choose some $\epsilon > 0$ and pick $n$ such that $\norm{A_n - B} < \epsilon$. Then for every $K$\[
+      \sqrt{\sum_{k=-K}^K \abs{b_k}^2} \leq \norm{A_n} + \norm{A_n - B} < \norm{A_n} + \epsilon \text{.}
+    \] Limiting $K$ to infinity, we find that \[
+      \norm{B} \leq \norm{A_n} + \epsilon < \infty \text{,}
+    \] so $B \in \ell^2(\bbZ)$.
+  \end{proof}
+\end{document}
