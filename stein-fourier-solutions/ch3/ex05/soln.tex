@@ -1,0 +1,62 @@
+\documentclass[oneside]{article}
+
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{enumitem}
+\usepackage{mathtools}
+\usepackage{cleveref}
+
+\allowdisplaybreaks
+
+% Notation shortcuts
+\newcommand\abs[1]{\left|#1\right|}
+\newcommand\norm[1]{\left\|#1\right\|}
+\newcommand\defeq{\overset{\mathrm{def}}{=}}
+\newcommand*\Laplace{\mathop{}\!\mathbin\bigtriangleup}
+
+\DeclarePairedDelimiter\ceil{\lceil}{\rceil}
+\DeclarePairedDelimiter\floor{\lfloor}{\rfloor}
+
+\DeclareMathOperator{\sgn}{sgn}
+\DeclareMathOperator{\atantwo}{atan2}
+
+\newcommand\bbC{\mathbb{C}}
+\newcommand\bbR{\mathbb{R}}
+\newcommand\bbQ{\mathbb{Q}}
+\newcommand\bbZ{\mathbb{Z}}
+
+\newtheorem*{lem}{Lemma}
+\newtheorem*{cor}{Corollary}
+
+\renewcommand{\thefootnote}{[\arabic{footnote}]}
+
+\begin{document}
+  \begin{proof}
+    For all $n, m$ with $n < m$, observe that \[
+      f_m(\theta) - f_n(\theta)
+      = \begin{cases}
+        0 &\text{for }0 \leq \theta \leq 1/m \\
+        \log(1/\theta) &\text{for }1/m < \theta \leq 1/n \\
+        0 &\text{for }1/n < \theta \leq 2\pi \text{.}
+      \end{cases}
+    \]
+
+    Then \[
+      \norm{f_m - f_n}^2
+      = \frac1{2\pi}\int_{1/m}^{1/n} (\log(1/\theta))^2\;d\theta \text{.}
+    \]
+
+    We solve the integral by observing that \[
+      \frac{d}{d\theta}\Big( \theta(\log(1/\theta))^2 - 2 \theta \log (1/\theta) + 2 \theta \Big) = (\log (1/\theta))^2 \text{,}
+    \] so \begin{align*}
+      \norm{f_m - f_n}^2
+      &= \frac{(\log n)^2 + 2 \log n + 2}{n} - \frac{(\log m)^2 + 2 \log m + 2}{m} \\
+      &< \frac{(\log n)^2 + 2 \log n + 2}{n} \text{.}
+    \end{align*} The denominator grows faster than the numerator, so \[
+      \lim_{n\to \infty} \frac{(\log n)^2 + 2 \log n + 2}{n} = 0 \text{.}
+    \] Recalling that $m > n$, this implies that $\{f_n\}_{n=1}^\infty$ is Cauchy.
+  \end{proof}
+
+\end{document}
