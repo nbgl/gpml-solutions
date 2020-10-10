@@ -1,0 +1,56 @@
+\documentclass[oneside]{article}
+
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{enumitem}
+\usepackage{mathtools}
+\usepackage{cleveref}
+
+\allowdisplaybreaks
+
+% Notation shortcuts
+\newcommand\abs[1]{\left|#1\right|}
+\newcommand\norm[1]{\left\|#1\right\|}
+\newcommand\defeq{\overset{\mathrm{def}}{=}}
+\newcommand*\Laplace{\mathop{}\!\mathbin\bigtriangleup}
+
+\DeclarePairedDelimiter\ceil{\lceil}{\rceil}
+\DeclarePairedDelimiter\floor{\lfloor}{\rfloor}
+
+\DeclareMathOperator{\sgn}{sgn}
+\DeclareMathOperator{\atantwo}{atan2}
+
+\newcommand\bbC{\mathbb{C}}
+\newcommand\bbR{\mathbb{R}}
+\newcommand\bbQ{\mathbb{Q}}
+\newcommand\bbZ{\mathbb{Z}}
+
+\newtheorem*{lem}{Lemma}
+\newtheorem*{cor}{Corollary}
+
+\renewcommand{\thefootnote}{[\arabic{footnote}]}
+
+\begin{document}
+  For all $n = 1, 2, \dots$ and $m = 1, \dots, n$ define the interval $I_{nm} \subseteq [0, 2\pi]$ as the $m$\textsuperscript{th} slice when $[0, 2\pi]$ is divided into $n$, or \[
+    I_{nm} = \begin{cases}
+      [0, 2\pi/n] &\text{for }m=1 \\
+      (2\pi (m-1)/n, 2\pi m/n] &\text{for }m=2, \dots, n \text{.}
+    \end{cases}
+  \] Define a sequence of intervals $\{J_k\}_{k=1}^\infty$ to enumerate $I_{nm}$ with \begin{align*}
+    J_1 &= I_{11}, \\
+    J_2 &= I_{21},
+    J_3 = I_{22}, \\
+    J_4 &= I_{31},
+    J_5 = I_{32},
+    J_6 = I_{33},
+  \end{align*} and so on. Define a sequence of functions $\{f_k\}_{k=1}^\infty$ by $f_k = \chi_{J_k}$, where $\chi$ is the indicator function.
+
+  Then for every $k$, $f_k = \chi_{J_k} = \chi_{I_{nm}}$ for some $n$ and $m$ and \[
+    \frac{1}{2\pi} \int_0^{2\pi} \abs{f_k(\theta)}^2\;d\theta
+    = \frac{1}{2 n \pi} \text{.}
+  \] This tends to $0$ as we limit $k \to \infty$ because $n \to \infty$ with $k$.
+
+  Observe that every point $x = [0, 2\pi]$ belongs to $J_k$ for infinitely many $k$, so $f_k(x) = 1$ infinitely many times. However, there are also infinitely many $k$ for which $J_k$ does not contain $x$ and $f_k(x) = 0$. Hence, the limit $\lim_{k\to\infty} f_k(x)$ does not exist for any $x$.
+\end{document}
