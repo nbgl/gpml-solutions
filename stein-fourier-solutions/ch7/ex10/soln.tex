@@ -1,0 +1,52 @@
+\documentclass[oneside]{article}
+
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{enumitem}
+\usepackage{mathtools}
+\usepackage{cleveref}
+
+\allowdisplaybreaks
+
+% Notation shortcuts
+\newcommand\abs[1]{\left|#1\right|}
+\newcommand\norm[1]{\left\|#1\right\|}
+\newcommand\defeq{\overset{\mathrm{def}}{=}}
+\newcommand*\Laplace{\mathop{}\!\mathbin\bigtriangleup}
+
+\DeclarePairedDelimiter\ceil{\lceil}{\rceil}
+\DeclarePairedDelimiter\floor{\lfloor}{\rfloor}
+
+\DeclareMathOperator{\sgn}{sgn}
+\DeclareMathOperator{\atantwo}{atan2}
+
+\newcommand\bbC{\mathbb{C}}
+\newcommand\bbR{\mathbb{R}}
+\newcommand\bbQ{\mathbb{Q}}
+\newcommand\bbZ{\mathbb{Z}}
+
+\newtheorem*{lem}{Lemma}
+\newtheorem*{cor}{Corollary}
+
+\renewcommand{\thefootnote}{[\arabic{footnote}]}
+
+\begin{document}
+  \begin{proof}
+    \hspace{0pt}
+    \begin{itemize}
+      \item[($\implies$)] Let $G$ be a finite cyclic group. Then there exists $g \in G$ such that any element in $G$ can be written $g^n$ for some $n \in \bbZ$.
+
+      Let $N = \abs{G}$ and define $\phi : G \to \bbZ(N)$ such that $\phi(g^n) = \overline{n}$, where $\overline{m}$ is the class of integers congruent to $m$ modulo $N$.
+
+      We first show that $\phi$ is well-defined. Consider the set $\{1, g, \dots, g^{N-1}\}$. If $g^n = g^m$ for any $0 \leq n < m < N$, then $g^{m-n} = 1$ while $m-n < N$. The cycle would have length less than $N$ and $g$ would not generate $G$, which is a contradiction. Thus the elements are unique and $G = \{1, g, \dots, g^{N-1}\}$. We also observe that $g^N = 1$, because for all $0 \leq n < N - 1$, $0 < 1 + n < N$, implying that $gg^n \neq 1$, leaving only $g^{N-1}$ as the inverse of $g$. Let $n, m \in \bbZ$ be such that $g^n = g^m$. Then $n - m$ is an integer multiple of $N$, so $\phi(g^n) = \phi(g^m)$, as desired.
+
+      It is clear that $\phi$ is a homomorphism because for all $n, m \in \bbZ$, $\phi(g^ng^m) = \phi(g^{n+m}) = \overline{n+m} = \overline{n} + \overline{m} = \phi(g^n) + \phi(g^m)$. Finally, $\phi$ is a bijection because $\abs{\{g^0, g^1, \dots, g^{N - 1}\}} = \abs{\{\overline{0}, \overline{1}, \dots, \overline{N - 1}\}} = N$.
+
+      \item[($\impliedby$)] Let $G$ be a finite abelian group that is isomorphic to $\bbZ(N)$ for some $N$ with $\phi : \bbZ(N) \to G$ as the isomorphism.
+
+      Observe that $\abs{G} = \abs{\bbZ(N)} = N$ since $\phi$ is a bijection. Since $\phi$ is a homomorphism, $\left\{\phi^0(1), \phi^1(1), \dots, \phi^{N - 1}(1)\right\} = \left\{\phi(0), \phi(1), \dots, \phi(N - 1)\right\}$. The right-hand side set has cardinality $N$ since $\phi$ is a bijection. Thus, the left-hand side also has cardinality $N$ and it is equal to $G$.
+    \end{itemize}
+  \end{proof}
+\end{document}
