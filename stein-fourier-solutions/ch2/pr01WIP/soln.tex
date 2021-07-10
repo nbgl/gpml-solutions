@@ -35,6 +35,8 @@
 \newcommand\bbR{\mathbb{R}}
 \newcommand\bbQ{\mathbb{Q}}
 \newcommand\bbZ{\mathbb{Z}}
+\newcommand\calL{\mathcal{L}}
+\newcommand\calU{\mathcal{U}}
 
 \newtheorem*{lem}{Lemma}
 \newtheorem*{cor}{Corollary}
@@ -169,8 +171,27 @@
 
     \item We show that $F$ is integrable on every interval in $\bbR$ but is discontinuous whenever $x = m/2n$ for odd $m \in \bbZ$ and nonzero $n \in \bbZ$.
 
-    \paragraph{Integrability} TODO
+    \paragraph{Integrability} Since $F$ is periodic, it suffices to show that it is integrable on $[0, 1]$. Define a sequence of partitions $P_1, P_2, \dots$ by \[
+      P_n = \left\{0, \frac{1}{n!}, \dots, \frac{n! - 1}{n!}, 1\right\} \subset [0, 1] \text{.}
+    \]
 
-    \paragraph{Discontinuity} TODO
+    Let $F_n(x) = \sum_{k=1}^n (kx)/k^2$ denote the partial sums. Then \begin{align*}
+      \calU(P_n, F) - \calL(P_n, F)
+      &\leq \left[\calU(P_n, F_n) - \calL(P_n, F_n)\right] \\
+      &\qquad+ \left[\calU(P_n, F - F_n) - \calL(P_n, F - F_n)\right] \text{.}
+    \end{align*}
+
+    We can easily bound \[
+      \calU(P_n, F - F_n) - \calL(P_n, F - F_n)
+      \leq 2\sum_{k=n+1}^\infty \abs{\frac{(kx)}{k^2}}
+      \leq \sum_{k=n+1}^\infty \frac{1}{k^2}
+      \text{,}
+    \] so $\calU(P_n, F - F_n) - \calL(P_n, F - F_n) \to 0$ as $n \to \infty$.
+
+    To bound $\calU(P_n, F_n) - \calL(P_n, F_n)$, observe that each $x \mapsto (kx)/k^2$ is piecewise affine with breaks at $\{0, 1/k, \dots, 1-1/k, 1\} \subseteq P_n$ when $n \geq k$. Thus $F_n$ is affine within the interior of each interval in the partitioning by $P_n$, with a gradient of $\sum_{k=1}^n k/k^2 = H_n$, the $n$\textsuperscript{th} harmonic number. Each interval has width $1/n!$, yielding a height of $H_n/n!$ and an area of $H_n/(n!)^2$. Finally, since there are $n!$ intervals in our partitioning, $\calU(P_n, F_n) - \calL(P_n, F_n) = H_n/n!$, which tends to $0$ as $n \to \infty$.\footnote{If we insist on following exactly the definition of $\calL$ and $\calU$ in the appendix, then we need to formally account for the discontinuities at interval endpoints. There is one jump of length $1$, two of length $1/4$, three of length $1/9$, and so on. A jump of length $\ell$ may increase the height of a bounding box by at most $\ell$. Since each bounding box has width $1/n!$, this pedantic threatment of jump points increases $\calU(P_n, F_n) - \calL(P_n, F_n)$ by at most $(\sum_{k=1}^n k/k^2)/n! = H_n/n!$, which tends to $0$ as $n\to \infty$.}
+
+    Hence, $\calU(P_n, F) - \calL(P_n, F) \to 0$ as $n\to\infty$ and $F$ is integrable.
+
+    % \paragraph{Discontinuity} Let $x = m/2n$ for $m, n \in \bbZ$ with $m$ odd and $n \neq 0$. We show that $F$ is discontinuous at $x$.
   \end{enumerate}
 \end{document}
